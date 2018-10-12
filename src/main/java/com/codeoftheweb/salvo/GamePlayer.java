@@ -1,13 +1,9 @@
 package com.codeoftheweb.salvo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -15,14 +11,14 @@ public class GamePlayer {
 
     private Date date;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name="player_id")
+    @JoinColumn(name="player_id")
     private Player player;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name="game_id")
+    @JoinColumn(name="game_id")
     private Game game;
 
     @Id

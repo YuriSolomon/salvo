@@ -15,11 +15,11 @@ public class Game {
     private long id;
 
     @OneToMany(mappedBy="player", fetch= FetchType.EAGER)
-    List<GamePlayer> gamePlayerList;
+    List<GamePlayer> gamePlayer;
 
     public Game() {
         this.date = new Date();
-        this.gamePlayerList = new ArrayList<>();
+        this.gamePlayer = new ArrayList<>();
     }
 
     public Date getDate() {

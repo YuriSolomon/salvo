@@ -2,7 +2,7 @@ package com.codeoftheweb.salvo;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Player {
@@ -15,14 +15,13 @@ public class Player {
     private long id;
 
     @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
-    List<GamePlayer> gamePlayerList;
+    Set<GamePlayer> gamePlayer;
 
     public Player() {}
 
     public Player (String userName, String email) {
         this.userName = userName;
         this.email = email;
-        this.gamePlayerList = new ArrayList<>();;
     }
 
     public String getUserName() {
