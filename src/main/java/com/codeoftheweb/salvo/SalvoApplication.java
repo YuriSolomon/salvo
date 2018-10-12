@@ -43,6 +43,7 @@ public class SalvoApplication {
 
 			gamePlayerRepository.save(gamePlayer1);
 
+
 		};
 	}
 }

@@ -1,9 +1,8 @@
 package com.codeoftheweb.salvo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Player {
@@ -15,11 +14,15 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
+    List<GamePlayer> gamePlayerList;
+
     public Player() {}
 
     public Player (String userName, String email) {
         this.userName = userName;
         this.email = email;
+        this.gamePlayerList = new ArrayList<>();;
     }
 
     public String getUserName() {

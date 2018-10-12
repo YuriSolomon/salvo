@@ -1,14 +1,14 @@
 package com.codeoftheweb.salvo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 
 @Entity
 public class GamePlayer {
@@ -35,6 +35,14 @@ public class GamePlayer {
         this.game = game;
         this.player = player;
         this.date = new Date();
+    }
+
+    public Player getGames() {
+        return this.player;
+    }
+
+    public Game getPlayers() {
+        return this.game;
     }
 
     public Date getDate() {
