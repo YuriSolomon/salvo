@@ -1,5 +1,7 @@
 package com.codeoftheweb.salvo;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -7,6 +9,7 @@ import java.util.Set;
 @Entity
 public class Game {
 
+    @CreationTimestamp
     private Date date;
 
     @Id
@@ -16,9 +19,7 @@ public class Game {
     @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
     Set<GamePlayer> gamePlayer;
 
-    public Game() {
-        this.date = new Date();
-    }
+    public Game() {}
 
     public Date getDate() {
         return date;

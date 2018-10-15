@@ -1,6 +1,7 @@
 package com.codeoftheweb.salvo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
 @Entity
 public class GamePlayer {
 
+    @CreationTimestamp
     private Date date;
 
     @JsonIgnore
@@ -29,7 +31,6 @@ public class GamePlayer {
     public GamePlayer(Game game, Player player) {
         this.game = game;
         this.player = player;
-        this.date = new Date();
     }
 
     public Player getGames() {
