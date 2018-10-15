@@ -1,9 +1,8 @@
 package com.codeoftheweb.salvo;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Game {
@@ -15,11 +14,10 @@ public class Game {
     private long id;
 
     @OneToMany(mappedBy="player", fetch= FetchType.EAGER)
-    List<GamePlayer> gamePlayer;
+    Set<GamePlayer> gamePlayer;
 
     public Game() {
         this.date = new Date();
-        this.gamePlayer = new ArrayList<>();
     }
 
     public Date getDate() {
