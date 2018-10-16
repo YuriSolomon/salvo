@@ -1,17 +1,20 @@
 getData();
 
 function getData() {
-    var data;
+    var app = new Vue({
+    el: '#app',
+    data: {
+        data: []
+    },
+    beforeCreate() {
     fetch('../api/games')
         .then(response => response.json())
         .then(json => {
-            data = json;
+            this.data = json;
 
-            console.log(data);
+            console.log(this.data);
 
-            getGames(data);
-        });
+        })
+    }
+  })
 };
-function getGames(data) {
-
-}
