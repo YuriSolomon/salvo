@@ -43,7 +43,7 @@ public class SalvoController {
         return gamemap;
     }
 
-    private Map<String, Object> playerMap(Player player){
+    private Map<String, Object> playerMap(Player player) {
         Map<String, Object> playermap = new LinkedHashMap<String, Object>();
         playermap.put("id", player.getId());
         playermap.put("user name", player.getUserName());
@@ -51,16 +51,15 @@ public class SalvoController {
         return playermap;
     }
 
-    private Map<String, Object> gameplayerMap(GamePlayer gamePlayer){
+    private Map<String, Object> gameplayerMap(GamePlayer gamePlayer) {
         Map<String, Object> gameplayermap = new LinkedHashMap<String, Object>();
         gameplayermap.put("id", gamePlayer.getId());
         gameplayermap.put("player", playerMap(gamePlayer.getPlayer()));
         return gameplayermap;
     }
 
-    private List<Map<String, Object>> gameplayerSet (Set<GamePlayer> gamePlayer){
+    private List<Map<String, Object>> gameplayerSet (Set<GamePlayer> gamePlayer) {
         return gamePlayer.stream().map(gameplayer-> gameplayerMap(gameplayer)).collect(toList());
-
     }
 
 
