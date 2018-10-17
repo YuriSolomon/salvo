@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class GamePlayer {
@@ -22,6 +23,9 @@ public class GamePlayer {
     @JoinColumn(name="game_id")
     private Game game;
 
+    @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
+    Set<Ship> ship;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -31,6 +35,10 @@ public class GamePlayer {
     public GamePlayer(Game game, Player player) {
         this.game = game;
         this.player = player;
+    }
+
+    public Set<Ship> getShip() {
+        return getShip();
     }
 
     public Player getGames() {

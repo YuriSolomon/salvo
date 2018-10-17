@@ -7,14 +7,14 @@ function getData() {
         data: []
     },
     beforeCreate() {
-    fetch('../api/games')
-        .then(response => response.json())
-        .then(json => {
-            this.data = json;
+        fetch('../api/games')
+            .then(response => response.json())
+            .then(json => {
+                this.data = json;
 
-            console.log(this.data);
+                console.log(this.data);
 
-        })
+            })
     }
   })
 };

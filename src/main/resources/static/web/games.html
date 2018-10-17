@@ -12,9 +12,9 @@
     <div id="app">
         <div v-for="game in data">
             <ol>
-                <li>{{game.id}}</li>
-                <li>{{game.created}}</li>
-                <li>{{game.gamePlayers}}</li>
+                <li>game id: {{game.id}}</li>
+                <li>created on: {{game.created}}</li>
+                <li v-for="player in game.gamePlayers">player: {{player.player.userName}}</li>
             </ol>
         </div>
     </div>
