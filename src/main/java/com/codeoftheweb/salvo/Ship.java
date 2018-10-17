@@ -30,8 +30,8 @@ public class Ship {
         this.location = location;
     }
 
-    public GamePlayer getGamePlayer() {
-        return getGamePlayer();
+    public void setGamePlayer(GamePlayer gamePlayer) {
+        this.gamePlayer = gamePlayer;
     }
 
     public long getId() {

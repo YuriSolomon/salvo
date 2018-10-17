@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class SalvoApplication {
@@ -61,11 +62,18 @@ public class SalvoApplication {
 			Ship ship4 = new Ship("Submarine", loc4);
 			Ship ship5 = new Ship("portalBoat", loc5);
 
+			gamePlayer1.addShip(ship1);
+			gamePlayer1.addShip(ship2);
+			gamePlayer1.addShip(ship3);
+			gamePlayer1.addShip(ship4);
+			gamePlayer1.addShip(ship5);
+
 			shipRepository.save(ship1);
 			shipRepository.save(ship2);
 			shipRepository.save(ship3);
 			shipRepository.save(ship4);
 			shipRepository.save(ship5);
+
 
 		};
 	}
