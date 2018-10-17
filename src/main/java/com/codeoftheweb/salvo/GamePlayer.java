@@ -25,7 +25,7 @@ public class GamePlayer {
     private Game game;
 
     @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
-    Set<Ship> ships = new HashSet<>();
+    Set<Ship> ship = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,15 @@ public class GamePlayer {
 
     public void addShip(Ship ship) {
         ship.setGamePlayer(this);
-        ships.add(ship);
+        this.ship.add(ship);
+    }
+
+    public Set<Ship> getShip() {
+        return ship;
+    }
+
+    public void setShip(Set<Ship> ship) {
+        this.ship = ship;
     }
 
     public Player getGames() {

@@ -4,6 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,7 +20,18 @@ public class Game {
     @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
     Set<GamePlayer> gamePlayer;
 
+    @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
+    Set<Ship> ship = new HashSet<>();
+
     public Game() {}
+
+    public Set<Ship> getShip() {
+        return ship;
+    }
+
+    public void setShip(Set<Ship> ship) {
+        this.ship = ship;
+    }
 
     public Date getDate() {
         return date;
