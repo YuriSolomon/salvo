@@ -65,7 +65,7 @@ public class SalvoController {
         return gamePlayer.stream().map(gameplayer-> gameplayerMap(gameplayer)).collect(toList());
     }
 
-    @RequestMapping("/games_view/{id}")
+    @RequestMapping("/game_view/{id}")
     public Map<String, Object> getGameInfo(@PathVariable long id) {
         return gamePMap(gamePlayerRepository.findOne(id));
     }

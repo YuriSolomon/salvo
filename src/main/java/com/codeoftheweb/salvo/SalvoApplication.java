@@ -59,7 +59,7 @@ public class SalvoApplication {
 			Ship ship1 = new Ship("carrier", loc1);
 			Ship ship2 = new Ship("battleship", loc2);
 			Ship ship3 = new Ship("destroyer", loc3);
-			Ship ship4 = new Ship("Submarine", loc4);
+			Ship ship4 = new Ship("submarine", loc4);
 			Ship ship5 = new Ship("portalBoat", loc5);
 
 			gamePlayer1.addShip(ship1);
