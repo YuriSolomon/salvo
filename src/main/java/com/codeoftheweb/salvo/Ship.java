@@ -19,14 +19,9 @@ public class Ship {
     @JoinColumn(name="gamePlayer_id")
     private GamePlayer gamePlayer;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="game_id")
-    private Game game;
-
     @ElementCollection
     @Column(name = "location")
-    private List<String> location = new ArrayList<>();;
+    private List<String> location = new ArrayList<>();
 
     public Ship() {}
 
