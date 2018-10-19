@@ -33,13 +33,13 @@ function getData() {
             let body = ["","A","B","C","D","E","F","G","H","I","J"]
             for (let i=0; i<header.length; i++){
                 tem1 += `<td>${header[i]}</td>`
-                if (i>0) {
-                    tem2 += `<tr><td>${body[i]}</td>`
-                    for (let j = 1; j < header.length; j++) {
-                    tem2 += `<td></td>`    
-                    }
-                    tem2 += `</tr>`
-                }
+               if (i>0) {
+                   tem2 += `<tr><td>${body[i]}</td>`
+                   for (let j = 1; j < body.length; j++) {
+                   tem2 += `<td id="${header[j]+body[i]}"></td>`
+                   }
+                   tem2 += `</tr>`
+               }
             }
 
             tHead.innerHTML = tem1;
@@ -47,7 +47,6 @@ function getData() {
             
             table.append(tHead, tBody);
            
-
         }
     }
   })
