@@ -11,7 +11,12 @@
 
 <body>
     <div id="app">
-        <table id="grid"></table>
+        <div v-for="p in gameData.gamePlayers">
+            <p>{{p.player.id}}</p>
+            <p>{{gameData.correntPlayerId}}</p>
+            <!-- <span v-if="p.id == p.correntPlayerId">{{p.player.userName}}</span> -->
+        </div>
+        <div><table id="grid"></table></div>
     </div>
 
 

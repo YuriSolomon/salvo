@@ -4,20 +4,24 @@ function getData() {
     var app = new Vue({
     el: '#app',
     data: {
-        data: [],
-        allLocations: []
+        gameData: [],
+        allLocations: [],
+        playerId: ""
     },
     beforeCreate() {
         let url = new URLSearchParams(window.location.search);
-        let id = url.get('gp');
+        var id = url.get('gp');
+        console.log(id);
+        this.playerId = id;
         fetch(`../api/game_view/${id}`)
             .then(response => response.json())
             .then(json => {
-                this.data = json;
+                this.gameData = json;
 
-                console.log(this.data);
+                this.gameData.gamePlayers.correntPlayerId = id;
+                console.log(this.gameData);
                 this.buildTable();
-                this.getShips(this.data);
+                this.getShips(this.gameData);
             })
     },
     methods: {
@@ -45,17 +49,17 @@ function getData() {
             
             table.append(tHead, tBody);
         },
-        getShips(data) {
-            data.ships.forEach(ship => {
+        getShips(gameData) {
+            gameData.ships.forEach(ship => {
                 ship.location.forEach(cell => {
                     this.allLocations.push(cell);
                 });
             })
             this.allLocations.forEach(location => {
-                let cell = document.getElementById(location);
-                cell.style.background="blue";
-            })
+                    let cell = document.getElementById(location);
+                    cell.style.background="blue";
+                });
+            }
         }
-    }
-  })
+    })
 };
