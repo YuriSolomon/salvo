@@ -4,7 +4,8 @@ function getData() {
     var app = new Vue({
     el: '#app',
     data: {
-        data: []
+        data: [],
+        allLocations: []
     },
     beforeCreate() {
         let url = new URLSearchParams(window.location.search);
@@ -15,11 +16,9 @@ function getData() {
                 this.data = json;
 
                 console.log(this.data);
-
+                this.buildTable();
+                this.getShips(this.data);
             })
-    },
-    created() {
-        this.buildTable();
     },
     methods: {
         buildTable() {
@@ -36,17 +35,26 @@ function getData() {
                if (i>0) {
                    tem2 += `<tr><td>${body[i]}</td>`
                    for (let j = 1; j < body.length; j++) {
-                   tem2 += `<td id="${header[j]+body[i]}"></td>`
+                   tem2 += `<td id="${body[i]+header[j]}"></td>`
                    }
                    tem2 += `</tr>`
                }
             }
-
             tHead.innerHTML = tem1;
             tBody.innerHTML = tem2;
             
             table.append(tHead, tBody);
-           
+        },
+        getShips(data) {
+            data.ships.forEach(ship => {
+                ship.location.forEach(cell => {
+                    this.allLocations.push(cell);
+                });
+            })
+            this.allLocations.forEach(location => {
+                let cell = document.getElementById(location);
+                cell.style.background="blue";
+            })
         }
     }
   })

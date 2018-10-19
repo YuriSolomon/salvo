@@ -50,11 +50,11 @@ public class SalvoApplication {
 			gamePlayerRepository.save(gamePlayer1);
 			gamePlayerRepository.save(gamePlayer2);
 
-			List<String> loc1 = Arrays.asList("E3","E4","E5","E7","E8");
-			List<String> loc2 = Arrays.asList("A5","B5","C5","D5");
+			List<String> loc1 = Arrays.asList("E3","E4","E5","E6","E7");
+			List<String> loc2 = Arrays.asList("A9","B9","C9","D9");
 			List<String> loc3 = Arrays.asList("H1","H2","H3");
-			List<String> loc4 = Arrays.asList("I5","I6","I7");
-			List<String> loc5 = Arrays.asList("F5","G5");
+			List<String> loc4 = Arrays.asList("I6","I7","I8");
+			List<String> loc5 = Arrays.asList("G5","H5");
 
 			Ship ship1 = new Ship("carrier", loc1);
 			Ship ship2 = new Ship("battleship", loc2);
