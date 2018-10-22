@@ -28,6 +28,10 @@ public class GamePlayer {
             @OrderBy("location asc")
     Set<Ship> ship = new HashSet<>();
 
+    @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
+    @OrderBy("location asc")
+    Set<Salvo> salvo = new HashSet<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

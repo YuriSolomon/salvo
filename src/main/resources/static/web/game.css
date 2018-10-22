@@ -4,3 +4,11 @@ td {
     text-align: center;
     border: 1px solid black;
 }
+.header, .players {
+    display: flex;
+    flex-direction: row;
+}
+h2 {
+    margin-right: 5px;
+    margin-left: 5px;
+}

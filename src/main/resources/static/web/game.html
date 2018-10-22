@@ -11,12 +11,16 @@
 
 <body>
     <div id="app">
-        <div class="players" v-for="(p,i) in gameData.gamePlayers" :key="i">
-            <h2 v-if="p.id == gameData.correntPlayerId">{{p.player.userName}} (you)</h2>
-            <h2 v-else>{{p.player.userName}}</h2>
-            <h2 v-if="i == 0"> vs. </h2>
+        <div class="header">
+            <div class="players" v-for="(p,i) in gameData.gamePlayers" :key="i">
+                <h2 v-if="p.id == gameData.correntPlayerId">{{p.player.userName}} (you)</h2>
+                <h2 v-else>{{p.player.userName}}</h2>
+                <h2 v-if="i == 0">vs.</h2>
+            </div>
         </div>
-        <div><table id="grid"></table></div>
+        <div>
+            <table id="grid"></table>
+        </div>
     </div>
 
 
