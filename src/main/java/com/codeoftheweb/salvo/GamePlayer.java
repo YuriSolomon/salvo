@@ -48,6 +48,20 @@ public class GamePlayer {
         this.ship.add(ship);
     }
 
+    public void addSalvo(Salvo salvo) {
+        salvo.setGamePlayer(this);
+        this.salvo.add(salvo);
+        salvo.nextTurn();
+    }
+
+    public Set<Salvo> getSalvo() {
+        return salvo;
+    }
+
+    public void setSalvo(Set<Salvo> salvo) {
+        this.salvo = salvo;
+    }
+
     public Set<Ship> getShip() {
         return ship;
     }
