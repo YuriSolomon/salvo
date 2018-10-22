@@ -29,7 +29,7 @@ public class GamePlayer {
     Set<Ship> ship = new HashSet<>();
 
     @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
-    @OrderBy("location asc")
+    @OrderBy("turn asc")
     Set<Salvo> salvo = new HashSet<>();
 
     @Id
@@ -51,7 +51,6 @@ public class GamePlayer {
     public void addSalvo(Salvo salvo) {
         salvo.setGamePlayer(this);
         this.salvo.add(salvo);
-        salvo.nextTurn();
     }
 
     public Set<Salvo> getSalvo() {

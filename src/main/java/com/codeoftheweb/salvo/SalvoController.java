@@ -21,9 +21,10 @@ public class SalvoController {
     private GamePlayerRepository gamePlayerRepository;
     @Autowired
     private ShipRepository shipRepository;
+    @Autowired
+    private SalvoRepository salvoRepository;
 
     @RequestMapping("gamePlayers")
-
     public List<GamePlayer> getAll() {
         return gamePlayerRepository.findAll();
     }
@@ -36,6 +37,11 @@ public class SalvoController {
     @RequestMapping("/games")
     public List<Object> getGames() {
         return gameRepository.findAll().stream().map(game->gameMap(game)).collect(toList());
+    }
+
+    @RequestMapping("/salvoes")
+    public List<Object> getSalvoes() {
+        return salvoRepository.findAll().stream().map(salvo->salvoMap(salvo)).collect(toList());
     }
 
     private Map<String, Object> gameMap(Game game) {
@@ -76,6 +82,7 @@ public class SalvoController {
         gamepmap.put("created", gamePlayer.getDate());
         gamepmap.put("gamePlayers", gameplayerSet(gamePlayer.getGame().gamePlayer));
         gamepmap.put("ships", shipsSet(gamePlayer.getShip()));
+        gamepmap.put("salvoes", salvoesSet(gamePlayer.getSalvo()));
         return gamepmap;
     }
 
@@ -88,6 +95,18 @@ public class SalvoController {
 
     private List<Map<String, Object>> shipsSet (Set<Ship> ship) {
         return ship.stream().map(ships-> shipMap(ships)).collect(toList());
+    }
+
+    private Map<String, Object> salvoMap(Salvo salvo) {
+        Map<String, Object> salvomap = new LinkedHashMap<String, Object>();
+        salvomap.put("turn", salvo.getTurn());
+        salvomap.put("player", salvo.getGamePlayer().getPlayer().getId());
+        salvomap.put("location", salvo.getLocation());
+        return salvomap;
+    }
+
+    private List<Map<String, Object>> salvoesSet (Set<Salvo> salvo) {
+        return salvo.stream().map(salvoes-> salvoMap(salvoes)).collect(toList());
     }
 
 }

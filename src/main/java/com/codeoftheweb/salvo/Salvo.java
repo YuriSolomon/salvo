@@ -26,14 +26,14 @@ public class Salvo {
 
     public Salvo() {};
 
-    public Salvo(List<String> location) {
-        this.turn = 0;
+    public Salvo(int turn, List<String> location) {
+        this.turn = turn;
         this.location = location;
         this.gamePlayer = getGamePlayer();
     }
 
-    public int nextTurn() {
-        return turn++;
+    public String getGamePlayerId() {
+        return String.valueOf(gamePlayer.getId());
     }
 
     public long getId() {
@@ -44,8 +44,8 @@ public class Salvo {
         this.id = id;
     }
 
-    public int getTurn() {
-        return turn;
+    public String getTurn() {
+        return String.valueOf(turn);
     }
 
     public void setTurn(int turn) {
