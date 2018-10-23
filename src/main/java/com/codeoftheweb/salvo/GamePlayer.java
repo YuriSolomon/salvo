@@ -25,7 +25,7 @@ public class GamePlayer {
     private Game game;
 
     @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
-            @OrderBy("location asc")
+    @OrderBy("location asc")
     Set<Ship> ship = new HashSet<>();
 
     @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)

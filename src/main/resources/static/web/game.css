@@ -1,14 +1,25 @@
 td {
-    width: 35px;
-    height: 35px;
-    text-align: center;
+    width: 30px;
+    height: 30px;
     border: 1px solid black;
+    text-align: center;
 }
 .header, .players {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
-h2 {
+h1 {
     margin-right: 5px;
     margin-left: 5px;
+}
+.play {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-direction: row-reverse;
+    text-align: center;
+}
+#ships, #salvoes {
+    margin-bottom: 20px;
 }

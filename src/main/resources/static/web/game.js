@@ -5,7 +5,8 @@ function getData() {
         el: '#app',
         data: {
             gameData: [],
-            allLocations: [],
+            allShipsLocations: [],
+            allSalvoesLocations: [],
             playerId: ""
         },
         beforeCreate() {
@@ -20,13 +21,15 @@ function getData() {
 
                     this.gameData.correntPlayerId = id;
                     console.log(this.gameData);
-                    this.buildTable();
-                    this.getShips(this.gameData);
+                    this.buildPlayerTable("ships");
+                    this.buildPlayerTable("salvoes");
+                    this.getShips(this.gameData.ships, "blue", "ships", this.allShipsLocations);
+                    this.getShips(this.gameData.salvoes, "red", "salvoes", this.allSalvoesLocations);
                 })
         },
         methods: {
-            buildTable() {
-                let table = document.getElementById("grid");
+            buildPlayerTable(tableId) {
+                let table = document.getElementById(tableId);
                 let tHead = document.createElement("thead");
                 let tBody = document.createElement("tbody");
 
@@ -39,7 +42,7 @@ function getData() {
                     if (i > 0) {
                         tem2 += `<tr><td style="background:yellow">${body[i]}</td>`
                         for (let j = 1; j < body.length-1; j++) {
-                            tem2 += `<td id="${body[i]+header[j]}"></td>`
+                            tem2 += `<td class="${body[i]+header[j]}"></td>`
                         }
                         tem2 += `<td style="background:yellow">${body[i]}</td></tr>`
                     }
@@ -55,15 +58,15 @@ function getData() {
 
                 table.append(tHead, tBody);
             },
-            getShips(gameData) {
-                gameData.ships.forEach(ship => {
-                    ship.location.forEach(cell => {
-                        this.allLocations.push(cell);
+            getShips(gameData, color, gridId, list) {
+                gameData.forEach(element => {
+                    element.location.forEach(cell => {
+                        list.push(cell);
                     });
                 })
-                this.allLocations.forEach(location => {
-                    let cell = document.getElementById(location);
-                    cell.style.background = "blue";
+                list.forEach(location => {
+                    let cell = document.getElementById(gridId).querySelector(`.${location}`);
+                    cell.style.background = color;
                 });
             }
         }
