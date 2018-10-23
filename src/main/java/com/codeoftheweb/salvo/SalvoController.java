@@ -83,6 +83,7 @@ public class SalvoController {
         gamepmap.put("gamePlayers", gameplayerSet(gamePlayer.getGame().gamePlayer));
         gamepmap.put("ships", shipsSet(gamePlayer.getShip()));
         gamepmap.put("salvoes", salvoesSet(gamePlayer.getSalvo()));
+        gamepmap.put("opponentsSalvoes", salvoesSet(gamePlayer.getOpponent(gamePlayer)));
         return gamepmap;
     }
 

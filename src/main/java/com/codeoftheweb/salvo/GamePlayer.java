@@ -53,6 +53,10 @@ public class GamePlayer {
         this.salvo.add(salvo);
     }
 
+    public Set<Salvo> getOpponent(GamePlayer gamePlayer){
+        return this.getGame().getGPOpponent(gamePlayer).getSalvo();
+    }
+
     public Set<Salvo> getSalvo() {
         return salvo;
     }

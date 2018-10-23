@@ -7,12 +7,12 @@ function getData() {
             gameData: [],
             allShipsLocations: [],
             allSalvoesLocations: [],
+            opponenatsSalvos: [],
             playerId: ""
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
             var id = url.get('gp');
-            console.log(id);
             this.playerId = id;
             fetch(`../api/game_view/${id}`)
                 .then(response => response.json())
@@ -20,11 +20,15 @@ function getData() {
                     this.gameData = json;
 
                     this.gameData.correntPlayerId = id;
+                    // var otherOpponent = this.gameData.gamePlayers
                     console.log(this.gameData);
                     this.buildPlayerTable("ships");
                     this.buildPlayerTable("salvoes");
-                    this.getShips(this.gameData.ships, "blue", "ships", this.allShipsLocations);
-                    this.getShips(this.gameData.salvoes, "red", "salvoes", this.allSalvoesLocations);
+                    this.getList(this.gameData.ships, this.allShipsLocations);
+                    this.getList(this.gameData.salvoes, this.allSalvoesLocations);
+                    // this.getList(otherOpponent, this.opponenatsSalvos);
+                    this.getSalvoes(this.allShipsLocations, "ships", "blue")
+                    this.getSalvoes(this.allSalvoesLocations, "salvoes", "red")
                 })
         },
         methods: {
@@ -35,7 +39,7 @@ function getData() {
 
                 let tem1 = '';
                 let tem2 = '';
-                let header = [" ", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,""];
+                let header = ["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,""];
                 let body = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",""]
                 for (let i = 0; i < header.length-1; i++) {
                     tem1 += `<td style="background:yellow">${header[i]}</td>`
@@ -58,15 +62,26 @@ function getData() {
 
                 table.append(tHead, tBody);
             },
-            getShips(gameData, color, gridId, list) {
+            getList(gameData, list) {
                 gameData.forEach(element => {
                     element.location.forEach(cell => {
                         list.push(cell);
                     });
                 })
-                list.forEach(location => {
-                    let cell = document.getElementById(gridId).querySelector(`.${location}`);
-                    cell.style.background = color;
+            },
+            getSalvoes(list1, gridId, color) {
+                list1.forEach(location1 => {
+                    let cell = document.getElementById(gridId).querySelector(`.${location1}`);
+                    // list2.forEach(location2 => {
+                    //     console.log(location1);
+                    //     console.log(location2);
+                    //     console.log('------')
+                    //     if (location1 == location2) {
+                    //         cell.style.background = "green";
+                    //     } else {
+                            cell.style.background = color;
+                    //     }
+                    // })
                 });
             }
         }

@@ -98,21 +98,25 @@ public class SalvoApplication {
 			List<String> salvoLoc2 = Arrays.asList("B4","H9","C3");
 			List<String> salvoLoc3 = Arrays.asList("A4","E4","F7");
 			List<String> salvoLoc4 = Arrays.asList("I4","A9","D3");
+			List<String> salvoLoc5 = Arrays.asList("E2","F2","G2");
 
 			Salvo salvo1 = new Salvo(1, salvoLoc1);
 			Salvo salvo2 = new Salvo(1, salvoLoc2);
 			Salvo salvo3 = new Salvo(2, salvoLoc3);
 			Salvo salvo4 = new Salvo(2, salvoLoc4);
+			Salvo salvo5 = new Salvo(3, salvoLoc5);
 
 			gamePlayer1.addSalvo(salvo1);
 			gamePlayer2.addSalvo(salvo2);
 			gamePlayer1.addSalvo(salvo3);
 			gamePlayer2.addSalvo(salvo4);
+			gamePlayer1.addSalvo(salvo5);
 
 			salvoRepository.save(salvo1);
 			salvoRepository.save(salvo2);
 			salvoRepository.save(salvo3);
 			salvoRepository.save(salvo4);
+			salvoRepository.save(salvo5);
 
 		};
 	}

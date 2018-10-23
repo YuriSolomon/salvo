@@ -22,6 +22,23 @@ public class Game {
 
     public Game() {}
 
+    public GamePlayer getGPOpponent(GamePlayer newgamePlayer) {
+        for (GamePlayer gamePlayers: this.gamePlayer) {
+            if (newgamePlayer.getId() != gamePlayers.getId()) {
+                return gamePlayers;
+            }
+        }
+        return null;
+    }
+
+    public Set<GamePlayer> getGamePlayer() {
+        return gamePlayer;
+    }
+
+    public void setGamePlayer(Set<GamePlayer> gamePlayer) {
+        this.gamePlayer = gamePlayer;
+    }
+
     public Date getDate() {
         return date;
     }
