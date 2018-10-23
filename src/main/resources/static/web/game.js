@@ -7,7 +7,8 @@ function getData() {
             gameData: [],
             allShipsLocations: [],
             allSalvoesLocations: [],
-            opponenatsSalvos: [],
+            opponentsSalvoes: [],
+            opponentsShips: [],
             playerId: ""
         },
         beforeCreate() {
@@ -20,15 +21,15 @@ function getData() {
                     this.gameData = json;
 
                     this.gameData.correntPlayerId = id;
-                    // var otherOpponent = this.gameData.gamePlayers
                     console.log(this.gameData);
                     this.buildPlayerTable("ships");
                     this.buildPlayerTable("salvoes");
                     this.getList(this.gameData.ships, this.allShipsLocations);
                     this.getList(this.gameData.salvoes, this.allSalvoesLocations);
-                    // this.getList(otherOpponent, this.opponenatsSalvos);
-                    this.getSalvoes(this.allShipsLocations, "ships", "blue")
-                    this.getSalvoes(this.allSalvoesLocations, "salvoes", "red")
+                    this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
+                    this.getList(this.gameData.opponentsShips, this.opponentsShips);
+                    this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes)
+                    this.getOnTable(this.allSalvoesLocations, "salvoes", "red", this.opponentsShips)
                 })
         },
         methods: {
@@ -39,13 +40,13 @@ function getData() {
 
                 let tem1 = '';
                 let tem2 = '';
-                let header = ["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,""];
-                let body = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",""]
-                for (let i = 0; i < header.length-1; i++) {
+                let header = ["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ""];
+                let body = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", ""]
+                for (let i = 0; i < header.length - 1; i++) {
                     tem1 += `<td style="background:yellow">${header[i]}</td>`
                     if (i > 0) {
                         tem2 += `<tr><td style="background:yellow">${body[i]}</td>`
-                        for (let j = 1; j < body.length-1; j++) {
+                        for (let j = 1; j < body.length - 1; j++) {
                             tem2 += `<td class="${body[i]+header[j]}"></td>`
                         }
                         tem2 += `<td style="background:yellow">${body[i]}</td></tr>`
@@ -55,8 +56,8 @@ function getData() {
                 for (let k = 0; k < header.length; k++) {
                     tem2 += `<td style="background:yellow">${header[k]}</td>`
                 }
-                tem2 +=`</tr>`
-                tem1 +=`<td style="background:yellow" />`
+                tem2 += `</tr>`
+                tem1 += `<td style="background:yellow" />`
                 tHead.innerHTML = tem1;
                 tBody.innerHTML = tem2;
 
@@ -69,19 +70,21 @@ function getData() {
                     });
                 })
             },
-            getSalvoes(list1, gridId, color) {
+            getOnTable(list1, gridId, color, list2) {
                 list1.forEach(location1 => {
+                    let checked = [];
                     let cell = document.getElementById(gridId).querySelector(`.${location1}`);
-                    // list2.forEach(location2 => {
-                    //     console.log(location1);
-                    //     console.log(location2);
-                    //     console.log('------')
-                    //     if (location1 == location2) {
-                    //         cell.style.background = "green";
-                    //     } else {
-                            cell.style.background = color;
-                    //     }
-                    // })
+                    list2.forEach(location2 => {
+                        if (!checked.includes(location2) && !checked.includes(location1)) {
+                            if (location1 == location2) {
+                                cell.style.background = "green";
+                                checked.push(location2);
+                                checked.push(location1);
+                            } else {
+                                cell.style.background = color;
+                            }
+                        }
+                    })
                 });
             }
         }
