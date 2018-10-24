@@ -34,6 +34,14 @@ public class Game {
         return null;
     }
 
+    public Date getFinishTime(Score score) {
+        return score.getDate();
+    }
+
+    public Score getScore(Player player) {
+        return player.getSingleScore(this);
+    }
+
     public Set<Score> getScore() {
         return score;
     }

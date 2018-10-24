@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class GamePlayer {
@@ -60,6 +58,28 @@ public class GamePlayer {
     public Set<Ship> getOpponentsShips(GamePlayer gamePlayer){
         return this.getGame().getOpponent(gamePlayer).getShip();
     }
+
+    public List<String> salvoesList(GamePlayer gamePlayer) {
+        List<String> salvoesList = new ArrayList<>();
+        for (Salvo salvo: getSalvo()) {
+            for (String location: salvo.getLocation()) {
+                salvoesList.add(location);
+            }
+        }
+        return salvoesList;
+    }
+
+    public List<String> opponentsShipsList(GamePlayer gamePlayer) {
+        List<String> opponentsShipsList = new ArrayList<>();
+        for (Ship ship: getOpponentsShips(this)) {
+            for (String location: ship.getLocation()) {
+                opponentsShipsList.add(location);
+            }
+        }
+        return opponentsShipsList;
+    }
+
+
 
     public Set<Salvo> getSalvo() {
         return salvo;

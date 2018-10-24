@@ -27,6 +27,15 @@ public class Player {
         this.email = email;
     }
 
+    public Score getSingleScore(Game game) {
+        for (Score score: score) {
+            if (score.getGame() == game) {
+                return score;
+            }
+        }
+        return null;
+    }
+
     public Set<Score> getScore() {
         return score;
     }
@@ -51,15 +60,9 @@ public class Player {
         this.email = email;
     }
 
-    public long getId() {
-        return id;
-    }
+    public long getId() { return id; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public void setId(long id) { this.id = id; }
 
-    public String toString() {
-        return userName;
-    }
+    public String toString() { return userName; }
 }

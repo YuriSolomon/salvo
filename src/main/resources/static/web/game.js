@@ -8,7 +8,7 @@ function getData() {
             allShipsLocations: [],
             allSalvoesLocations: [],
             opponentsSalvoes: [],
-            opponentsShips: [],
+            hitTheOpponent: [],
             playerId: ""
         },
         beforeCreate() {
@@ -27,9 +27,9 @@ function getData() {
                     this.getList(this.gameData.ships, this.allShipsLocations);
                     this.getList(this.gameData.salvoes, this.allSalvoesLocations);
                     this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
-                    this.getList(this.gameData.opponentsShips, this.opponentsShips);
+                    this.hitTheOpponent = this.gameData.hitTheOpponent;
                     this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes)
-                    this.getOnTable(this.allSalvoesLocations, "salvoes", "red", this.opponentsShips)
+                    this.getOnTable(this.allSalvoesLocations, "salvoes", "red", this.hitTheOpponent)
                 })
         },
         methods: {

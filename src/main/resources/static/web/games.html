@@ -10,12 +10,20 @@
 
 <body>
     <div id="app">
-        <div v-for="game in data">
-            <ol>
-                <li>game id: {{game.id}}</li>
-                <li>created on: {{game.created}}</li>
-                <li v-for="player in game.gamePlayers">player: {{player.player.userName}}</li>
-            </ol>
+        <div>
+            <div>
+                <table>
+                    <thead>
+                        <th>player</th>
+                        <th>score</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
