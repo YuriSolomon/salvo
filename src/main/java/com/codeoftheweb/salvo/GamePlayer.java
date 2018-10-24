@@ -54,11 +54,11 @@ public class GamePlayer {
     }
 
     public Set<Salvo> getOpponentsSalvoes(GamePlayer gamePlayer){
-        return this.getGame().getGPOpponent(gamePlayer).getSalvo();
+        return this.getGame().getOpponent(gamePlayer).getSalvo();
     }
 
     public Set<Ship> getOpponentsShips(GamePlayer gamePlayer){
-        return this.getGame().getGPOpponent(gamePlayer).getShip();
+        return this.getGame().getOpponent(gamePlayer).getShip();
     }
 
     public Set<Salvo> getSalvo() {

@@ -22,10 +22,10 @@ public class Game {
 
     public Game() {}
 
-    public GamePlayer getGPOpponent(GamePlayer newgamePlayer) {
-        for (GamePlayer gamePlayers: this.gamePlayer) {
-            if (newgamePlayer.getId() != gamePlayers.getId()) {
-                return gamePlayers;
+    public GamePlayer getOpponent(GamePlayer correntGamePlayer) {
+        for (GamePlayer otherGamePlayer: this.gamePlayer) {
+            if (correntGamePlayer.getId() != otherGamePlayer.getId()) {
+                return otherGamePlayer;
             }
         }
         return null;
