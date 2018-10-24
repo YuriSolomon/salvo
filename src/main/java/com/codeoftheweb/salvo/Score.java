@@ -36,7 +36,29 @@ public class Score {
         this.player = player;
     }
 
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public double getPlayersScore() {
+        return playersScore;
+    }
+
+    public void setPlayersScore(double playersScore) {
+        this.playersScore = playersScore;
+    }
 
     public Player getPlayer() {
         return player;

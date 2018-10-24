@@ -47,8 +47,9 @@ public class SalvoController {
     private Map<String, Object> gameMap(Game game) {
         Map<String, Object> gamemap = new LinkedHashMap<String, Object>();
         gamemap.put("id", game.getId());
-        gamemap.put("created", game.getDate());
-        gamemap.put("gamePlayers", gameplayerSet(game.gamePlayer));
+//        gamemap.put("created", game.getDate());
+//        gamemap.put("gamePlayers", gameplayerSet(game.gamePlayer));
+        gamemap.put("scores", scoreSet(game.getScore()));
         return gamemap;
     }
 
@@ -109,6 +110,19 @@ public class SalvoController {
 
     private List<Map<String, Object>> salvoesSet (Set<Salvo> salvo) {
         return salvo.stream().map(salvoes-> salvoMap(salvoes)).collect(toList());
+    }
+
+    private Map<String, Object> scoreMap(Score score) {
+        Map<String, Object> scoremap = new LinkedHashMap<String, Object>();
+        scoremap.put("player", score.getPlayer().getId());
+        scoremap.put("game", score.getGame().getId());
+        scoremap.put("finishTime", score.getDate());
+        scoremap.put("gameScore", score.getGame().getScore());
+        return scoremap;
+    }
+
+    private List<Map<String, Object>> scoreSet (Set<Score> score) {
+        return score.stream().map(scores-> scoreMap(scores)).collect(toList());
     }
 
 }

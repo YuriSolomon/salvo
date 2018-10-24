@@ -34,6 +34,14 @@ public class Game {
         return null;
     }
 
+    public Set<Score> getScore() {
+        return score;
+    }
+
+    public void setScore(Set<Score> score) {
+        this.score = score;
+    }
+
     public Set<GamePlayer> getGamePlayer() {
         return gamePlayer;
     }
@@ -57,4 +65,5 @@ public class Game {
     public void setId(long id) {
         this.id = id;
     }
+
 }
