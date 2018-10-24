@@ -21,7 +21,8 @@ public class SalvoApplication {
 									  GameRepository gameRepository,
 									  GamePlayerRepository gamePlayerRepository,
 									  ShipRepository shipRepository,
-									  SalvoRepository salvoRepository) {
+									  SalvoRepository salvoRepository,
+									  ScoreRepository scoreRepository) {
 		return (args) -> {
 
 			Player player1 = new Player("Jack", "jack@gmail.com");
@@ -117,6 +118,16 @@ public class SalvoApplication {
 			salvoRepository.save(salvo3);
 			salvoRepository.save(salvo4);
 			salvoRepository.save(salvo5);
+
+			Score score1 = new Score(1, game1, player1);
+			Score score2 = new Score(0, game2, player2);
+			Score score3 = new Score(0.5, game3, player1);
+			Score score4 = new Score(0.5, game3, player2);
+
+			scoreRepository.save(score1);
+			scoreRepository.save(score2);
+			scoreRepository.save(score3);
+			scoreRepository.save(score4);
 
 		};
 	}

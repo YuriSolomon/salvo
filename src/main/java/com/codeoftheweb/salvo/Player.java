@@ -17,11 +17,22 @@ public class Player {
     @OrderBy("id asc")
     Set<GamePlayer> gamePlayer;
 
+    @OneToMany(mappedBy="player", fetch= FetchType.EAGER)
+    Set<Score> score;
+
     public Player() {}
 
     public Player (String userName, String email) {
         this.userName = userName;
         this.email = email;
+    }
+
+    public Set<Score> getScore() {
+        return score;
+    }
+
+    public void setScore(Set<Score> score) {
+        this.score = score;
     }
 
     public String getUserName() {

@@ -20,6 +20,9 @@ public class Game {
     @OrderBy("id asc")
     Set<GamePlayer> gamePlayer;
 
+    @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
+    Set<Score> score;
+
     public Game() {}
 
     public GamePlayer getOpponent(GamePlayer correntGamePlayer) {
