@@ -14,7 +14,7 @@ function getData() {
                 .then(json => {
                     this.data = json;
 
-                    console.log(this.data);
+                    // console.log(this.data);
                     this.getScore(this.data);
 
                 })
@@ -26,23 +26,23 @@ function getData() {
                     let totalScore = 0;
                     let wins = 0;
                     let loses = 0;
-                    let teids = 0;
+                    let tieds = 0;
                     player.player.score.forEach(score => {
                         if (score.gameScore.playersScore == 1) {
                             wins++;
                         } else if (score.gameScore.playersScore == 0.5) {
-                            teids++
+                            tieds++
                         } else {
                             loses++
                         }
                     })
-                    totalScore = wins + (teids / 2);
+                    totalScore = wins + (tieds / 2);
                     playerInfo = {
                         "userName": player.player.userName,
                         "totalScore": totalScore,
                         "wins": wins,
                         "loses": loses,
-                        "teids": teids
+                        "tieds": tieds
                     };
                     this.playersScore.push(playerInfo);
                     this.playersScore.sort((fst, snd) => snd.totalScore - fst.totalScore);
@@ -55,8 +55,8 @@ function getData() {
                     }
                 })
 
-                console.log(this.playersScore);
-                console.log(this.top25score);
+                // console.log(this.playersScore);
+                // console.log(this.top25score);
             }
         }
     })
