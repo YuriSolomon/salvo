@@ -44,7 +44,7 @@ function getData() {
                         "teids": teids
                     };
                     this.playersScore.push(playerInfo);
-
+                    console.log(this.playersScore.sort((fst, snd) => snd.totalScore - fst.totalScore))
                     console.log(this.playersScore);
                 })
             }

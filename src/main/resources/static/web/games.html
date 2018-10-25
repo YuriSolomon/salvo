@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="games.css">
     <title>Salvo</title>
 </head>
 
@@ -12,7 +13,7 @@
     <div id="app">
         <div>
             <div>
-                <table>
+                <table id="scores">
                     <thead>
                         <th>Player</th>
                         <th>Total score</th>
@@ -23,7 +24,7 @@
                     <tbody>
                         <tr v-for="player in playersScore">
                             <td>{{player.userName}}</td>
-                            <td>{{[player.totalScore]}}</td>
+                            <td>{{player.totalScore}}</td>
                             <td>{{player.wins}}</td>
                             <td>{{player.teids}}</td>
                             <td>{{player.loses}}</td>

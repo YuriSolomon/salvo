@@ -55,9 +55,15 @@ public class SalvoApplication {
 
 			GamePlayer gamePlayer1 = new GamePlayer(game1, player1);
 			GamePlayer gamePlayer2 = new GamePlayer(game1, player2);
+			GamePlayer gamePlayer3 = new GamePlayer(game4, player3);
+			GamePlayer gamePlayer4 = new GamePlayer(game2, player4);
+			GamePlayer gamePlayer5 = new GamePlayer(game3, player5);
 
 			gamePlayerRepository.save(gamePlayer1);
 			gamePlayerRepository.save(gamePlayer2);
+			gamePlayerRepository.save(gamePlayer3);
+			gamePlayerRepository.save(gamePlayer4);
+			gamePlayerRepository.save(gamePlayer5);
 
 			List<String> loc1 = Arrays.asList("E3","E4","E5","E6","E7");
 			List<String> loc2 = Arrays.asList("A9","B9","C9","D9");
@@ -128,13 +134,13 @@ public class SalvoApplication {
 			salvoRepository.save(salvo5);
 
 			Score score1 = new Score(1, game1, player1);
-			Score score2 = new Score(0, game2, player2);
+			Score score2 = new Score(0, game2, player5);
 			Score score3 = new Score(0.5, game3, player1);
-			Score score4 = new Score(0.5, game3, player2);
+			Score score4 = new Score(0.5, game3, player3);
 			Score score5 = new Score(0.5, game4, player2);
-			Score score6 = new Score(1, game5, player2);
-			Score score7 = new Score(0.5, game6, player2);
-			Score score8 = new Score(0, game7, player2);
+			Score score6 = new Score(1, game5, player3);
+			Score score7 = new Score(0.5, game6, player4);
+			Score score8 = new Score(0, game7, player4);
 
 			scoreRepository.save(score1);
 			scoreRepository.save(score2);
