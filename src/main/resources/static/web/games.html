@@ -14,12 +14,19 @@
             <div>
                 <table>
                     <thead>
-                        <th>player</th>
-                        <th>score</th>
+                        <th>Player</th>
+                        <th>Total score</th>
+                        <th>Wins</th>
+                        <th>Teids</th>
+                        <th>Loses</th>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
+                        <tr v-for="player in playersScore">
+                            <td>{{player.userName}}</td>
+                            <td>{{[player.totalScore]}}</td>
+                            <td>{{player.wins}}</td>
+                            <td>{{player.teids}}</td>
+                            <td>{{player.loses}}</td>
                         </tr>
                     </tbody>
                 </table>
