@@ -5,7 +5,8 @@ function getData() {
         el: '#app',
         data: {
             data: [],
-            playersScore: []
+            playersScore: [],
+            top25score: []
         },
         beforeCreate() {
             fetch('../api/games')
@@ -44,9 +45,18 @@ function getData() {
                         "teids": teids
                     };
                     this.playersScore.push(playerInfo);
-                    console.log(this.playersScore.sort((fst, snd) => snd.totalScore - fst.totalScore))
-                    console.log(this.playersScore);
+                    this.playersScore.sort((fst, snd) => snd.totalScore - fst.totalScore);
                 })
+                this.playersScore.forEach(player => {
+                    if (this.top25score.length <= 25) {
+                        this.top25score.push(player);
+                    } else if (player.totalScore == this.top25score[this.top25score.length - 1].totalScore) {
+                        this.top25score.push(player);
+                    }
+                })
+
+                console.log(this.playersScore);
+                console.log(this.top25score);
             }
         }
     })
