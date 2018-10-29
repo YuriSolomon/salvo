@@ -25,11 +25,11 @@ public class SalvoApplication {
 									  ScoreRepository scoreRepository) {
 		return (args) -> {
 
-			Player player1 = new Player("Jack", "jack@gmail.com");
-			Player player2 = new Player("Chloe", "chloe@gmail.com");
-			Player player3 = new Player("Kim", "kim@gmail.com");
-			Player player4 = new Player("David", "david@gmail.com");
-			Player player5 = new Player("Michelle", "michaelle@gmail.com");
+			Player player1 = new Player("Jack", "jack@gmail.com", "111111a");
+			Player player2 = new Player("Chloe", "chloe@gmail.com", "111111b");
+			Player player3 = new Player("Kim", "kim@gmail.com", "111111c");
+			Player player4 = new Player("David", "david@gmail.com", "111111d");
+			Player player5 = new Player("Michelle", "michaelle@gmail.com", "111111e");
 
 			playerRepository.save(player1);
 			playerRepository.save(player2);

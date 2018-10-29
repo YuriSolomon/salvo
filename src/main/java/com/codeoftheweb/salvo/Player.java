@@ -8,6 +8,7 @@ public class Player {
 
     private String userName;
     private String email;
+    private String password;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +23,10 @@ public class Player {
 
     public Player() {}
 
-    public Player (String userName, String email) {
+    public Player (String userName, String email, String password) {
         this.userName = userName;
         this.email = email;
+        this.password = password;
     }
 
     public Score getSingleScore(Game game) {
@@ -36,13 +38,9 @@ public class Player {
         return null;
     }
 
-    public Set<Score> getScore() {
-        return score;
-    }
+    public Set<Score> getScore() { return score; }
 
-    public void setScore(Set<Score> score) {
-        this.score = score;
-    }
+    public void setScore(Set<Score> score) { this.score = score; }
 
     public String getUserName() {
         return userName;

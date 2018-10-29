@@ -26,23 +26,23 @@ function getData() {
                     let totalScore = 0;
                     let wins = 0;
                     let loses = 0;
-                    let tieds = 0;
+                    let ties = 0;
                     player.player.score.forEach(score => {
                         if (score.gameScore.playersScore == 1) {
                             wins++;
                         } else if (score.gameScore.playersScore == 0.5) {
-                            tieds++
+                            ties++;
                         } else {
-                            loses++
+                            loses++;
                         }
                     })
-                    totalScore = wins + (tieds / 2);
+                    totalScore = wins + (ties / 2);
                     playerInfo = {
                         "userName": player.player.userName,
                         "totalScore": totalScore,
                         "wins": wins,
                         "loses": loses,
-                        "tieds": tieds
+                        "ties": ties
                     };
                     this.playersScore.push(playerInfo);
                     this.playersScore.sort((fst, snd) => snd.totalScore - fst.totalScore);
