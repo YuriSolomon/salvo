@@ -29,7 +29,7 @@ function getData() {
                     this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
                     this.hitTheOpponent = this.gameData.hitTheOpponent;
                     this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes)
-                    this.getOnTable(this.allSalvoesLocations, "salvoes", "red", this.hitTheOpponent)
+                    this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent)
                 })
         },
         methods: {
@@ -77,7 +77,7 @@ function getData() {
                     list2.forEach(location2 => {
                         if (!checked.includes(location2) && !checked.includes(location1)) {
                             if (location1 == location2) {
-                                cell.style.background = "green";
+                                cell.style.background = "red";
                                 checked.push(location2);
                                 checked.push(location1);
                             } else {
