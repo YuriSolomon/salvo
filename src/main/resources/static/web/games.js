@@ -54,9 +54,17 @@ function getData() {
                         this.top25score.push(player);
                     }
                 })
-
-                // console.log(this.playersScore);
-                // console.log(this.top25score);
+            },
+            sendData() {
+                let email = document.getElementById("email").value;
+                let password = document.getElementById("password").value;
+                console.log(email);
+                console.log(password);
+            
+                $.post( "/api/login", { email: email, password: password })
+              .done(function( data ) {
+                alert(console.log("logged in"));
+              });
             }
         }
     })
