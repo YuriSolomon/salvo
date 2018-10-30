@@ -38,6 +38,14 @@ public class Player {
         return null;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Set<Score> getScore() { return score; }
 
     public void setScore(Set<Score> score) { this.score = score; }

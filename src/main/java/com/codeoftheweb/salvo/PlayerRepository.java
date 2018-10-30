@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    List<Player> findByEmail(String email);
-    List<Player> findByUserName(String userName);
+    Player findByEmail(String email);
+    Player findByUserName(String userName);
 
 }
