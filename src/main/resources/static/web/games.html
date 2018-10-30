@@ -11,24 +11,25 @@
 
 <body>
     <div id="app">
-            <h1>Login</h1>
-   <form name='f' action="login" method='POST'>
-      <table>
-         <tr>
-            <td>Email:</td>
-            <td><input id="email" type='text' name='email' value='' /></td>
-         </tr>
-         <tr>
-            <td>Password:</td>
-            <td><input id="password" type='password' name='password' value='' /></td>
-         </tr>
-         <tr>
-            <td><input name="submit" type="submit" value="login" v-on:click="sendData" /></td>
-         </tr>
-      </table>
-  </form>
+        <h1>Login</h1>
+        <table>
+            <tr>
+                <td>Email:</td>
+                <td><input id="email" type='text' name='email' value='' /></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input id="password" type='password' name='password' value='' /></td>
+            </tr>
+            <tr>
+                <!-- <td><input name="submit" type="submit" value="login" v-on:click="sendData" /></td> -->
+                <td></td>
+            </tr>
+        </table>
+        <button v-on:click="sendData">click</button>
         <div>
             <div>
+                <h1>Top 25 players</h1>
                 <table id="scores">
                     <thead>
                         <th>Player</th>

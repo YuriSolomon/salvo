@@ -62,8 +62,9 @@ function getData() {
                 console.log(password);
             
                 $.post( "/api/login", { email: email, password: password })
-              .done(function( data ) {
-                alert(console.log("logged in"));
+              .done(function(response) {
+                  console.log("logged in")
+                  console.log(response)
               });
             }
         }
