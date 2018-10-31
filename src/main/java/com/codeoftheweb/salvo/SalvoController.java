@@ -34,9 +34,9 @@ public class SalvoController {
         return playerRepository.findAll();
     }
 
-    @RequestMapping("/games")
-    public List<Object> getGames() {
-        return gamePlayerRepository.findAll().stream().map(game->gameMap(game)).collect(toList());
+    @RequestMapping("/leaderboard")
+    public List<Object> getPlayersScoreList() {
+        return gamePlayerRepository.findAll().stream().map(game->gpMap(game)).collect(toList());
     }
 
     @RequestMapping("/salvoes")
@@ -44,11 +44,34 @@ public class SalvoController {
         return salvoRepository.findAll().stream().map(salvo->salvoMap(salvo)).collect(toList());
     }
 
-    private Map<String, Object> gameMap(GamePlayer gamePlayer) {
+    @RequestMapping("/game_view/{id}")
+    public Map<String, Object> getGameInfo(@PathVariable long id) {
+        return gamePMap(gamePlayerRepository.findOne(id));
+    }
+
+    @RequestMapping("/games")
+    public List<Object> getGames() {
+        return gamePlayerRepository.findAll().stream().map(game->gamesMap(game)).collect(toList());
+    }
+
+    private Map<String, Object> gpMap(GamePlayer gamePlayer) {
+        Map<String, Object> gpmap = new LinkedHashMap<String, Object>();
+        gpmap.put("player", playerMap(gamePlayer.getPlayer()));
+        return gpmap;
+    }
+
+    private Map<String, Object> gamesMap(GamePlayer gamePlayer) {
+        Map<String, Object> gamesmap = new LinkedHashMap<String, Object>();
+        gamesmap.put("game", gamePlayer.getGame());
+        return gamesmap;
+    }
+
+    private Map<String, Object> gameMap(Game game) {
         Map<String, Object> gamemap = new LinkedHashMap<String, Object>();
-//        gamemap.put("gameId", gamePlayer.getGame().getId());
-        gamemap.put("player", playerMap(gamePlayer.getPlayer()));
-//        gamemap.put("scores", scoreSet(game.getScore()));
+        gamemap.put("gameId", game.getId());
+        gamemap.put("created", game.getDate());
+        gamemap.put("player", playerSet(game.getPlayer(game.getGamePlayer())));
+        gamemap.put("score", scoreSet(game.getScore()));
         return gamemap;
     }
 
@@ -66,15 +89,6 @@ public class SalvoController {
         gameplayermap.put("id", gamePlayer.getId());
         gameplayermap.put("player", playerMap(gamePlayer.getPlayer()));
         return gameplayermap;
-    }
-
-    private List<Map<String, Object>> gameplayerSet (Set<GamePlayer> gamePlayer) {
-        return gamePlayer.stream().map(gameplayer-> gameplayerMap(gameplayer)).collect(toList());
-    }
-
-    @RequestMapping("/game_view/{id}")
-    public Map<String, Object> getGameInfo(@PathVariable long id) {
-        return gamePMap(gamePlayerRepository.findOne(id));
     }
 
     private Map<String, Object> gamePMap(GamePlayer gamePlayer) {
@@ -96,20 +110,12 @@ public class SalvoController {
         return shipmap;
     }
 
-    private List<Map<String, Object>> shipsSet (Set<Ship> ship) {
-        return ship.stream().map(ships-> shipMap(ships)).collect(toList());
-    }
-
     private Map<String, Object> salvoMap(Salvo salvo) {
         Map<String, Object> salvomap = new LinkedHashMap<String, Object>();
         salvomap.put("turn", salvo.getTurn());
         salvomap.put("player", salvo.getGamePlayer().getPlayer().getId());
         salvomap.put("location", salvo.getLocation());
         return salvomap;
-    }
-
-    private List<Map<String, Object>> salvoesSet (Set<Salvo> salvo) {
-        return salvo.stream().map(salvoes-> salvoMap(salvoes)).collect(toList());
     }
 
     private Map<String, Object> scoreMap(Score score) {
@@ -120,8 +126,32 @@ public class SalvoController {
         return scoremap;
     }
 
+    private List<Map<String, Object>> gameplayerSet (Set<GamePlayer> gamePlayer) {
+        return gamePlayer.stream().map(gameplayer-> gameplayerMap(gameplayer)).collect(toList());
+    }
+
+    private List<Map<String, Object>> shipsSet (Set<Ship> ship) {
+        return ship.stream().map(ships-> shipMap(ships)).collect(toList());
+    }
+
+    private List<Map<String, Object>> playerSet (Set<Player> players) {
+        return players.stream().map(player-> playerMap(player)).collect(toList());
+    }
+
+    private List<Map<String, Object>> gameSet (Set<Game> games) {
+        return games.stream().map(game-> gameMap(game)).collect(toList());
+    }
+
     private List<Map<String, Object>> scoreSet (Set<Score> score) {
         return score.stream().map(scores-> scoreMap(scores)).collect(toList());
+    }
+
+    private List<Map<String, Object>> salvoesSet (Set<Salvo> salvo) {
+        return salvo.stream().map(salvoes-> salvoMap(salvoes)).collect(toList());
+    }
+
+    private List<Map<String, Object>> gpSet (Set<GamePlayer> gamePlayer) {
+        return gamePlayer.stream().map(gameplayer-> gpMap(gameplayer)).collect(toList());
     }
 
     public List<String> hitTheOpponent(GamePlayer gamePlayer) {

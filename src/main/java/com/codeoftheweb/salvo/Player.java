@@ -1,6 +1,7 @@
 package com.codeoftheweb.salvo;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -38,13 +39,21 @@ public class Player {
         return null;
     }
 
-    public String getPassword() {
-        return password;
+    public Set<Game> getGame(Set<GamePlayer> gamePlayer) {
+        Set<Game> gameSet = new HashSet<>();
+        for (GamePlayer gp: this.gamePlayer) {
+            gameSet.add(gp.getGame());
+        }
+        return gameSet;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public Set<GamePlayer> getGamePlayer() { return gamePlayer; }
+
+    public void setGamePlayer(Set<GamePlayer> gamePlayer) { this.gamePlayer = gamePlayer; }
+
+    public String getPassword() { return password; }
+
+    public void setPassword(String password) { this.password = password; }
 
     public Set<Score> getScore() { return score; }
 

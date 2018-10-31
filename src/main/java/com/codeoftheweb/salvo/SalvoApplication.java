@@ -206,12 +206,12 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/rest/*").denyAll()
 				.antMatchers("/web/login.html").permitAll()
 				.antMatchers("/web/login.js").permitAll()
+				.antMatchers("/api/leaderboard").permitAll()
 				.antMatchers("/web/game.html").hasAuthority("USER")
 				.antMatchers("/web/game.js").hasAuthority("USER")
 				.antMatchers("/web/game.css").hasAuthority("USER")
 				.antMatchers("/api/game_view/*").hasAuthority("USER")
 				.anyRequest().denyAll();
-//				.antMatchers("/**").hasAuthority("USER");
 
 		http.formLogin()
 				.usernameParameter("email")

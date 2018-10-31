@@ -4,6 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -42,36 +43,28 @@ public class Game {
         return player.getSingleScore(this);
     }
 
-    public Set<Score> getScore() {
-        return score;
+    public Set<Player> getPlayer(Set<GamePlayer> gamePlayer) {
+        Set<Player> playerSet = new HashSet<>();
+        for (GamePlayer gp: this.gamePlayer) {
+            playerSet.add(gp.getPlayer());
+        }
+        return playerSet;
     }
 
-    public void setScore(Set<Score> score) {
-        this.score = score;
-    }
+    public Set<Score> getScore() { return score; }
 
-    public Set<GamePlayer> getGamePlayer() {
-        return gamePlayer;
-    }
+    public void setScore(Set<Score> score) { this.score = score; }
 
-    public void setGamePlayer(Set<GamePlayer> gamePlayer) {
-        this.gamePlayer = gamePlayer;
-    }
+    public Set<GamePlayer> getGamePlayer() { return gamePlayer; }
 
-    public Date getDate() {
-        return date;
-    }
+    public void setGamePlayer(Set<GamePlayer> gamePlayer) { this.gamePlayer = gamePlayer; }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    public Date getDate() { return date; }
 
-    public long getId() {
-        return id;
-    }
+    public void setDate(Date date) { this.date = date; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public long getId() { return id; }
+
+    public void setId(long id) { this.id = id; }
 
 }

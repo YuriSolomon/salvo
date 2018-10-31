@@ -4,19 +4,28 @@ function getData() {
     var app = new Vue({
         el: '#app',
         data: {
-            data: [],
+            listData: [],
             playersScore: [],
-            top25score: []
+            top25score: [],
+            gamesData: []
         },
         beforeCreate() {
-            fetch('../api/games')
+            fetch('../api/leaderboard')
                 .then(response => response.json())
                 .then(json => {
-                    this.data = json;
+                    this.listData = json;
 
-                    // console.log(this.data);
-                    this.getScore(this.data);
+                    console.log(this.listData);
+                    this.getScore(this.listData);
 
+                }),
+                fetch('../api/games')
+                .then(response => response.json())
+                .then(json => {
+                    this.gamesData = json;
+
+                    console.log(this.gamesData);
+                    
                 })
         },
         methods: {

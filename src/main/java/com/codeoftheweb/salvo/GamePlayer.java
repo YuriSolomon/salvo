@@ -79,8 +79,6 @@ public class GamePlayer {
         return opponentsShipsList;
     }
 
-
-
     public Set<Salvo> getSalvo() {
         return salvo;
     }
@@ -95,14 +93,6 @@ public class GamePlayer {
 
     public void setShip(Set<Ship> ship) {
         this.ship = ship;
-    }
-
-    public Player getGames() {
-        return this.player;
-    }
-
-    public Game getPlayers() {
-        return this.game;
     }
 
     public Date getDate() {
