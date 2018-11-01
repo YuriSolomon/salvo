@@ -38,11 +38,11 @@ public class SalvoApplication {
 									  ScoreRepository scoreRepository) {
 		return (args) -> {
 
-			Player player1 = new Player("Jack", "y@y.com", "111111");
-			Player player2 = new Player("Chloe", "chloe@gmail.com", "111111b");
-			Player player3 = new Player("Kim", "kim@gmail.com", "111111c");
-			Player player4 = new Player("David", "david@gmail.com", "111111d");
-			Player player5 = new Player("Michelle", "michaelle@gmail.com", "111111e");
+			Player player1 = new Player("jack", "y@y.com", "111111");
+			Player player2 = new Player("chloe", "chloe@gmail.com", "111111b");
+			Player player3 = new Player("kim", "kim@gmail.com", "111111c");
+			Player player4 = new Player("david", "david@gmail.com", "111111d");
+			Player player5 = new Player("michelle", "michaelle@gmail.com", "111111e");
 
 			playerRepository.save(player1);
 			playerRepository.save(player2);
@@ -200,7 +200,9 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/web/games.html").permitAll()
 				.antMatchers("/web/games.js").permitAll()
 				.antMatchers("/web/games.css").permitAll()
-				.antMatchers("/api/games").hasAuthority("USER")
+				.antMatchers("/api/games").permitAll()
+				.antMatchers("/api/players").permitAll()
+				.antMatchers("/favicon.ico").permitAll()
 				.antMatchers("/rest/*").denyAll()
 				.antMatchers("/web/login.html").permitAll()
 				.antMatchers("/web/login.js").permitAll()

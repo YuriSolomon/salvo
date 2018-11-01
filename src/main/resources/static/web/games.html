@@ -5,28 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel=“shortcut icon” href=“favicon.ico”>
     <link rel="stylesheet" href="games.css">
     <title>Salvo</title>
 </head>
 
 <body>
     <div id="app">
-        <h1>Login</h1>
-        <table>
-            <tr>
-                <td>Email:</td>
-                <td><input id="email" type='text' name='email' value='' /></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input id="password" type='password' name='password' value='' /></td>
-            </tr>
-            <tr>
-                <!-- <td><input name="submit" type="submit" value="login" v-on:click="sendData" /></td> -->
-                <td></td>
-            </tr>
-        </table>
-        <button v-on:click="sendData">click</button>
+        <div class="login" v-if="gamesData.current == null">
+            <div v-if="loginOrSignUp">
+                <h1>Login</h1>
+                <table>
+                    <tr>
+                        <td>Email:</td>
+                        <td><input id="email" type='text' name='email' value='' /></td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td><input id="password" type='password' name='password' value='' /></td>
+                    </tr>
+                    <tr>
+                        <td><button v-on:click="login">Login</button></td>
+                        <td><button v-on:click="loginChange">Sign up</button></td>
+                    </tr>
+                </table>
+            </div>
+            <div v-else>
+                <h1>Sign up</h1>
+                <table>
+                    <tr>
+                        <td>User Name:</td>
+                        <td><input id="userName" type='text' name='userName' value='' /></td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td><input id="email" type='text' name='email' value='' /></td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td><input id="password" type='password' name='password' value='' /></td>
+                    </tr>
+                    <tr>
+                        <td><button v-on:click="register">Sign up and login</button></td>
+                        <td><button v-on:click="loginChange">Back to login</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="logout" v-else>
+            <button v-on:click="logout">Logout</button>
+        </div>
         <div>
             <div>
                 <h1>Top 25 players</h1>

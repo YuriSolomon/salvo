@@ -7,7 +7,8 @@ function getData() {
             listData: [],
             playersScore: [],
             top25score: [],
-            gamesData: []
+            gamesData: [],
+            loginOrSignUp: true
         },
         beforeCreate() {
             fetch('../api/leaderboard')
@@ -19,13 +20,13 @@ function getData() {
                     this.getScore(this.listData);
 
                 }),
-                fetch('../api/games')
-                .then(response => response.json())
-                .then(json => {
-                    this.gamesData = json;
+            fetch('../api/games')
+            .then(response => response.json())
+            .then(json => {
+                this.gamesData = json;
 
-                    console.log(this.gamesData);
-                    
+                console.log(this.gamesData);
+                
                 })
         },
         methods: {
@@ -64,17 +65,37 @@ function getData() {
                     }
                 })
             },
-            sendData() {
-                let email = document.getElementById("email").value;
+            login() {
+                let email = document.getElementById("email").value.toLowerCase();
                 let password = document.getElementById("password").value;
-                console.log(email);
-                console.log(password);
             
                 $.post( "/api/login", { email: email, password: password })
-              .done(function(response) {
-                  console.log("logged in")
-                  console.log(response)
-              });
+                .done(function(response) {
+                    console.log("logged in")
+                    console.log(response)
+                    location.reload();
+                });
+            },
+            logout() {
+                $.post("/api/logout").done(function() { console.log("logged out"); });
+                location.reload();
+            },
+            loginChange() {
+                if (this.loginOrSignUp == true) {
+                    this.loginOrSignUp = false;
+                } else {
+                    this.loginOrSignUp = true;
+                }
+            },
+            register() {
+                let email = document.getElementById("email").value.toLowerCase();
+                let userName = document.getElementById("userName").value.toLowerCase();
+                let password = document.getElementById("password").value;
+
+                $.post("/api/players", { userName: userName, email: email, password: password })
+                .done(res=> this.login())
+                .fail(err=>console.log(err))
+                
             }
         }
     })

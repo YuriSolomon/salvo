@@ -1,11 +1,12 @@
 package com.codeoftheweb.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -51,22 +52,14 @@ public class SalvoController {
     }
 
     @RequestMapping("/games")
-    public Map<String, Object> getGames() {
-        Authentication authentication = SecurityContextHolder
-                .getContext()
-                .getAuthentication();
+    public Map<String, Object> getGames(Authentication authentication) {
         Map<String, Object> newGames = new LinkedHashMap<>();
-        if(authentication == null){
+        if (!usedIsLogged(authentication)) {
             newGames.put("current", null);
         } else {
-            newGames.put("current", currentPlayetMap(
-                    currentUser(
-                            authentication
-                    )
-                    )
-            );
-            newGames.put("games", gameRepository.findAll().stream().map(game->gameMap(game)).collect(toList()));
+            newGames.put("current", currentPlayetMap(currentUser(authentication)));
         }
+            newGames.put("games", gameRepository.findAll().stream().map(game->gameMap(game)).collect(toList()));
         return newGames;
     }
 
@@ -194,9 +187,39 @@ public class SalvoController {
     }
 
     public Player currentUser(Authentication authentication) {
-        System.out.println(authentication.getName());
-        System.out.println(playerRepository.findByEmail(authentication.getName()));
+//        System.out.println(authentication.getName());
+//        System.out.println(playerRepository.findByEmail(authentication.getName()));
         return playerRepository.findByEmail(authentication.getName());
     }
 
+    public Boolean usedIsLogged (Authentication authentication) {
+        if (authentication == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @RequestMapping(value = "/players", method = RequestMethod.GET)
+    public String showRegisterPage(ModelMap model) {
+        return "register";
+    }
+
+    @RequestMapping(value = "/players", method = RequestMethod.POST)
+    public ResponseEntity handleRegisterRequest(ModelMap model,
+                                        @RequestParam String email,
+                                        @RequestParam String userName,
+                                        @RequestParam String password) {
+
+        if (playerRepository.findByEmail(email) == null) {
+            if (playerRepository.findByUserName(userName) == null) {
+                playerRepository.save(new Player(userName, email, password));
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
 }
