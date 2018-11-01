@@ -1,10 +1,11 @@
 package com.codeoftheweb.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -50,8 +51,23 @@ public class SalvoController {
     }
 
     @RequestMapping("/games")
-    public List<Object> getGames() {
-        return gamePlayerRepository.findAll().stream().map(game->gamesMap(game)).collect(toList());
+    public Map<String, Object> getGames() {
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        Map<String, Object> newGames = new LinkedHashMap<>();
+        if(authentication == null){
+            newGames.put("current", null);
+        } else {
+            newGames.put("current", currentPlayetMap(
+                    currentUser(
+                            authentication
+                    )
+                    )
+            );
+            newGames.put("games", gameRepository.findAll().stream().map(game->gameMap(game)).collect(toList()));
+        }
+        return newGames;
     }
 
     private Map<String, Object> gpMap(GamePlayer gamePlayer) {
@@ -62,6 +78,7 @@ public class SalvoController {
 
     private Map<String, Object> gamesMap(GamePlayer gamePlayer) {
         Map<String, Object> gamesmap = new LinkedHashMap<String, Object>();
+//        gamesmap.put("currentPlayer", currentPlayetMap(currentUserEmail(authentication)));
         gamesmap.put("game", gamePlayer.getGame());
         return gamesmap;
     }
@@ -126,6 +143,14 @@ public class SalvoController {
         return scoremap;
     }
 
+    private Map<String, Object> currentPlayetMap(Player player) {
+        Map<String, Object> currentplayetmap = new LinkedHashMap<String, Object>();
+        currentplayetmap.put("playerId", player.getId());
+        currentplayetmap.put("userName", player.getUserName());
+        currentplayetmap.put("email", player.getEmail());
+        return currentplayetmap;
+    }
+
     private List<Map<String, Object>> gameplayerSet (Set<GamePlayer> gamePlayer) {
         return gamePlayer.stream().map(gameplayer-> gameplayerMap(gameplayer)).collect(toList());
     }
@@ -166,6 +191,12 @@ public class SalvoController {
             }
         }
         return hitTheOpponent;
+    }
+
+    public Player currentUser(Authentication authentication) {
+        System.out.println(authentication.getName());
+        System.out.println(playerRepository.findByEmail(authentication.getName()));
+        return playerRepository.findByEmail(authentication.getName());
     }
 
 }

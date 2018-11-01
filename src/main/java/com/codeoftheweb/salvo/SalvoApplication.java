@@ -16,13 +16,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @SpringBootApplication
 public class SalvoApplication {
@@ -40,7 +38,7 @@ public class SalvoApplication {
 									  ScoreRepository scoreRepository) {
 		return (args) -> {
 
-			Player player1 = new Player("Jack", "jack@gmail.com", "111111a");
+			Player player1 = new Player("Jack", "y@y.com", "111111");
 			Player player2 = new Player("Chloe", "chloe@gmail.com", "111111b");
 			Player player3 = new Player("Kim", "kim@gmail.com", "111111c");
 			Player player4 = new Player("David", "david@gmail.com", "111111d");
@@ -179,9 +177,9 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 	@Override
 	public void init(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(inputName -> {
-			System.out.println(inputName);
+//			System.out.println(inputName);
 			Player player = playerRepository.findByEmail(inputName);
-			System.out.println(player);
+//			System.out.println(player);
 			if (player != null) {
 				return new User(player.getEmail(), player.getPassword(),
 						AuthorityUtils.createAuthorityList("USER"));
@@ -202,7 +200,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/web/games.html").permitAll()
 				.antMatchers("/web/games.js").permitAll()
 				.antMatchers("/web/games.css").permitAll()
-				.antMatchers("/api/games").permitAll()
+				.antMatchers("/api/games").hasAuthority("USER")
 				.antMatchers("/rest/*").denyAll()
 				.antMatchers("/web/login.html").permitAll()
 				.antMatchers("/web/login.js").permitAll()

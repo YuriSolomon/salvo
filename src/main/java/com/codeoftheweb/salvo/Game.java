@@ -26,9 +26,9 @@ public class Game {
 
     public Game() {}
 
-    public GamePlayer getOpponent(GamePlayer correntGamePlayer) {
+    public GamePlayer getOpponent(GamePlayer currentGamePlayer) {
         for (GamePlayer otherGamePlayer: this.gamePlayer) {
-            if (correntGamePlayer.getId() != otherGamePlayer.getId()) {
+            if (currentGamePlayer.getId() != otherGamePlayer.getId()) {
                 return otherGamePlayer;
             }
         }
