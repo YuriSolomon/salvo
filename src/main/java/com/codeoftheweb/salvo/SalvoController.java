@@ -187,8 +187,6 @@ public class SalvoController {
     }
 
     public Player currentUser(Authentication authentication) {
-//        System.out.println(authentication.getName());
-//        System.out.println(playerRepository.findByEmail(authentication.getName()));
         return playerRepository.findByEmail(authentication.getName());
     }
 
@@ -200,63 +198,45 @@ public class SalvoController {
         }
     }
 
-    private String message = "";
-
-    @RequestMapping(value = "/players", method = RequestMethod.GET)
-    public Map<String, Object> showError(ModelMap model) {
-        Map<String, Object> showerror = new LinkedHashMap<String, Object>();
-        if (message == "Registered") {
-            showerror.put("status" , "success");
-            showerror.put("message" , message);
-        } else {
-            showerror.put("status" , "error");
-            showerror.put("message", message);
-        }
-        return showerror;
-    }
+//    private String message = "";
+//
+//    @RequestMapping(value = "/players", method = RequestMethod.GET)
+//    public Map<String, Object> showError(ModelMap model) {
+//        Map<String, Object> showerror = new LinkedHashMap<String, Object>();
+//        if (message == "Registered") {
+//            showerror.put("status" , "Success");
+//            showerror.put("message" , message);
+//        } else {
+//            showerror.put("status" , "Error");
+//            showerror.put("message", message);
+//        }
+//        return showerror;
+//    }
 
     @RequestMapping(value = "/players", method = RequestMethod.POST)
-    public ResponseEntity handleRegisterRequest(ModelMap model,
-                                        @RequestParam String email,
-                                        @RequestParam String userName,
-                                        @RequestParam String password) {
+    public ResponseEntity<Map<String, Object>> handleRegisterRequest(
+                                                    @RequestParam String email,
+                                                    @RequestParam String userName,
+                                                    @RequestParam String password) {
 
-        if ((email == "") && (userName == "") && (password == "")) {
-            message = "All fields must be filled";
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if ((email == "") && (userName == "")) {
-            message = "Must enter email and user name";
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if ((email == "") && (password == "")) {
-            message = "Must enter email and password";
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if ((userName == "") && (password == "")) {
-            message = "Must enter user name and password";
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if (email == "") {
-            message = "Must enter email";
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if (userName == "") {
-            message = "Must enter user name";
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if (password == "") {
-            message = "Must enter password";
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else if ((playerRepository.findByEmail(email) != null) && (playerRepository.findByUserName(userName) != null)) {
-            message = "Email and user name is already in use";
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if ((email == "") || (userName == "") || (password == "")) {
+            return new ResponseEntity<>(makeMap("Error", "All fields must be filled"), HttpStatus.FORBIDDEN);
         } else if (playerRepository.findByEmail(email) == null) {
             if (playerRepository.findByUserName(userName) == null) {
                 playerRepository.save(new Player(userName, email, password));
-                message = "Registered";
-                return new ResponseEntity<>(HttpStatus.CREATED);
+                return new ResponseEntity<>(makeMap("Success", "Registered"), HttpStatus.CREATED);
             } else {
-                message = "User name is already in use";
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(makeMap("Error", "User name is already in use"), HttpStatus.FORBIDDEN);
             }
         } else {
-            message = "Email is already in use";
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(makeMap("Error", "Email is already in use"), HttpStatus.FORBIDDEN);
         }
+    }
+
+    private Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", key);
+        map.put("message", value);
+        return map;
     }
 }

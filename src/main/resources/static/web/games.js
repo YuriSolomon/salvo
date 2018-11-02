@@ -20,7 +20,6 @@ function getData() {
 
                     console.log(this.listData);
                     this.getScore(this.listData);
-
                 }),
             fetch('../api/games')
             .then(response => response.json())
@@ -96,24 +95,8 @@ function getData() {
 
                 $.post("/api/players", { userName: userName, email: email, password: password })
                 .done(res=> this.login())
-                .fail(err=>console.log(err))
-                this.getError();
-                
-            },
-            getError() {
-                fetch('../api/players')
-                .then(response => response.json())
-                .then(json => {
-                    this.errorMessage = json;
-
-                    console.log(this.errorMessage);
-                    if (this.errorMessage.status == "error") {
-                        this.errorStatus = true;
-                    } else {
-                        this.errorStatus = false;
-                    }
-                })
-            },
+                .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
+            }
         }
     })
 };
