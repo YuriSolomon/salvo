@@ -206,9 +206,11 @@ public class SalvoController {
     public Map<String, Object> showError(ModelMap model) {
         Map<String, Object> showerror = new LinkedHashMap<String, Object>();
         if (message == "Registered") {
-            showerror.put("success" , message);
+            showerror.put("status" , "success");
+            showerror.put("message" , message);
         } else {
-            showerror.put("error", message);
+            showerror.put("status" , "error");
+            showerror.put("message", message);
         }
         return showerror;
     }
@@ -239,6 +241,9 @@ public class SalvoController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } else if (password == "") {
             message = "Must enter password";
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else if ((playerRepository.findByEmail(email) != null) && (playerRepository.findByUserName(userName) != null)) {
+            message = "Email and user name is already in use";
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } else if (playerRepository.findByEmail(email) == null) {
             if (playerRepository.findByUserName(userName) == null) {

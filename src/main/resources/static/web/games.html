@@ -32,6 +32,11 @@
             </div>
             <div v-else>
                 <h1>Sign up</h1>
+                <div v-if="errorStatus" id="error">
+                    <h2>{{errorMessage.status}}!!</h2>
+                    <h3>{{errorMessage.message}}</h3>
+                </div>
+                <div v-else><br><br><br><br></div>
                 <table>
                     <tr>
                         <td>User Name:</td>

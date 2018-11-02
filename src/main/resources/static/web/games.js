@@ -101,13 +101,17 @@ function getData() {
                 
             },
             getError() {
-                fetch('../api/register')
-            .then(response => response.json())
-            .then(json => {
-                this.errorMessage = json;
+                fetch('../api/players')
+                .then(response => response.json())
+                .then(json => {
+                    this.errorMessage = json;
 
-                console.log(this.errorMessage);
-                
+                    console.log(this.errorMessage);
+                    if (this.errorMessage.status == "error") {
+                        this.errorStatus = true;
+                    } else {
+                        this.errorStatus = false;
+                    }
                 })
             },
         }
