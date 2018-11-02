@@ -200,9 +200,17 @@ public class SalvoController {
         }
     }
 
+    private String message = "";
+
     @RequestMapping(value = "/players", method = RequestMethod.GET)
-    public String showRegisterPage(ModelMap model) {
-        return "register";
+    public Map<String, Object> showError(ModelMap model) {
+        Map<String, Object> showerror = new LinkedHashMap<String, Object>();
+        if (message == "Registered") {
+            showerror.put("success" , message);
+        } else {
+            showerror.put("error", message);
+        }
+        return showerror;
     }
 
     @RequestMapping(value = "/players", method = RequestMethod.POST)
@@ -211,14 +219,38 @@ public class SalvoController {
                                         @RequestParam String userName,
                                         @RequestParam String password) {
 
-        if (playerRepository.findByEmail(email) == null) {
+        if ((email == "") && (userName == "") && (password == "")) {
+            message = "All fields must be filled";
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else if ((email == "") && (userName == "")) {
+            message = "Must enter email and user name";
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else if ((email == "") && (password == "")) {
+            message = "Must enter email and password";
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else if ((userName == "") && (password == "")) {
+            message = "Must enter user name and password";
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else if (email == "") {
+            message = "Must enter email";
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else if (userName == "") {
+            message = "Must enter user name";
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else if (password == "") {
+            message = "Must enter password";
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else if (playerRepository.findByEmail(email) == null) {
             if (playerRepository.findByUserName(userName) == null) {
                 playerRepository.save(new Player(userName, email, password));
+                message = "Registered";
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } else {
+                message = "User name is already in use";
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         } else {
+            message = "Email is already in use";
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }

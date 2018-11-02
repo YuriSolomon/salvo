@@ -8,7 +8,9 @@ function getData() {
             playersScore: [],
             top25score: [],
             gamesData: [],
-            loginOrSignUp: true
+            loginOrSignUp: true,
+            errorMessage: [],
+            errorStatus: false
         },
         beforeCreate() {
             fetch('../api/leaderboard')
@@ -95,8 +97,19 @@ function getData() {
                 $.post("/api/players", { userName: userName, email: email, password: password })
                 .done(res=> this.login())
                 .fail(err=>console.log(err))
+                this.getError();
                 
-            }
+            },
+            getError() {
+                fetch('../api/register')
+            .then(response => response.json())
+            .then(json => {
+                this.errorMessage = json;
+
+                console.log(this.errorMessage);
+                
+                })
+            },
         }
     })
 };

@@ -202,8 +202,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/web/games.css").permitAll()
 				.antMatchers("/api/games").permitAll()
 				.antMatchers("/api/players").permitAll()
+				.antMatchers("/api/register").permitAll()
 				.antMatchers("/favicon.ico").permitAll()
-				.antMatchers("/rest/*").denyAll()
 				.antMatchers("/web/login.html").permitAll()
 				.antMatchers("/web/login.js").permitAll()
 				.antMatchers("/api/leaderboard").permitAll()
@@ -211,7 +211,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/web/game.js").hasAuthority("USER")
 				.antMatchers("/web/game.css").hasAuthority("USER")
 				.antMatchers("/api/game_view/*").hasAuthority("USER")
-				.anyRequest().denyAll();
+                .antMatchers("/rest/*").denyAll()
+                .anyRequest().denyAll();
 
 		http.formLogin()
 				.usernameParameter("email")
