@@ -198,21 +198,6 @@ public class SalvoController {
         }
     }
 
-//    private String message = "";
-//
-//    @RequestMapping(value = "/players", method = RequestMethod.GET)
-//    public Map<String, Object> showError(ModelMap model) {
-//        Map<String, Object> showerror = new LinkedHashMap<String, Object>();
-//        if (message == "Registered") {
-//            showerror.put("status" , "Success");
-//            showerror.put("message" , message);
-//        } else {
-//            showerror.put("status" , "Error");
-//            showerror.put("message", message);
-//        }
-//        return showerror;
-//    }
-
     @RequestMapping(value = "/players", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> handleRegisterRequest(
                                                     @RequestParam String email,
