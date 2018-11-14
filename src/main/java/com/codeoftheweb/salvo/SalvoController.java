@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -52,14 +51,19 @@ public class SalvoController {
     }
 
     @RequestMapping("/games")
-    public Map<String, Object> getGames(Authentication authentication) {
+//    public Map<String, Object> getGamesInfo(@PathVariable long id, Authentication authentication) {
+//        return getGames(gameRepository.findOne(id), authentication);
+//    }
+//
+
+    public Map<String, Object> getGames(Game game, Authentication authentication) {
         Map<String, Object> newGames = new LinkedHashMap<>();
         if (!usedIsLogged(authentication)) {
             newGames.put("current", null);
         } else {
             newGames.put("current", currentPlayetMap(currentUser(authentication)));
         }
-            newGames.put("games", gameRepository.findAll().stream().map(game->gameMap(game)).collect(toList()));
+            newGames.put("games", gameRepository.findAll().stream().map(games->gameMap(games)).collect(toList()));
         return newGames;
     }
 
@@ -71,17 +75,15 @@ public class SalvoController {
 
     private Map<String, Object> gamesMap(GamePlayer gamePlayer) {
         Map<String, Object> gamesmap = new LinkedHashMap<String, Object>();
-//        gamesmap.put("currentPlayer", currentPlayetMap(currentUserEmail(authentication)));
         gamesmap.put("game", gamePlayer.getGame());
         return gamesmap;
     }
 
     private Map<String, Object> gameMap(Game game) {
         Map<String, Object> gamemap = new LinkedHashMap<String, Object>();
-        gamemap.put("gameId", game.getId());
+        gamemap.put("gameid", game.getId());
         gamemap.put("created", game.getDate());
-        gamemap.put("player", playerSet(game.getPlayer(game.getGamePlayer())));
-        gamemap.put("score", scoreSet(game.getScore()));
+        gamemap.put("players", gplayerSet(game.getGamePlayer()));
         return gamemap;
     }
 
@@ -142,6 +144,19 @@ public class SalvoController {
         currentplayetmap.put("userName", player.getUserName());
         currentplayetmap.put("email", player.getEmail());
         return currentplayetmap;
+    }
+
+    private Map<String, Object> gplayerMap(GamePlayer gamePlayer) {
+        Map<String, Object> gplayermap = new LinkedHashMap<String, Object>();
+        gplayermap.put("gpid", gamePlayer.getId());
+        gplayermap.put("playerid", gamePlayer.getPlayer().getId());
+        gplayermap.put("userName", gamePlayer.getPlayer().getUserName());
+        gplayermap.put("email", gamePlayer.getPlayer().getEmail());
+        return gplayermap;
+    }
+
+    private List<Map<String, Object>> gplayerSet (Set<GamePlayer> gamePlayer) {
+        return gamePlayer.stream().map(gameplayer-> gplayerMap(gameplayer)).collect(toList());
     }
 
     private List<Map<String, Object>> gameplayerSet (Set<GamePlayer> gamePlayer) {

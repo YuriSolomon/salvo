@@ -20,11 +20,14 @@ function getData() {
 
                     console.log(this.listData);
                     this.getScore(this.listData);
-                }),
-            fetch('../api/games')
+                });
+            let url = new URLSearchParams(window.location.search);
+            var id = url.get('gp');    
+            fetch(`../api/games`)
             .then(response => response.json())
             .then(json => {
                 this.gamesData = json;
+                this.gamesData.games.sort((fst, snd) => snd.players.length - fst.players.length);
 
                 console.log(this.gamesData);
                 

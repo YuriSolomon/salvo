@@ -14,7 +14,7 @@
 
 <body>
     <div id="app" class="row">
-        <div class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+        <div class="col-12 col-md-6 col-lg-4">
             <div class="login" v-if="gamesData.current == null">
                 <div v-if="loginOrSignUp">
                     <h1>Login</h1>
@@ -67,26 +67,50 @@
                 <button v-on:click="logout">Logout</button>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-7 col-lg-8 col-xl-9">
-            <h1>Top 25 players</h1>
-            <table id="scores">
-                <thead>
-                    <th>Player</th>
-                    <th>Total score</th>
-                    <th>Wins</th>
-                    <th>Ties</th>
-                    <th>Loses</th>
-                </thead>
-                <tbody>
-                    <tr v-for="player in top25score">
-                        <td>{{player.userName}}</td>
-                        <td>{{player.totalScore}}</td>
-                        <td>{{player.wins}}</td>
-                        <td>{{player.ties}}</td>
-                        <td>{{player.loses}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row col-12 col-md-6 col-lg-8">
+            <div class="col-12 col-lg-6">
+                <h1>Top 25 players</h1>
+                <table id="scores">
+                    <thead>
+                        <th>Player</th>
+                        <th>Total score</th>
+                        <th>Wins</th>
+                        <th>Ties</th>
+                        <th>Loses</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="player in top25score">
+                            <td>{{player.userName}}</td>
+                            <td>{{player.totalScore}}</td>
+                            <td>{{player.wins}}</td>
+                            <td>{{player.ties}}</td>
+                            <td>{{player.loses}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-lg-6">
+                <table class="container" id="gamesList">
+                    <tbody v-for="(game,i) in gamesData.games" v-bind:key="i">
+                        <tr v-if="(game.players.length == 2)">
+                            <td>game {{i + 1}}</td>
+                            <td>{{game.players[0].userName}} vs. {{game.players[1].userName}}</td>
+                            <td>game is full</td>
+                        </tr>
+                        <tr v-else-if="(game.players.length == 1)">
+                            <td>game {{i + 1}}</td>>
+                            <td>{{game.players[0].userName}}</td>
+                            <td><button>Join the game</button></td>
+                        </tr>
+                        <tr v-else>
+                            <td>game {{i + 1}}</td>>
+                            <td>No players yet</td>
+                            <td><button>Join the game</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button>Create new game</button>
+            </div>
         </div>
     </div>
 
@@ -94,7 +118,7 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="games.js"></script>
 </body>
