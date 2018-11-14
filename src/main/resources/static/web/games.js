@@ -73,7 +73,7 @@ function getData() {
                 let email = document.getElementById("email").value.toLowerCase();
                 let password = document.getElementById("password").value;
             
-                $.post( "/api/login", { email: email, password: password })
+                $.post("/api/login", { email: email, password: password })
                 .done(function(response) {
                     console.log("logged in")
                     console.log(response)

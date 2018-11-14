@@ -46,16 +46,15 @@ public class SalvoController {
     }
 
     @RequestMapping("/game_view/{id}")
-    public Map<String, Object> getGameInfo(@PathVariable long id) {
-        return gamePMap(gamePlayerRepository.findOne(id));
+    public ResponseEntity<Map<String, Object>> getGameInfo(@PathVariable long id, Authentication authentication) {
+        if (currentUser(authentication).getId() == id) {
+            return new ResponseEntity<>(gamePMap(gamePlayerRepository.findOne(id)), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(makeMap("Error", "You are unauthorized"), HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @RequestMapping("/games")
-//    public Map<String, Object> getGamesInfo(@PathVariable long id, Authentication authentication) {
-//        return getGames(gameRepository.findOne(id), authentication);
-//    }
-//
-
     public Map<String, Object> getGames(Game game, Authentication authentication) {
         Map<String, Object> newGames = new LinkedHashMap<>();
         if (!usedIsLogged(authentication)) {
