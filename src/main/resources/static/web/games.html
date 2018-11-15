@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="row col-12 col-md-6 col-lg-8">
-            <div class="col-12 col-lg-6">
+            <div class="leaderboard col-12 col-lg-6">
                 <h1>Top 25 players</h1>
                 <table id="scores">
                     <thead>
@@ -89,7 +89,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-12 col-lg-6">
+            <div class="games col-12 col-lg-6">
                 <table class="container" id="gamesList">
                     <tbody v-for="(game,i) in gamesData.games" v-bind:key="i">
                         <tr v-if="(game.players.length == 2)">
@@ -109,7 +109,11 @@
                         </tr>
                     </tbody>
                 </table>
-                <button>Create new game</button>
+                <button v-on:click="createGame">Create new game</button>
+                <div v-if="errorStatus" id="error">
+                    <h2>{{errorMessage.responseJSON.status}}</h2>
+                    <h3>{{errorMessage.responseJSON.message}}</h3>
+                </div>
             </div>
         </div>
     </div>

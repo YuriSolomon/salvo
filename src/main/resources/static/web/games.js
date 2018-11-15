@@ -97,7 +97,12 @@ function getData() {
                 let password = document.getElementById("password").value;
 
                 $.post("/api/players", { userName: userName, email: email, password: password })
-                .done(res=> this.login())
+                .done(res=> {this.login(), console.log(res)})
+                .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
+            },
+            createGame() {
+                $.post("/api/games")
+                .done(res => {location.reload(), console.log(res)})
                 .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
             }
         }

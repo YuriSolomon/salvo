@@ -238,4 +238,25 @@ public class SalvoController {
         map.put("message", value);
         return map;
     }
+
+    private Map<String, Object> makeSimpleMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
+
+    @RequestMapping(value = "/games", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> handleRegisterRequest(
+                                    Authentication authentication) {
+
+        if (authentication == null) {
+            return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
+        } else {
+            Game game = new Game();
+            gameRepository.save(game);
+            GamePlayer gamePlayer = new GamePlayer(game, currentUser(authentication));
+            gamePlayerRepository.save(gamePlayer);
+            return new ResponseEntity<>(makeSimpleMap("gpid", gamePlayer.getId()),HttpStatus.CREATED);
+        }
+    }
 }

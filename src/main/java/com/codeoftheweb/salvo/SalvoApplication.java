@@ -70,13 +70,19 @@ public class SalvoApplication {
 			GamePlayer gamePlayer2 = new GamePlayer(game1, player2);
 			GamePlayer gamePlayer3 = new GamePlayer(game4, player3);
 			GamePlayer gamePlayer4 = new GamePlayer(game2, player4);
-			GamePlayer gamePlayer5 = new GamePlayer(game3, player5);
+			GamePlayer gamePlayer5 = new GamePlayer(game3, player1);
+			GamePlayer gamePlayer6 = new GamePlayer(game5, player4);
+			GamePlayer gamePlayer7 = new GamePlayer(game6, player2);
+			GamePlayer gamePlayer8 = new GamePlayer(game7, player3);
 
 			gamePlayerRepository.save(gamePlayer1);
 			gamePlayerRepository.save(gamePlayer2);
 			gamePlayerRepository.save(gamePlayer3);
 			gamePlayerRepository.save(gamePlayer4);
 			gamePlayerRepository.save(gamePlayer5);
+			gamePlayerRepository.save(gamePlayer6);
+			gamePlayerRepository.save(gamePlayer7);
+			gamePlayerRepository.save(gamePlayer8);
 
 			List<String> loc1 = Arrays.asList("E3","E4","E5","E6","E7");
 			List<String> loc2 = Arrays.asList("A9","B9","C9","D9");
