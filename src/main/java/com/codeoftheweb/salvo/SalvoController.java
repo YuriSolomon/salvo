@@ -47,8 +47,13 @@ public class SalvoController {
 
     @RequestMapping("/game_view/{id}")
     public ResponseEntity<Map<String, Object>> getGameInfo(@PathVariable long id, Authentication authentication) {
-        if (currentUser(authentication).getId() == id) {
-            return new ResponseEntity<>(gamePMap(gamePlayerRepository.findOne(id)), HttpStatus.OK);
+        GamePlayer gp = gamePlayerRepository.findById(id);
+        System.out.println("id: " + id);
+        System.out.println("gp: " + gp.toString());
+        System.out.println("p: " + gp.getPlayer().toString());
+        System.out.println("curr: " + currentUser(authentication));
+        if (gp.getPlayer() == currentUser(authentication)) {
+            return new ResponseEntity<>(gamePMap(gp), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(makeMap("Error", "You are unauthorized"), HttpStatus.UNAUTHORIZED);
         }
@@ -110,7 +115,7 @@ public class SalvoController {
         gamepmap.put("ships", shipsSet(gamePlayer.getShip()));
         gamepmap.put("salvoes", salvoesSet(gamePlayer.getSalvo()));
         gamepmap.put("hitTheOpponent", hitTheOpponent(gamePlayer));
-        gamepmap.put("opponentsSalvoes", salvoesSet(gamePlayer.getOpponentsSalvoes(gamePlayer)));
+        gamepmap.put("opponentsSalvoes", gamePlayer.getOpponentsSalvoes(gamePlayer) != null ? salvoesSet(gamePlayer.getOpponentsSalvoes(gamePlayer)) : null);
         return gamepmap;
     }
 
@@ -188,16 +193,19 @@ public class SalvoController {
 
     public List<String> hitTheOpponent(GamePlayer gamePlayer) {
         List<String> hitTheOpponent = new ArrayList<>();
-        for (String shipLocation: gamePlayer.opponentsShipsList(gamePlayer)) {
-            for (String salvoLocation: gamePlayer.salvoesList(gamePlayer)) {
-                if (shipLocation == salvoLocation) {
-                    if (!hitTheOpponent.contains(shipLocation)) {
-                        hitTheOpponent.add(shipLocation);
+        if (gamePlayer.getOpponentsShips(gamePlayer) != null) {
+            for (String shipLocation : gamePlayer.opponentsShipsList(gamePlayer)) {
+                for (String salvoLocation : gamePlayer.salvoesList(gamePlayer)) {
+                    if (shipLocation == salvoLocation) {
+                        if (!hitTheOpponent.contains(shipLocation)) {
+                            hitTheOpponent.add(shipLocation);
+                        }
                     }
                 }
             }
+            return hitTheOpponent;
         }
-        return hitTheOpponent;
+        return null;
     }
 
     public Player currentUser(Authentication authentication) {

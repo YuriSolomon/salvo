@@ -10,7 +10,8 @@ function getData() {
             gamesData: [],
             loginOrSignUp: true,
             errorMessage: [],
-            errorStatus: false
+            errorStatus: false,
+            res: []
         },
         beforeCreate() {
             fetch('../api/leaderboard')
@@ -21,8 +22,6 @@ function getData() {
                     console.log(this.listData);
                     this.getScore(this.listData);
                 });
-            let url = new URLSearchParams(window.location.search);
-            var id = url.get('gp');    
             fetch(`../api/games`)
             .then(response => response.json())
             .then(json => {
@@ -30,7 +29,6 @@ function getData() {
                 this.gamesData.games.sort((fst, snd) => snd.players.length - fst.players.length);
 
                 console.log(this.gamesData);
-                
                 })
         },
         methods: {
@@ -102,7 +100,7 @@ function getData() {
             },
             createGame() {
                 $.post("/api/games")
-                .done(res => {location.reload(), console.log(res)})
+                .done(res => {this.res = res, console.log(res), location.replace(`http://localhost:8080/web/game.html?gp=${res.gpid}`)})
                 .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
             }
         }

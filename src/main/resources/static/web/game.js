@@ -9,18 +9,18 @@ function getData() {
             allSalvoesLocations: [],
             opponentsSalvoes: [],
             hitTheOpponent: [],
-            playerId: ""
+            gamePlayerId: ""
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
             var id = url.get('gp');
-            this.playerId = id;
+            this.gamePlayerId = id;
             fetch(`../api/game_view/${id}`)
                 .then(response => response.json())
                 .then(json => {
                     this.gameData = json;
 
-                    this.gameData.correntPlayerId = id;
+                    this.gameData.currentGamePlayerId = id;
                     console.log(this.gameData);
                     this.buildPlayerTable("ships");
                     this.buildPlayerTable("salvoes");

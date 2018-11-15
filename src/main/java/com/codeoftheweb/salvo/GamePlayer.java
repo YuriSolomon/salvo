@@ -51,12 +51,18 @@ public class GamePlayer {
         this.salvo.add(salvo);
     }
 
-    public Set<Salvo> getOpponentsSalvoes(GamePlayer gamePlayer){
-        return this.getGame().getOpponent(gamePlayer).getSalvo();
+    public Set<Salvo> getOpponentsSalvoes(GamePlayer gamePlayer) {
+        if (this.getGame().getOpponent(gamePlayer) != null) {
+            return this.getGame().getOpponent(gamePlayer).getSalvo();
+        }
+        return null;
     }
 
     public Set<Ship> getOpponentsShips(GamePlayer gamePlayer){
-        return this.getGame().getOpponent(gamePlayer).getShip();
+        if (this.getGame().getOpponent(gamePlayer) != null){
+            return this.getGame().getOpponent(gamePlayer).getShip();
+        }
+        return null;
     }
 
     public List<String> salvoesList(GamePlayer gamePlayer) {
@@ -71,12 +77,15 @@ public class GamePlayer {
 
     public List<String> opponentsShipsList(GamePlayer gamePlayer) {
         List<String> opponentsShipsList = new ArrayList<>();
-        for (Ship ship: getOpponentsShips(this)) {
-            for (String location: ship.getLocation()) {
-                opponentsShipsList.add(location);
+        if (getOpponentsShips(this) != null) {
+            for (Ship ship : getOpponentsShips(this)) {
+                for (String location : ship.getLocation()) {
+                    opponentsShipsList.add(location);
+                }
             }
+            return opponentsShipsList;
         }
-        return opponentsShipsList;
+        return null;
     }
 
     public Set<Salvo> getSalvo() {
