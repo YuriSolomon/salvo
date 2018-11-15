@@ -37,7 +37,7 @@ public class SalvoController {
 
     @RequestMapping("/leaderboard")
     public List<Object> getPlayersScoreList() {
-        return gamePlayerRepository.findAll().stream().map(game->gpMap(game)).collect(toList());
+        return playerRepository.findAll().stream().map(player->playerMap(player)).collect(toList());
     }
 
     @RequestMapping("/salvoes")

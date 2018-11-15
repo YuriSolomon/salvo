@@ -41,7 +41,7 @@ function getData() {
                     let wins = 0;
                     let loses = 0;
                     let ties = 0;
-                    player.player.score.forEach(score => {
+                    player.score.forEach(score => {
                         if (score.gameScore.playersScore == 1) {
                             wins++;
                         } else if (score.gameScore.playersScore == 0.5) {
@@ -52,7 +52,7 @@ function getData() {
                     })
                     totalScore = wins + (ties / 2);
                     playerInfo = {
-                        "userName": player.player.userName,
+                        "userName": player.userName,
                         "totalScore": totalScore,
                         "wins": wins,
                         "loses": loses,
