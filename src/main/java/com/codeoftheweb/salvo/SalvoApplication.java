@@ -211,6 +211,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/favicon.ico").permitAll()
 				.antMatchers("/web/login.html").permitAll()
 				.antMatchers("/web/login.js").permitAll()
+				.antMatchers("/api/game/*/players").permitAll()
 				.antMatchers("/api/leaderboard").permitAll()
 				.antMatchers("/web/game.html").hasAuthority("USER")
 				.antMatchers("/web/game.js").hasAuthority("USER")

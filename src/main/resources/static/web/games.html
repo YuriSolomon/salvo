@@ -99,8 +99,8 @@
                         </tr>
                         <tr v-else-if="(game.players.length == 1)">
                             <td>game {{i + 1}}</td>>
-                            <td>{{game.players[0].userName}}</td>
-                            <td><button>Join the game</button></td>
+                            <td>{{game.players[0].userName}}</td>s
+                            <td><button v-on:click="joinGame(i)">Join the game</button></td>
                         </tr>
                         <tr v-else>
                             <td>game {{i + 1}}</td>>

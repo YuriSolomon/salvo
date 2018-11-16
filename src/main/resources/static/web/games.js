@@ -70,11 +70,11 @@ function getData() {
             login() {
                 let email = document.getElementById("email").value.toLowerCase();
                 let password = document.getElementById("password").value;
-            
+
                 $.post("/api/login", { email: email, password: password })
                 .done(function(response) {
-                    console.log("logged in")
-                    console.log(response)
+                    console.log("logged in"),
+                    console.log(response),
                     location.reload();
                 });
             },
@@ -100,6 +100,14 @@ function getData() {
             },
             createGame() {
                 $.post("/api/games")
+                .done(res => {this.res = res, console.log(res), location.replace(`http://localhost:8080/web/game.html?gp=${res.gpid}`)})
+                .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
+            },
+            joinGame(i) {
+                id = this.gamesData.games[i].gameid;
+                console.log(i);
+                console.log(id);
+                $.post(`/api/game/${id}/players`)
                 .done(res => {this.res = res, console.log(res), location.replace(`http://localhost:8080/web/game.html?gp=${res.gpid}`)})
                 .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
             }

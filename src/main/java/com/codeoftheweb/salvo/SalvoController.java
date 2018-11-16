@@ -47,16 +47,11 @@ public class SalvoController {
 
     @RequestMapping("/game_view/{id}")
     public ResponseEntity<Map<String, Object>> getGameInfo(@PathVariable long id, Authentication authentication) {
-        GamePlayer gp = gamePlayerRepository.findById(id);
-        System.out.println("id: " + id);
-        System.out.println("gp: " + gp.toString());
-        System.out.println("p: " + gp.getPlayer().toString());
-        System.out.println("curr: " + currentUser(authentication));
-        if (gp.getPlayer() == currentUser(authentication)) {
-            return new ResponseEntity<>(gamePMap(gp), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(makeMap("Error", "You are unauthorized"), HttpStatus.UNAUTHORIZED);
+        GamePlayer gamePlayer = gamePlayerRepository.findById(id);
+        if (gamePlayer.getPlayer() == currentUser(authentication)) {
+            return new ResponseEntity<>(gamePMap(gamePlayer), HttpStatus.OK);
         }
+        return new ResponseEntity<>(makeMap("Error", "You have to login"), HttpStatus.UNAUTHORIZED);
     }
 
     @RequestMapping("/games")
@@ -265,6 +260,24 @@ public class SalvoController {
             GamePlayer gamePlayer = new GamePlayer(game, currentUser(authentication));
             gamePlayerRepository.save(gamePlayer);
             return new ResponseEntity<>(makeSimpleMap("gpid", gamePlayer.getId()),HttpStatus.CREATED);
+        }
+    }
+
+    @RequestMapping(value = "/game/{id}/players", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> joinGame(
+                                                @PathVariable long id,
+                                                Authentication authentication) {
+        System.out.println(id);
+        System.out.println(currentUser(authentication));
+        if (authentication == null) {
+            return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
+        } else {
+            Game game = gameRepository.findById(id);
+            System.out.println(game.toString());
+            GamePlayer gamePlayer = new GamePlayer(game, currentUser(authentication));
+            System.out.println(gamePlayer.toString());
+            gamePlayerRepository.save(gamePlayer);
+            return new ResponseEntity<>(makeSimpleMap("gpid", "working"),HttpStatus.CREATED);
         }
     }
 }
