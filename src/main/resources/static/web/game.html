@@ -13,9 +13,9 @@
 <body>
     <div id="app">
         <div class="header">
-            <div class="players" v-for="(p,i) in gameData.gamePlayers" :key="i">
-                <h1 v-if="p.player.id == gameData.currentGamePlayerId">{{p.player.userName}} (you)</h1>
-                <h1 v-else>{{p.player.userName}}</h1>
+            <div class="players" v-for="(player,i) in gameData.gamePlayers" :key="i">
+                <h1 v-if="player.player.playerId == gameData.playerId">{{player.player.userName}} (you)</h1>
+                <h1 v-else>{{player.player.userName}}</h1>
                 <h1 v-if="i == 0">vs.</h1>
             </div>
         </div>

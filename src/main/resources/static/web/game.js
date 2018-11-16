@@ -20,7 +20,6 @@ function getData() {
                 .then(json => {
                     this.gameData = json;
 
-                    this.gameData.currentGamePlayerId = id;
                     console.log(this.gameData);
                     this.buildPlayerTable("ships");
                     this.buildPlayerTable("salvoes");

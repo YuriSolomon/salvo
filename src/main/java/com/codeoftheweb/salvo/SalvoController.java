@@ -104,7 +104,8 @@ public class SalvoController {
 
     private Map<String, Object> gamePMap(GamePlayer gamePlayer) {
         Map<String, Object> gamepmap = new LinkedHashMap<String, Object>();
-        gamepmap.put("id", gamePlayer.getId());
+        gamepmap.put("gamePlayerId", gamePlayer.getId());
+        gamepmap.put("playerId", gamePlayer.getPlayer().getId());
         gamepmap.put("created", gamePlayer.getDate());
         gamepmap.put("gamePlayers", gameplayerSet(gamePlayer.getGame().gamePlayer));
         gamepmap.put("ships", shipsSet(gamePlayer.getShip()));
@@ -277,7 +278,7 @@ public class SalvoController {
             GamePlayer gamePlayer = new GamePlayer(game, currentUser(authentication));
             System.out.println(gamePlayer.toString());
             gamePlayerRepository.save(gamePlayer);
-            return new ResponseEntity<>(makeSimpleMap("gpid", "working"),HttpStatus.CREATED);
+            return new ResponseEntity<>(makeSimpleMap("gpid", gamePlayer.getId()),HttpStatus.CREATED);
         }
     }
 }
