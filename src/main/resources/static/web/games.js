@@ -11,7 +11,8 @@ function getData() {
             loginOrSignUp: true,
             errorMessage: [],
             errorStatus: false,
-            res: []
+            res: [],
+            userIslogged: false
         },
         beforeCreate() {
             fetch('../api/leaderboard')
@@ -29,7 +30,12 @@ function getData() {
                 this.gamesData.games.sort((fst, snd) => snd.players.length - fst.players.length);
 
                 console.log(this.gamesData);
-                })
+                if(this.gamesData.current != null) {
+                    this.userIslogged = true;
+                } else {
+                    this.userIslogged = false;
+                }
+            })
         },
         methods: {
             getScore(playersList) {
@@ -110,6 +116,10 @@ function getData() {
                 $.post(`/api/game/${id}/players`)
                 .done(res => {this.res = res, console.log(res), location.replace(`http://localhost:8080/web/game.html?gp=${res.gpid}`)})
                 .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
+            },
+            returnToGame(i, j) {
+                gpid = this.gamesData.games[i].players[j].gpid;
+                location.replace(`http://localhost:8080/web/game.html?gp=${gpid}`)
             }
         }
     })

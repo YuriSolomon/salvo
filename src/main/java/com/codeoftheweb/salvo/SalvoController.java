@@ -205,7 +205,10 @@ public class SalvoController {
     }
 
     public Player currentUser(Authentication authentication) {
-        return playerRepository.findByEmail(authentication.getName());
+        if (usedIsLogged(authentication)) {
+            return playerRepository.findByEmail(authentication.getName());
+        }
+        return null;
     }
 
     public Boolean usedIsLogged (Authentication authentication) {
@@ -268,9 +271,8 @@ public class SalvoController {
     public ResponseEntity<Map<String, Object>> joinGame(
                                                 @PathVariable long id,
                                                 Authentication authentication) {
-        System.out.println(id);
-        System.out.println(currentUser(authentication));
-        if (authentication == null) {
+
+        if (!usedIsLogged(authentication)) {
             return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
         } else {
             Game game = gameRepository.findById(id);

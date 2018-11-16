@@ -95,17 +95,23 @@
                         <tr v-if="(game.players.length == 2)">
                             <td>game {{i + 1}}</td>
                             <td>{{game.players[0].userName}} vs. {{game.players[1].userName}}</td>
-                            <td>game is full</td>
+                            <td v-if="userIslogged">
+                                <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">Return
+                                    to game</button>
+                                <button v-if="game.players[1].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=1)">Return
+                                    to game</button>
+                            </td>
+                            <td v-else>game is full</td>
                         </tr>
                         <tr v-else-if="(game.players.length == 1)">
                             <td>game {{i + 1}}</td>>
-                            <td>{{game.players[0].userName}}</td>s
-                            <td><button v-on:click="joinGame(i)">Join the game</button></td>
-                        </tr>
-                        <tr v-else>
-                            <td>game {{i + 1}}</td>>
-                            <td>No players yet</td>
-                            <td><button>Join the game</button></td>
+                            <td>{{game.players[0].userName}}</td>
+                            <td v-if="gamesData.current != null">
+                                <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">Return
+                                    to game</button>
+                                <button v-else v-on:click="joinGame(i)">Join the game</button>
+                            </td>
+                            <td v-else><button v-on:click="joinGame(i)">Join the game</button></td>
                         </tr>
                     </tbody>
                 </table>
