@@ -24,18 +24,18 @@ function getData() {
                     this.getScore(this.listData);
                 });
             fetch(`../api/games`)
-            .then(response => response.json())
-            .then(json => {
-                this.gamesData = json;
-                this.gamesData.games.sort((fst, snd) => snd.players.length - fst.players.length);
+                .then(response => response.json())
+                .then(json => {
+                    this.gamesData = json;
+                    this.gamesData.games.sort((fst, snd) => snd.players.length - fst.players.length);
 
-                console.log(this.gamesData);
-                if(this.gamesData.current != null) {
-                    this.userIslogged = true;
-                } else {
-                    this.userIslogged = false;
-                }
-            })
+                    console.log(this.gamesData);
+                    if(this.gamesData.current != null) {
+                        this.userIslogged = true;
+                    } else {
+                        this.userIslogged = false;
+                    }
+                });
         },
         methods: {
             getScore(playersList) {
@@ -78,11 +78,12 @@ function getData() {
                 let password = document.getElementById("password").value;
 
                 $.post("/api/login", { email: email, password: password })
-                .done(function(response) {
+                .then(response => {
                     console.log("logged in"),
-                    console.log(response),
+                    console.log(JSON.stringify(response)),
                     location.reload();
-                });
+                })
+                .catch(error => console.error('Error:', error))
             },
             logout() {
                 $.post("/api/logout").done(function() { console.log("logged out"); });

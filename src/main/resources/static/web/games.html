@@ -16,29 +16,11 @@
     <div id="app" class="row">
         <div class="col-12 col-md-6 col-lg-4">
             <div class="login" v-if="gamesData.current == null">
-                <div v-if="loginOrSignUp">
-                    <h1>Login</h1>
+                <div>
+                    <h1 v-if="loginOrSignUp">Login</h1>
+                    <h1 v-else>Sign up</h1>
                     <table>
-                        <tr>
-                            <td>Email:</td>
-                            <td><input id="email" type='text' name='email' value='' /></td>
-                        </tr>
-                        <tr>
-                            <td>Password:</td>
-                            <td><input id="password" type='password' name='password' value='' /></td>
-                        </tr>
-                        <tr>
-                            <td><button v-on:click="login">Login</button></td>
-                        </tr>
-                        <tr>
-                            <td><button v-on:click="loginChange">Sign up</button></td>
-                        </tr>
-                    </table>
-                </div>
-                <div v-else>
-                    <h1>Sign up</h1>
-                    <table>
-                        <tr>
+                        <tr v-if="!loginOrSignUp">
                             <td>User Name:</td>
                             <td><input id="userName" type='text' name='userName' value='' /></td>
                         </tr>
@@ -51,10 +33,12 @@
                             <td><input id="password" type='password' name='password' value='' /></td>
                         </tr>
                         <tr>
-                            <td><button v-on:click="register">Sign up and login</button></td>
+                            <td v-if="loginOrSignUp"><button v-on:click="login">Login</button></td>
+                            <td v-else><button v-on:click="register">Sign up and login</button></td>
                         </tr>
                         <tr>
-                            <td><button v-on:click="loginChange">Back to login</button></td>
+                            <td v-if="loginOrSignUp"><button v-on:click="loginChange">Sign up</button></td>
+                            <td v-else><button v-on:click="loginChange">Back to login</button></td>
                         </tr>
                     </table>
                     <div v-if="errorStatus" id="error">
