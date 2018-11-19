@@ -23,16 +23,16 @@ function getData() {
 
                     if (this.gameData.ships.length == 5) {
                         this.allShips = true;
+                        this.buildPlayerTable("salvoes");
+                        this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
                     } else {
                         this.allShips = false;
                     }
 
                     console.log(this.gameData);
                     this.buildPlayerTable("ships");
-                    this.buildPlayerTable("salvoes");
                     this.getList(this.gameData.ships, this.allShipsLocations);
                     this.getList(this.gameData.salvoes, this.allSalvoesLocations);
-                    this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
                     this.hitTheOpponent = this.gameData.hitTheOpponent;
                     this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes);
                     this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);

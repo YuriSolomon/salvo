@@ -12,8 +12,8 @@
 
 <body>
     <div id="app">
+        <button v-on:click="back">Back to games list</button>
         <div class="header">
-            <button v-on:click="back">Back to games list</button><br>
             <div class="players" v-for="(player,i) in gameData.gamePlayers" :key="i">
                 <h1 v-if="player.player.playerId == gameData.playerId">{{player.player.userName}} (you)</h1>
                 <h1 v-else>{{player.player.userName}}</h1>
