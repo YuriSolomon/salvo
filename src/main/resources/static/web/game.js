@@ -9,7 +9,8 @@ function getData() {
             allSalvoesLocations: [],
             opponentsSalvoes: [],
             hitTheOpponent: [],
-            gamePlayerId: ""
+            gamePlayerId: "",
+            allShips: false
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
@@ -20,6 +21,12 @@ function getData() {
                 .then(json => {
                     this.gameData = json;
 
+                    if (this.gameData.ships.length == 5) {
+                        this.allShips = true;
+                    } else {
+                        this.allShips = false;
+                    }
+
                     console.log(this.gameData);
                     this.buildPlayerTable("ships");
                     this.buildPlayerTable("salvoes");
@@ -27,8 +34,9 @@ function getData() {
                     this.getList(this.gameData.salvoes, this.allSalvoesLocations);
                     this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
                     this.hitTheOpponent = this.gameData.hitTheOpponent;
-                    this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes)
-                    this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent)
+                    this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes);
+                    this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);
+                    
                 })
         },
         methods: {
@@ -85,6 +93,9 @@ function getData() {
                         }
                     })
                 });
+            },
+            back() {
+                location.replace(`http://localhost:8080/web/games.html`);
             }
         }
     })

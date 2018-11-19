@@ -13,6 +13,7 @@
 <body>
     <div id="app">
         <div class="header">
+            <button v-on:click="back">Back to games list</button><br>
             <div class="players" v-for="(player,i) in gameData.gamePlayers" :key="i">
                 <h1 v-if="player.player.playerId == gameData.playerId">{{player.player.userName}} (you)</h1>
                 <h1 v-else>{{player.player.userName}}</h1>
@@ -20,8 +21,46 @@
             </div>
         </div>
         <div class="play">
-            <div><h2>Your shots</h2><table id="salvoes"></table></div>
-            <div><h2>Your ships</h2><table id="ships"></table></div>
+            <div v-if="allShips">
+                <h2>Your shots</h2>
+                <table id="salvoes"></table>
+            </div>
+            <div v-else>
+                <div class="ship">
+                    <p id="carrier" value="carrier">Carrier</p>
+                    <table>
+                        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                    </table>
+                </div>
+                <div class="ship">
+                    <p id="battleship" value="battleship">Battleship</p>
+                    <table>
+                        <tr><td></td><td></td><td></td><td></td></tr>
+                    </table>
+                </div>
+                <div class="ship">
+                    <p id="destroyer" value="destroyer">Destroyer</p>
+                    <table>
+                        <tr><td></td><td></td><td></td></tr>
+                    </table>
+                </div>
+                <div class="ship">
+                    <p id="submarine" value="submarine">Submarine</p>
+                    <table>
+                        <tr><td></td><td></td><td></td></tr>
+                    </table>
+                </div>
+                <div class="ship">
+                    <p id="portalBoat" value="portalBoat">Portal boat</p>
+                    <table>
+                        <tr><td></td><td></td></tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <h2>Your ships</h2>
+                <table id="ships"></table>
+            </div>
         </div>
     </div>
 
