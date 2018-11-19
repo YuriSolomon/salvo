@@ -10,7 +10,12 @@ function getData() {
             opponentsSalvoes: [],
             hitTheOpponent: [],
             gamePlayerId: "",
-            allShips: false
+            allShips: false,
+            newShip: {
+                type: null,
+                direction: null,
+                location: null
+            }
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
@@ -21,6 +26,8 @@ function getData() {
                 .then(json => {
                     this.gameData = json;
 
+                    console.log(this.gameData);
+
                     if (this.gameData.ships.length == 5) {
                         this.allShips = true;
                         this.buildPlayerTable("salvoes");
@@ -29,7 +36,6 @@ function getData() {
                         this.allShips = false;
                     }
 
-                    console.log(this.gameData);
                     this.buildPlayerTable("ships");
                     this.getList(this.gameData.ships, this.allShipsLocations);
                     this.getList(this.gameData.salvoes, this.allSalvoesLocations);
@@ -96,6 +102,41 @@ function getData() {
             },
             back() {
                 location.replace(`http://localhost:8080/web/games.html`);
+            },
+            getBackground(key) {
+                this.gameData.ships.forEach(ship => {
+                    let placedShip = document.getElementById(ship);
+                    placedShip.style.background = "green";
+                })
+                let ship = document.getElementById(key);
+                ship.style.background = "blue";
+            },
+            pickShip(type) {
+                this.newShip.type= type;
+                this.newShip.direction= null;
+                this.newShip.location= null;
+                
+                console.log(type);
+                this.getBackground(`${type}`);
+            },
+            pickShipsDirection(direction) {
+                this.newShip.direction = direction
+
+                console.log(direction);
+                this.getBackground(`${direction}`);
+            },
+            placeShip(location1) {
+                
+            },
+            createShip() {
+                type = this.newShip.type;
+                location = this.newShip.location
+
+                if (type != null && loction != null) {
+                    $.post(`/games/players/${gpid}/ships`, { type: type, location: location })
+                    .done(res=> {location.reload, console.log(res)})
+                    .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
+                }
             }
         }
     })

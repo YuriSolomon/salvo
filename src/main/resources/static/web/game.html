@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel=“shortcut icon” href=“favicon.ico”>
     <link rel="stylesheet" href="game.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
     <title>Ship Locations!</title>
 </head>
 
@@ -25,36 +27,86 @@
                 <h2>Your shots</h2>
                 <table id="salvoes"></table>
             </div>
-            <div v-else>
-                <div class="ship">
-                    <p id="carrier" value="carrier">Carrier</p>
-                    <table>
-                        <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                    </table>
+            <div v-else class="row">
+                <div class="col-6">
+                    <div class="direction" v-on:click="pickShipsDirection('horizontal')">
+                        <p>Horizontal</p>
+                        <table id="horizontal">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="direction" v-on:click="pickShipsDirection('vertical')">
+                        <p>Vertical</p>
+                        <table id="vertical">
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                <div class="ship">
-                    <p id="battleship" value="battleship">Battleship</p>
-                    <table>
-                        <tr><td></td><td></td><td></td><td></td></tr>
-                    </table>
-                </div>
-                <div class="ship">
-                    <p id="destroyer" value="destroyer">Destroyer</p>
-                    <table>
-                        <tr><td></td><td></td><td></td></tr>
-                    </table>
-                </div>
-                <div class="ship">
-                    <p id="submarine" value="submarine">Submarine</p>
-                    <table>
-                        <tr><td></td><td></td><td></td></tr>
-                    </table>
-                </div>
-                <div class="ship">
-                    <p id="portalBoat" value="portalBoat">Portal boat</p>
-                    <table>
-                        <tr><td></td><td></td></tr>
-                    </table>
+                <div class="col-6">
+                    <div class="ship" v-on:click="pickShip('carrier')">
+                        <p>Carrier</p>
+                        <table id="carrier">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="ship" v-on:click="pickShip('battleship')">
+                        <p>Battleship</p>
+                        <table id="battleship">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="ship" v-on:click="pickShip('destroyer')">
+                        <p>Destroyer</p>
+                        <table id="destroyer">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="ship" v-on:click="pickShip('submarine')">
+                        <p>Submarine</p>
+                        <table id="submarine">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="ship" v-on:click="pickShip('portalBoat')">
+                        <p>Portal boat</p>
+                        <table id="portalBoat">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div>
@@ -64,7 +116,11 @@
         </div>
     </div>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="game.js"></script>
 </body>

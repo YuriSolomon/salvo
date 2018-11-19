@@ -121,11 +121,6 @@ function getData() {
             returnToGame(i, j) {
                 gpid = this.gamesData.games[i].players[j].gpid;
                 location.replace(`http://localhost:8080/web/game.html?gp=${gpid}`)
-            },
-            createShip() {
-                $.post(`/games/players/${gpid}/ships`, { type: type, location: location })
-                .done(res=> {location.reload, console.log(res)})
-                .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
             }
         }
     })
