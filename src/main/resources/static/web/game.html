@@ -29,8 +29,9 @@
             </div>
             <div v-else class="row">
                 <div class="col-6">
-                    <div class="direction" v-on:click="pickShipsDirection('horizontal')">
+                    <div class="direction" v-on:click="pickShipsDirection('horizontal', 0)">
                         <p>Horizontal</p>
+                        <p v-if="newShip.direction == 'horizontal'">uegk</p>
                         <table id="horizontal">
                             <tr>
                                 <td></td>
@@ -39,8 +40,9 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="direction" v-on:click="pickShipsDirection('vertical')">
+                    <div class="direction" v-on:click="pickShipsDirection('vertical', 0)">
                         <p>Vertical</p>
+                        <p v-if="newShip.direction == 'vertical'">sefegesggwe</p>
                         <table id="vertical">
                             <tr>
                                 <td></td>
@@ -55,7 +57,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="ship" v-on:click="pickShip('carrier')">
+                    <div class="ship" v-on:click="pickShip('carrier', 5)">
                         <p>Carrier</p>
                         <table id="carrier">
                             <tr>
@@ -67,7 +69,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="ship" v-on:click="pickShip('battleship')">
+                    <div class="ship" v-on:click="pickShip('battleship', 4)">
                         <p>Battleship</p>
                         <table id="battleship">
                             <tr>
@@ -78,7 +80,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="ship" v-on:click="pickShip('destroyer')">
+                    <div class="ship" v-on:click="pickShip('destroyer', 3)">
                         <p>Destroyer</p>
                         <table id="destroyer">
                             <tr>
@@ -88,7 +90,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="ship" v-on:click="pickShip('submarine')">
+                    <div class="ship" v-on:click="pickShip('submarine', 3)">
                         <p>Submarine</p>
                         <table id="submarine">
                             <tr>
@@ -98,7 +100,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="ship" v-on:click="pickShip('portalBoat')">
+                    <div class="ship" v-on:click="pickShip('portalBoat', 2)">
                         <p>Portal boat</p>
                         <table id="portalBoat">
                             <tr>

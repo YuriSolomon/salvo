@@ -14,7 +14,9 @@ function getData() {
             newShip: {
                 type: null,
                 direction: null,
-                location: null
+                location: null,
+                numberOfCells: null,
+                firstCell: null
             }
         },
         beforeCreate() {
@@ -45,6 +47,14 @@ function getData() {
                     
                 })
         },
+        mounted() {
+                $("#ships").on("click", "td", function() {
+                    var theClass = this.className;  // "this" is the element clicked
+                    console.log(theClass.length);
+                    console.log(theClass);
+                });
+            
+        },
         methods: {
             buildPlayerTable(tableId) {
                 let table = document.getElementById(tableId);
@@ -60,7 +70,8 @@ function getData() {
                     if (i > 0) {
                         tem2 += `<tr><td style="background:yellow">${body[i]}</td>`
                         for (let j = 1; j < body.length - 1; j++) {
-                            tem2 += `<td class="${body[i]+header[j]}"></td>`
+                            let cell = `${body[i]+header[j]}`
+                            tem2 += `<td class="${cell}"><div class="ds"/></td>`
                         }
                         tem2 += `<td style="background:yellow">${body[i]}</td></tr>`
                     }
@@ -103,18 +114,38 @@ function getData() {
             back() {
                 location.replace(`http://localhost:8080/web/games.html`);
             },
-            getBackground(key) {
+            getBackground(type) {
+                    let ship1 = document.getElementById('carrier');
+                    let ship2 = document.getElementById('battleship');
+                    let ship3 = document.getElementById('destroyer');
+                    let ship4 = document.getElementById('submarine');
+                    let ship5 = document.getElementById('portalBoat');
+                    ship1.style.background = "white";
+                    ship2.style.background = "white";
+                    ship3.style.background = "white";
+                    ship4.style.background = "white";
+                    ship5.style.background = "white";
+                    if (type == 'horizontal') {
+                        let direction = document.getElementById('vertical');
+                        direction.style.background = "white";
+                    } else if (type == 'vertical') {
+                        let direction = document.getElementById('horizontal');
+                        direction.style.background = "white";
+                    }
+                
+
                 this.gameData.ships.forEach(ship => {
                     let placedShip = document.getElementById(ship);
                     placedShip.style.background = "green";
-                })
-                let ship = document.getElementById(key);
+                });
+                
+                let ship = document.getElementById(type);
                 ship.style.background = "blue";
             },
-            pickShip(type) {
-                this.newShip.type= type;
-                this.newShip.direction= null;
-                this.newShip.location= null;
+            pickShip(type, i) {
+                this.newShip.type = type;
+                this.newShip.location = null;
+                this.newShip.numberOfCells = i;
                 
                 console.log(type);
                 this.getBackground(`${type}`);
@@ -134,10 +165,18 @@ function getData() {
 
                 if (type != null && loction != null) {
                     $.post(`/games/players/${gpid}/ships`, { type: type, location: location })
-                    .done(res=> {location.reload, console.log(res)})
+                    .done(res=> {
+                        location.reload,
+                        console.log(res), 
+                        this.newShip.type = null,
+                        this.newShip.location = null,
+                        this.newShip.numberOfCells = null,
+                        this.newShip.firstCell = null
+                    })
                     .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
                 }
             }
         }
     })
 };
+
