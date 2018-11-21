@@ -55,6 +55,7 @@
                             </tr>
                         </table>
                     </div>
+                    <button v-on:click="apply">Apply</button>
                 </div>
                 <div class="col-6">
                     <div class="ship" v-on:click="pickShip('carrier', 5)">
@@ -116,6 +117,7 @@
                 <table id="ships"></table>
             </div>
         </div>
+        <div id="celected"></div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"

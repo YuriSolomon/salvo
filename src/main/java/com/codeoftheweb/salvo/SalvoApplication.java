@@ -105,6 +105,7 @@ public class SalvoApplication {
 			Ship ship8 = new Ship("destroyer", loc8);
 			Ship ship9 = new Ship("submarine", loc9);
 			Ship ship10 = new Ship("portalBoat", loc10);
+			Ship ship11 = new Ship("portalBoat", loc10);
 
 			gamePlayer1.addShip(ship1);
 			gamePlayer1.addShip(ship2);
@@ -116,6 +117,7 @@ public class SalvoApplication {
 			gamePlayer2.addShip(ship8);
 			gamePlayer2.addShip(ship9);
 			gamePlayer2.addShip(ship10);
+			gamePlayer5.addShip(ship11);
 
 			shipRepository.save(ship1);
 			shipRepository.save(ship2);
@@ -127,6 +129,7 @@ public class SalvoApplication {
 			shipRepository.save(ship8);
 			shipRepository.save(ship9);
 			shipRepository.save(ship10);
+			shipRepository.save(ship11);
 
 			List<String> salvoLoc1 = Arrays.asList("E6","C8","A2");
 			List<String> salvoLoc2 = Arrays.asList("B4","H9","C3");
