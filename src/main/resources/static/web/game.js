@@ -178,21 +178,32 @@ function getData() {
                 let number = split[1];
                 let location = []
                 number = parseInt(number, 10)
+                let letterValue = letter.charCodeAt(0) - 64;
                 let newLoc = letter + number;
                 let newNumber = number
+                let newLetter = letter
                 location.push(newLoc);
                 for (let i = 0; i < size-1; i++) {
                     if (direction == 'horizontal') {
-                        if (number+size <= 11) {
+                        if (number + size <= 11) {
                             newNumber++
-                            console.log(newNumber)
-                            console.log(typeof(newNumber))
                             newLoc = letter + newNumber;
-                            location.push(newLoc);
+                            if (!this.allShipsLocations.includes(newLoc)) {
+                                location.push(newLoc);
+                            }
                         }
                     } else if (direction == 'vertical') {
-                        my_string.substring(0,my_string.length-1)+String.fromCharCode(my_string.charCodeAt(my_string.length-1)+1)
+                        if (letterValue + size <= 11) {
+                            newLetter = newLetter.substring(0,newLetter.length-1)+String.fromCharCode(newLetter.charCodeAt(newLetter.length-1)+1)
+                            newLoc = newLetter + number;
+                            if (!this.allShipsLocations.includes(newLoc)) {
+                                location.push(newLoc);
+                            }
+                        }
                     }
+                }
+                if (location.length != size) {
+                    location = [];
                 }
                 console.log(location);
                 this.newShip.location = location;
