@@ -12,11 +12,11 @@ function getData() {
             gamePlayerId: "",
             allShips: false,
             newShip: {
-                type: null,
-                direction: null,
-                location: null,
-                numberOfCells: null,
-                firstCell: null
+                type: "",
+                direction: "",
+                location: [],
+                numberOfCells: 0,
+                firstCell: ""
             },
             selected: ""
         },
@@ -48,7 +48,6 @@ function getData() {
                     }
                     this.hitTheOpponent = this.gameData.hitTheOpponent;
                     this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes);
-                    console.log("ns")
                     this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);
                     this.getPlacedBackground();
                     let that = this
@@ -151,22 +150,17 @@ function getData() {
                     document.getElementById('portalBoat').style.background = "white";
                 }
                 this.getPlacedBackground();
-
                 let ship = document.getElementById(type);
                 ship.style.background = "blue";
             },
             pickShip(type, i) {
                 this.newShip.type = type;
-                this.newShip.location = null;
+                this.newShip.location = [];
                 this.newShip.numberOfCells = i;
-                
-                console.log(type);
                 this.getBackground(`${type}`);
             },
             pickShipsDirection(direction) {
                 this.newShip.direction = direction
-
-                console.log(direction);
                 this.getBackground(`${direction}`);
             },
             placeShip(location1) {
@@ -177,7 +171,7 @@ function getData() {
                 let letter = split[0];
                 let number = split[1];
                 let location = []
-                number = parseInt(number, 10)
+                number = firstCell.match(/\d+/g).map(Number)[0]
                 let letterValue = letter.charCodeAt(0) - 64;
                 let newLoc = letter + number;
                 let newNumber = number
@@ -205,7 +199,6 @@ function getData() {
                 if (location.length != size) {
                     location = [];
                 }
-                console.log(location);
                 this.newShip.location = location;
                 this.apply();
             },
@@ -213,15 +206,18 @@ function getData() {
                 type = this.newShip.type;
                 location = this.newShip.location
 
-                if (type != null && loction != null) {
+                if (type != "" && loction != []) {
+                    let type = this.newShip.type;
+                    let location = this.newShip.location
+                    let gpid = this.gameData.gamePlayerId;
                     $.post(`/games/players/${gpid}/ships`, { type: type, location: location })
                     .done(res=> {
-                        location.reload,
                         console.log(res), 
-                        this.newShip.type = null,
-                        this.newShip.location = null,
-                        this.newShip.numberOfCells = null,
-                        this.newShip.firstCell = null
+                        this.newShip.type = "",
+                        this.newShip.location = [],
+                        this.newShip.numberOfCells = 0,
+                        this.newShip.firstCell = ""
+                        // location.reload
                     })
                     .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
                 }

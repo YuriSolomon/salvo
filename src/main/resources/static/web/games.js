@@ -112,8 +112,6 @@ function getData() {
             },
             joinGame(i) {
                 id = this.gamesData.games[i].gameid;
-                console.log(i);
-                console.log(id);
                 $.post(`/api/game/${id}/players`)
                 .done(res => {this.res = res, console.log(res), location.replace(`http://localhost:8080/web/game.html?gp=${res.gpid}`)})
                 .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
