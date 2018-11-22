@@ -19,8 +19,6 @@ function getData() {
                 .then(response => response.json())
                 .then(json => {
                     this.listData = json;
-
-                    console.log(this.listData);
                     this.getScore(this.listData);
                 });
             fetch(`../api/games`)
@@ -28,8 +26,6 @@ function getData() {
                 .then(json => {
                     this.gamesData = json;
                     this.gamesData.games.sort((fst, snd) => snd.players.length - fst.players.length);
-
-                    console.log(this.gamesData);
                     if(this.gamesData.current != null) {
                         this.userIslogged = true;
                     } else {

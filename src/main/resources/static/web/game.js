@@ -28,16 +28,12 @@ function getData() {
                 .then(response => response.json())
                 .then(json => {
                     this.gameData = json;
-
-                    console.log(this.gameData);
-
                     if (this.gameData.ships.length == 5) {
                         this.allShips = true;
                         this.buildPlayerTable("salvoes");
                     } else {
                         this.allShips = false;
                     }
-
                     this.buildPlayerTable("ships");
                     this.getList(this.gameData.ships, this.allShipsLocations);
                     this.getList(this.gameData.salvoes, this.allSalvoesLocations);
@@ -66,7 +62,6 @@ function getData() {
                 let table = document.getElementById(tableId);
                 let tHead = document.createElement("thead");
                 let tBody = document.createElement("tbody");
-
                 let tem1 = '';
                 let tem2 = '';
                 let header = ["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ""];
@@ -90,7 +85,6 @@ function getData() {
                 tem1 += `<td/>`
                 tHead.innerHTML = tem1;
                 tBody.innerHTML = tem2;
-
                 table.append(tHead, tBody);
             },
             getList(gameData, list) {
@@ -106,7 +100,6 @@ function getData() {
                     if (frame[i].className.length < 2) {
                         frame[i].style.background = "yellow"
                     }
-
                 }
                 list1.forEach(location1 => {
                     let checked = [];
@@ -187,8 +180,6 @@ function getData() {
                     existingShips.push(ship.type)
                 })
                 if (!existingShips.includes(type)) {
-
-
                     for (let i = 0; i < size - 1; i++) {
                         if (direction == 'horizontal') {
                             if (number + size <= 11) {
@@ -224,19 +215,19 @@ function getData() {
                     console.log(location1)
                     console.log(gpid)
                     $.post({
-                            url: `/api/games/players/${gpid}/ships`,
-                            data: JSON.stringify({
-                                type: type,
-                                location: location1
-                            }),
-                            dataType: "text",
-                            contentType: "application/json"
-                        })
-                        .done(res => {
-                            console.log(res),
-                                location.reload();
-                        })
-                        .fail(err => console.log(err))
+                        url: `/api/games/players/${gpid}/ships`,
+                        data: JSON.stringify({
+                            type: type,
+                            location: location1
+                    }),
+                        dataType: "text",
+                        contentType: "application/json"
+                    })
+                    .done(res => {
+                        console.log(res),
+                        location.reload();
+                    })
+                    .fail(err => console.log(err))
                 }
             },
             apply() {
