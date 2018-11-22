@@ -18,7 +18,8 @@ function getData() {
                 numberOfCells: 0,
                 firstCell: ""
             },
-            selected: ""
+            selected: "",
+            pickSalvoes: []
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
@@ -28,6 +29,7 @@ function getData() {
                 .then(response => response.json())
                 .then(json => {
                     this.gameData = json;
+                    console.log(this.gameData);
                     if (this.gameData.ships.length == 5) {
                         this.allShips = true;
                         this.buildPlayerTable("salvoes");
@@ -53,6 +55,11 @@ function getData() {
                         var theClass = this.className; // "this" is the element clicked
                         that.selected = theClass;
                         that.placeShip(theClass);
+                    });
+                    $("#salvoes").on("click", "td", function () {
+                        var theClass = this.className; // "this" is the element clicked
+                        that.selected = theClass;
+                        that.placeSalvoes(theClass);
                     });
 
                 })
@@ -241,6 +248,32 @@ function getData() {
                         document.getElementById('ships').querySelector(`.${cell}`).style.background = "purple"
                     })
                 }
+            },
+            placeSalvoes(theClass) {
+                let location1 = theClass;
+                if (location1.length == 2) {
+                    if (!this.allSalvoesLocations.includes(location1)) {
+                        this.pickSalvoes.push(location1);
+                    }
+                }
+                if (this.pickSalvoes.length == 4) {
+                    this.pickSalvoes.splice(0,1);
+                }
+                console.log(this.pickSalvoes);
+
+                let cell = document.getElementById('salvoes').getElementsByTagName('td')
+                for (let i = 0; i < cell.length; i++) {
+                    cell[i].style.background = "white";
+                }
+                this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);
+
+
+                this.getPlacedBackground();
+                
+                this.pickSalvoes.forEach(loc => {
+                    let el = document.getElementById('salvoes').querySelector(`.${loc}`);
+                    el.style.background="purple";
+                })
             }
         }
     })
