@@ -51,12 +51,12 @@ function getData() {
                     this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);
                     this.getPlacedBackground();
                     let that = this
-                    $("#ships").on("click", "td", function() {
-                        var theClass = this.className;  // "this" is the element clicked
+                    $("#ships").on("click", "td", function () {
+                        var theClass = this.className; // "this" is the element clicked
                         that.selected = theClass;
                         that.placeShip(theClass);
                     });
-                    
+
                 })
         },
         methods: {
@@ -102,15 +102,15 @@ function getData() {
                 let frame = document.getElementById('ships').getElementsByTagName('td')
                 for (let i = 0; i < frame.length; i++) {
                     if (frame[i].className.length < 2) {
-                        frame[i].style.background="yellow"
+                        frame[i].style.background = "yellow"
                     }
-                    
+
                 }
                 list1.forEach(location1 => {
                     let checked = [];
                     let cell = document.getElementById(gridId).querySelector(`.${location1}`);
                     if (list2.length == 0) {
-                        cell.style.background = color;                        
+                        cell.style.background = color;
                     } else {
                         list2.forEach(location2 => {
                             if (!checked.includes(location2) && !checked.includes(location1)) {
@@ -171,27 +171,36 @@ function getData() {
                 let letter = split[0];
                 let number = split[1];
                 let location = []
+                let type = this.newShip.type;
                 number = firstCell.match(/\d+/g).map(Number)[0]
                 let letterValue = letter.charCodeAt(0) - 64;
                 let newLoc = letter + number;
                 let newNumber = number
                 let newLetter = letter
+                let existingShips = [];
                 location.push(newLoc);
-                for (let i = 0; i < size-1; i++) {
-                    if (direction == 'horizontal') {
-                        if (number + size <= 11) {
-                            newNumber++
-                            newLoc = letter + newNumber;
-                            if (!this.allShipsLocations.includes(newLoc)) {
-                                location.push(newLoc);
+                this.gameData.ships.forEach(ship => {
+                    existingShips.push(ship.type)
+                })
+                if (!existingShips.includes(type)) {
+
+
+                    for (let i = 0; i < size - 1; i++) {
+                        if (direction == 'horizontal') {
+                            if (number + size <= 11) {
+                                newNumber++
+                                newLoc = letter + newNumber;
+                                if (!this.allShipsLocations.includes(newLoc)) {
+                                    location.push(newLoc);
+                                }
                             }
-                        }
-                    } else if (direction == 'vertical') {
-                        if (letterValue + size <= 11) {
-                            newLetter = newLetter.substring(0,newLetter.length-1)+String.fromCharCode(newLetter.charCodeAt(newLetter.length-1)+1)
-                            newLoc = newLetter + number;
-                            if (!this.allShipsLocations.includes(newLoc)) {
-                                location.push(newLoc);
+                        } else if (direction == 'vertical') {
+                            if (letterValue + size <= 11) {
+                                newLetter = newLetter.substring(0, newLetter.length - 1) + String.fromCharCode(newLetter.charCodeAt(newLetter.length - 1) + 1)
+                                newLoc = newLetter + number;
+                                if (!this.allShipsLocations.includes(newLoc)) {
+                                    location.push(newLoc);
+                                }
                             }
                         }
                     }
@@ -203,34 +212,38 @@ function getData() {
                 this.apply();
             },
             createShip() {
-                type = this.newShip.type;
-                location = this.newShip.location
-
-                if (type != "" && loction != []) {
-                    let type = this.newShip.type;
-                    let location = this.newShip.location
-                    let gpid = this.gameData.gamePlayerId;
-                    $.post(`/games/players/${gpid}/ships`, { type: type, location: location })
-                    .done(res=> {
-                        console.log(res), 
-                        this.newShip.type = "",
-                        this.newShip.location = [],
-                        this.newShip.numberOfCells = 0,
-                        this.newShip.firstCell = ""
-                        // location.reload
-                    })
-                    .fail(err=> {this.errorMessage = err, console.log(this.errorMessage), this.errorStatus = true})
+                let type = this.newShip.type;
+                let location1 = this.newShip.location
+                let gpid = this.gameData.gamePlayerId;
+                if (type != "" && location1 != []) {
+                    console.log(type)
+                    console.log(location1)
+                    console.log(gpid)
+                    $.post({
+                            url: `/api/games/players/${gpid}/ships`,
+                            data: JSON.stringify({
+                                type: type,
+                                location: location1
+                            }),
+                            dataType: "text",
+                            contentType: "application/json"
+                        })
+                        .done(res => {
+                            console.log(res),
+                            location.reload();
+                        })
+                        .fail(err => console.log(err))
                 }
             },
             apply() {
                 if (this.newShip.location.length > 1) {
                     let cell = document.getElementById('ships').getElementsByTagName('td')
                     for (let i = 0; i < cell.length; i++) {
-                        cell[i].style.background="white";
+                        cell[i].style.background = "white";
                     }
                     this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes);
                     this.newShip.location.forEach(cell => {
-                        document.getElementById('ships').querySelector(`.${cell}`).style.background="purple"
+                        document.getElementById('ships').querySelector(`.${cell}`).style.background = "purple"
                     })
                 }
             }

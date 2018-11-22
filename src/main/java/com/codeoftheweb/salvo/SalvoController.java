@@ -271,9 +271,10 @@ public class SalvoController {
     @RequestMapping(value = "/games/players/{gpid}/ships", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> placeShips(
                                                 @PathVariable long gpid,
-                                                @PathVariable List<String> location,
-                                                @PathVariable String type,
+                                                @RequestBody Ship newShip,
                                                 Authentication authentication) {
+        System.out.println(newShip);
+//        return new ResponseEntity<>(makeMap("1111", "hhhh"), HttpStatus.UNAUTHORIZED);
 
         if (!usedIsLogged(authentication)) {
             return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
@@ -281,13 +282,11 @@ public class SalvoController {
             return new ResponseEntity<>(makeMap("Error", "game doesn't exist"), HttpStatus.UNAUTHORIZED);
         } else if (gamePlayerRepository.findById(gpid).getPlayer() != currentUser(authentication)) {
             return new ResponseEntity<>(makeMap("Error", "you have no permission to edit other player's ships"), HttpStatus.UNAUTHORIZED);
-        } else if (shipRepository.findByType(type).getType() == type) {
-            return new ResponseEntity<>(makeMap("Error", "ship has already been placed"), HttpStatus.FORBIDDEN);
         } else {
-            Ship ship = new Ship(type, location);
-            shipRepository.save(ship);
             GamePlayer currentGP = gamePlayerRepository.findById(gpid);
-            currentGP.addShip(ship);
+            currentGP.addShip(newShip);
+            shipRepository.save(newShip);
+            System.out.println(shipRepository.findByGamePlayer(currentGP));
             return new ResponseEntity<>(makeMap("Success", "the ship was placed"),HttpStatus.CREATED);
         }
     }

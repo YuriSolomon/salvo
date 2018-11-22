@@ -31,7 +31,7 @@
                 <div class="col-6">
                     <div class="direction" v-on:click="pickShipsDirection('horizontal', 0)">
                         <p>Horizontal</p>
-                        <p v-if="newShip.direction == 'horizontal'">uegk</p>
+                        <p v-if="newShip.direction == 'horizontal'" value='Pleace pick the first cell to the left in order to place the ship'></p>
                         <table id="horizontal">
                             <tr>
                                 <td></td>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="direction" v-on:click="pickShipsDirection('vertical', 0)">
                         <p>Vertical</p>
-                        <p v-if="newShip.direction == 'vertical'">sefegesggwe</p>
+                        <p v-if="newShip.direction == 'vertical'" value='Pleace pick the top cell in order to place the ship'></p>
                         <table id="vertical">
                             <tr>
                                 <td></td>
