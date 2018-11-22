@@ -273,8 +273,6 @@ public class SalvoController {
                                                 @PathVariable long gpid,
                                                 @RequestBody Ship newShip,
                                                 Authentication authentication) {
-        System.out.println(newShip);
-//        return new ResponseEntity<>(makeMap("1111", "hhhh"), HttpStatus.UNAUTHORIZED);
 
         if (!usedIsLogged(authentication)) {
             return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
@@ -286,7 +284,6 @@ public class SalvoController {
             GamePlayer currentGP = gamePlayerRepository.findById(gpid);
             currentGP.addShip(newShip);
             shipRepository.save(newShip);
-            System.out.println(shipRepository.findByGamePlayer(currentGP));
             return new ResponseEntity<>(makeMap("Success", "the ship was placed"),HttpStatus.CREATED);
         }
     }
@@ -305,6 +302,26 @@ public class SalvoController {
             System.out.println(gamePlayer.toString());
             gamePlayerRepository.save(gamePlayer);
             return new ResponseEntity<>(makeSimpleMap("gpid", gamePlayer.getId()),HttpStatus.CREATED);
+        }
+    }
+
+    @RequestMapping(value = "/games/players/{gpid}/salvoes", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> placeSalvoes(
+                                                        @PathVariable long gpid,
+                                                        @RequestBody Salvo newSalvo,
+                                                        Authentication authentication) {
+
+        if (!usedIsLogged(authentication)) {
+            return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
+        } else if (gamePlayerRepository.findById(gpid) == null) {
+            return new ResponseEntity<>(makeMap("Error", "game doesn't exist"), HttpStatus.UNAUTHORIZED);
+        } else if (gamePlayerRepository.findById(gpid).getPlayer() != currentUser(authentication)) {
+            return new ResponseEntity<>(makeMap("Error", "you have no permission to edit other player's salvoes"), HttpStatus.UNAUTHORIZED);
+        } else {
+            GamePlayer currentGP = gamePlayerRepository.findById(gpid);
+            currentGP.addSalvo(newSalvo);
+            salvoRepository.save(newSalvo);
+            return new ResponseEntity<>(makeMap("Success", "the salvoes were placed"), HttpStatus.CREATED);
         }
     }
 }
