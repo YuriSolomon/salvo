@@ -23,8 +23,8 @@
             </div>
         </div>
         <div class="play">
-            <div v-if="allShips">
-                <h2>Your shots</h2>
+            <div>
+                <h2 v-if="allShips">Your shots</h2>
                 <table id="salvoes"></table>
             </div>
             <div v-else class="row">

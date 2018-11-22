@@ -48,7 +48,9 @@ function getData() {
                     }
                     this.hitTheOpponent = this.gameData.hitTheOpponent;
                     this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes);
-                    this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);
+                    if (this.allShips) {
+                        this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);
+                    }
                     this.getPlacedBackground();
                     let that = this
                     $("#ships").on("click", "td", function () {
@@ -99,7 +101,7 @@ function getData() {
                 })
             },
             getOnTable(list1, gridId, color, list2) {
-                let frame = document.getElementById('ships').getElementsByTagName('td')
+                let frame = document.getElementById(gridId).getElementsByTagName('td')
                 for (let i = 0; i < frame.length; i++) {
                     if (frame[i].className.length < 2) {
                         frame[i].style.background = "yellow"
@@ -130,10 +132,12 @@ function getData() {
                 location.replace(`http://localhost:8080/web/games.html`);
             },
             getPlacedBackground() {
-                this.gameData.ships.forEach(ship => {
-                    let placedShip = document.getElementById(ship.type);
-                    placedShip.style.background = "green";
-                });
+                if (!this.allShips) {
+                    this.gameData.ships.forEach(ship => {
+                        let placedShip = document.getElementById(ship.type);
+                        placedShip.style.background = "green";
+                    });
+                }
             },
             getBackground(type) {
                 if (type == 'horizontal') {
@@ -230,7 +234,7 @@ function getData() {
                         })
                         .done(res => {
                             console.log(res),
-                            location.reload();
+                                location.reload();
                         })
                         .fail(err => console.log(err))
                 }
