@@ -259,21 +259,37 @@ function getData() {
                 if (this.pickSalvoes.length == 4) {
                     this.pickSalvoes.splice(0,1);
                 }
-                console.log(this.pickSalvoes);
-
                 let cell = document.getElementById('salvoes').getElementsByTagName('td')
                 for (let i = 0; i < cell.length; i++) {
                     cell[i].style.background = "white";
                 }
                 this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);
-
-
                 this.getPlacedBackground();
-                
                 this.pickSalvoes.forEach(loc => {
                     let el = document.getElementById('salvoes').querySelector(`.${loc}`);
                     el.style.background="purple";
                 })
+            },
+            createSalvo() {
+                let turn = this.gameData.salvoes.length + 1;
+                let location1 = this.pickSalvoes
+                let gpid = this.gameData.gamePlayerId;
+                if (location1.length == 3) {
+                    $.post({
+                        url: `/api/games/players/${gpid}/salvoes`,
+                        data: JSON.stringify({
+                            turn: turn,
+                            location: location1
+                    }),
+                        dataType: "text",
+                        contentType: "application/json"
+                    })
+                    .done(res => {
+                        console.log(res),
+                        location.reload();
+                    })
+                    .fail(err => console.log(err))
+                }
             }
         }
     })

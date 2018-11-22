@@ -26,6 +26,7 @@
             <div>
                 <h2 v-if="allShips">Your shots</h2>
                 <table id="salvoes"></table>
+                <button v-if="allShips" v-on:click="createSalvo">Shoot salvos!</button>
             </div>
             <div v-if="!allShips" class="row">
                 <div class="col-6">
