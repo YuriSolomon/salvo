@@ -19,9 +19,16 @@ function getData() {
                 firstCell: ""
             },
             selected: "",
-            pickSalvoes: []
+            pickSalvoes: [],
+            historyData: []
         },
         beforeCreate() {
+            fetch(`https://api.myjson.com/bins/17vu12`)
+                .then(response => response.json())
+                .then(json => {
+                    this.historyData = json;
+                    console.log(this.historyData);
+                })
             let url = new URLSearchParams(window.location.search);
             var id = url.get('gp');
             this.gamePlayerId = id;
