@@ -179,18 +179,18 @@ function getData() {
                 number = firstCell.match(/\d+/g).map(Number)[0]
                 let letterValue = letter.charCodeAt(0) - 64;
                 let newLoc = letter + number;
-                let newNumber = number
-                let newLetter = letter
+                let newNumber = number;
+                let newLetter = letter;
                 let existingShips = [];
                 location.push(newLoc);
                 this.gameData.ships.forEach(ship => {
-                    existingShips.push(ship.type)
+                    existingShips.push(ship.type);
                 })
                 if (!existingShips.includes(type)) {
                     for (let i = 0; i < size - 1; i++) {
                         if (direction == 'horizontal') {
                             if (number + size <= 11) {
-                                newNumber++
+                                newNumber++;
                                 newLoc = letter + newNumber;
                                 if (!this.allShipsLocations.includes(newLoc)) {
                                     location.push(newLoc);
@@ -218,21 +218,18 @@ function getData() {
                 let location1 = this.newShip.location
                 let gpid = this.gameData.gamePlayerId;
                 if (type != "" && location1 != []) {
-                    console.log(type)
-                    console.log(location1)
-                    console.log(gpid)
                     $.post({
                         url: `/api/games/players/${gpid}/ships`,
                         data: JSON.stringify({
                             type: type,
                             location: location1
-                    }),
+                        }),
                         dataType: "text",
                         contentType: "application/json"
                     })
                     .done(res => {
                         console.log(res),
-                        location.reload();
+                            location.reload();
                     })
                     .fail(err => console.log(err))
                 }
@@ -251,13 +248,15 @@ function getData() {
             },
             placeSalvoes(theClass) {
                 let location1 = theClass;
-                if (location1.length == 2) {
-                    if (!this.allSalvoesLocations.includes(location1)) {
-                        this.pickSalvoes.push(location1);
+                if (!this.pickSalvoes.includes(location1)) {
+                    if (location1.length == 2) {
+                        if (!this.allSalvoesLocations.includes(location1)) {
+                            this.pickSalvoes.push(location1);
+                        }
                     }
                 }
                 if (this.pickSalvoes.length == 4) {
-                    this.pickSalvoes.splice(0,1);
+                    this.pickSalvoes.splice(0, 1);
                 }
                 let cell = document.getElementById('salvoes').getElementsByTagName('td')
                 for (let i = 0; i < cell.length; i++) {
@@ -267,7 +266,7 @@ function getData() {
                 this.getPlacedBackground();
                 this.pickSalvoes.forEach(loc => {
                     let el = document.getElementById('salvoes').querySelector(`.${loc}`);
-                    el.style.background="purple";
+                    el.style.background = "purple";
                 })
             },
             createSalvo() {
@@ -276,19 +275,19 @@ function getData() {
                 let gpid = this.gameData.gamePlayerId;
                 if (location1.length == 3) {
                     $.post({
-                        url: `/api/games/players/${gpid}/salvoes`,
-                        data: JSON.stringify({
-                            turn: turn,
-                            location: location1
-                    }),
-                        dataType: "text",
-                        contentType: "application/json"
-                    })
-                    .done(res => {
-                        console.log(res),
-                        location.reload();
-                    })
-                    .fail(err => console.log(err))
+                            url: `/api/games/players/${gpid}/salvoes`,
+                            data: JSON.stringify({
+                                turn: turn,
+                                location: location1
+                            }),
+                            dataType: "text",
+                            contentType: "application/json"
+                        })
+                        .done(res => {
+                            console.log(res),
+                                location.reload();
+                        })
+                        .fail(err => console.log(err))
                 }
             }
         }
