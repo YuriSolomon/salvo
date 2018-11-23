@@ -1,0 +1,50 @@
+{
+    "history": {
+        "turn": [{
+                "turnNumber": 1,
+                "hitsOnYou": {
+                    "numberOfFloatingShips": 5,
+                    "numberOfHits": 1,
+                    "numberOfShipsGotHitted": 2,
+                    "sunkedShips": []
+                },
+                "hitsOnOppenent": {
+                    "numberOfFloatingShips": 5,
+                    "numberOfHits": 2,
+                    "numberOfShipsGotHitted": 1,
+                    "sunkedShips": []
+                }
+            },
+            {
+                "turnNumber": 2,
+                "hitsOnYou": {
+                    "numberOfFloatingShips": 5,
+                    "numberOfHits": 0,
+                    "numberOfShipsGotHitted": 1,
+                    "sunkedShips": []
+                },
+                "hitsOnOppenent": {
+                    "numberOfFloatingShips": 4,
+                    "numberOfHits": 0,
+                    "numberOfShipsGotHitted": 0,
+                    "sunkedShips": ["portalBoat"]
+                }
+            },
+            {
+                "turnNumber": 3,
+                "hitsOnYou": {
+                    "numberOfFloatingShips": 5,
+                    "numberOfHits": 1,
+                    "numberOfShipsGotHitted": 0,
+                    "sunkedShips": []
+                },
+                "hitsOnOppenent": {
+                    "numberOfFloatingShips": 4,
+                    "numberOfHits": 0,
+                    "numberOfShipsGotHitted": 1,
+                    "sunkedShips": ["portalBoat"]
+                }
+            }
+        ]
+    }
+}
