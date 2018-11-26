@@ -44,12 +44,6 @@ public class SalvoApplication {
 			Player player4 = new Player("david", "david@gmail.com", "111111d");
 			Player player5 = new Player("michelle", "michaelle@gmail.com", "111111e");
 
-			playerRepository.save(player1);
-			playerRepository.save(player2);
-			playerRepository.save(player3);
-			playerRepository.save(player4);
-			playerRepository.save(player5);
-
 			Game game1 = new Game();
 			Game game2 = new Game();
 			Game game3 = new Game();
@@ -57,14 +51,6 @@ public class SalvoApplication {
 			Game game5 = new Game();
 			Game game6 = new Game();
 			Game game7 = new Game();
-
-			gameRepository.save(game1);
-			gameRepository.save(game2);
-			gameRepository.save(game3);
-			gameRepository.save(game4);
-			gameRepository.save(game5);
-			gameRepository.save(game6);
-			gameRepository.save(game7);
 
 			GamePlayer gamePlayer1 = new GamePlayer(game1, player1);
 			GamePlayer gamePlayer2 = new GamePlayer(game1, player2);
@@ -74,15 +60,6 @@ public class SalvoApplication {
 			GamePlayer gamePlayer6 = new GamePlayer(game5, player4);
 			GamePlayer gamePlayer7 = new GamePlayer(game6, player2);
 			GamePlayer gamePlayer8 = new GamePlayer(game7, player3);
-
-			gamePlayerRepository.save(gamePlayer1);
-			gamePlayerRepository.save(gamePlayer2);
-			gamePlayerRepository.save(gamePlayer3);
-			gamePlayerRepository.save(gamePlayer4);
-			gamePlayerRepository.save(gamePlayer5);
-			gamePlayerRepository.save(gamePlayer6);
-			gamePlayerRepository.save(gamePlayer7);
-			gamePlayerRepository.save(gamePlayer8);
 
 			List<String> loc1 = Arrays.asList("E3","E4","E5","E6","E7");
 			List<String> loc2 = Arrays.asList("A9","B9","C9","D9");
@@ -119,18 +96,6 @@ public class SalvoApplication {
 			gamePlayer2.addShip(ship10);
 			gamePlayer5.addShip(ship11);
 
-			shipRepository.save(ship1);
-			shipRepository.save(ship2);
-			shipRepository.save(ship3);
-			shipRepository.save(ship4);
-			shipRepository.save(ship5);
-			shipRepository.save(ship6);
-			shipRepository.save(ship7);
-			shipRepository.save(ship8);
-			shipRepository.save(ship9);
-			shipRepository.save(ship10);
-			shipRepository.save(ship11);
-
 			List<String> salvoLoc1 = Arrays.asList("E6","C8","A2");
 			List<String> salvoLoc2 = Arrays.asList("B4","H9","C3");
 			List<String> salvoLoc3 = Arrays.asList("A4","E4","F7");
@@ -149,12 +114,6 @@ public class SalvoApplication {
 			gamePlayer2.addSalvo(salvo4);
 			gamePlayer1.addSalvo(salvo5);
 
-			salvoRepository.save(salvo1);
-			salvoRepository.save(salvo2);
-			salvoRepository.save(salvo3);
-			salvoRepository.save(salvo4);
-			salvoRepository.save(salvo5);
-
 			Score score1 = new Score(1, game1, player1);
 			Score score2 = new Score(0, game2, player5);
 			Score score3 = new Score(0.5, game3, player1);
@@ -163,6 +122,47 @@ public class SalvoApplication {
 			Score score6 = new Score(1, game5, player3);
 			Score score7 = new Score(0.5, game6, player4);
 			Score score8 = new Score(0, game7, player4);
+
+			playerRepository.save(player1);
+			playerRepository.save(player2);
+			playerRepository.save(player3);
+			playerRepository.save(player4);
+			playerRepository.save(player5);
+
+			gameRepository.save(game1);
+			gameRepository.save(game2);
+			gameRepository.save(game3);
+			gameRepository.save(game4);
+			gameRepository.save(game5);
+			gameRepository.save(game6);
+			gameRepository.save(game7);
+
+			gamePlayerRepository.save(gamePlayer1);
+			gamePlayerRepository.save(gamePlayer2);
+			gamePlayerRepository.save(gamePlayer3);
+			gamePlayerRepository.save(gamePlayer4);
+			gamePlayerRepository.save(gamePlayer5);
+			gamePlayerRepository.save(gamePlayer6);
+			gamePlayerRepository.save(gamePlayer7);
+			gamePlayerRepository.save(gamePlayer8);
+
+			shipRepository.save(ship1);
+			shipRepository.save(ship2);
+			shipRepository.save(ship3);
+			shipRepository.save(ship4);
+			shipRepository.save(ship5);
+			shipRepository.save(ship6);
+			shipRepository.save(ship7);
+			shipRepository.save(ship8);
+			shipRepository.save(ship9);
+			shipRepository.save(ship10);
+			shipRepository.save(ship11);
+
+			salvoRepository.save(salvo1);
+			salvoRepository.save(salvo2);
+			salvoRepository.save(salvo3);
+			salvoRepository.save(salvo4);
+			salvoRepository.save(salvo5);
 
 			scoreRepository.save(score1);
 			scoreRepository.save(score2);
@@ -222,7 +222,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/web/game.js").hasAuthority("USER")
 				.antMatchers("/web/game.css").hasAuthority("USER")
 				.antMatchers("/api/game_view/*").hasAuthority("USER")
-                .antMatchers("/rest/*").denyAll()
+				.antMatchers("/api/history").hasAuthority("USER")
+				.antMatchers("/rest/*").denyAll()
                 .anyRequest().denyAll();
 
 		http.formLogin()

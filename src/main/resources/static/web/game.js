@@ -27,9 +27,7 @@ function getData() {
             fetch(`https://api.myjson.com/bins/17vu12`)
                 .then(response => response.json())
                 .then(json => {
-                    this.historyData = json;
-                    this.turnsData = this.historyData.history.turn;
-                    console.log(this.historyData.history.turn);
+                    this.turnsData = json.history.turn;
                     console.log(this.turnsData);
                 })
             let url = new URLSearchParams(window.location.search);

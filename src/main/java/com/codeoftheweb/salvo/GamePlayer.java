@@ -89,6 +89,29 @@ public class GamePlayer {
         return null;
     }
 
+    public List<String> shipsList(GamePlayer gamePlayer) {
+        List<String> shipsList = new ArrayList<>();
+        for (Ship ship: getShip()) {
+            for (String location: ship.getLocation()) {
+                shipsList.add(location);
+            }
+        }
+        return shipsList;
+    }
+
+    public List<String> opponentsSalvoesList(GamePlayer gamePlayer) {
+        List<String> opponentsSalvoesList = new ArrayList<>();
+        if (getOpponentsSalvoes(this) != null) {
+            for (Salvo salvo : getOpponentsSalvoes(this)) {
+                for (String location : salvo.getLocation()) {
+                    opponentsSalvoesList.add(location);
+                }
+            }
+            return opponentsSalvoesList;
+        }
+        return null;
+    }
+
     public Set<Salvo> getSalvo() {
         return salvo;
     }

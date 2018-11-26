@@ -32,6 +32,16 @@ public class Salvo {
         this.gamePlayer = getGamePlayer();
     }
 
+    public int getHits(GamePlayer gamePlayer, List<String> location) {
+        List<String> hits = new ArrayList<>();
+        location.forEach(shot -> {
+            if (gamePlayer.opponentsShipsList(gamePlayer).contains(shot)) {
+                hits.add(shot);
+            }
+        });
+        return hits.size();
+    }
+
     public String getGamePlayerId() {
         return String.valueOf(gamePlayer.getId());
     }
@@ -44,9 +54,7 @@ public class Salvo {
         this.id = id;
     }
 
-    public String getTurn() {
-        return String.valueOf(turn);
-    }
+    public int getTurn() { return turn; }
 
     public void setTurn(int turn) {
         this.turn = turn;
