@@ -79,7 +79,7 @@
                         <tr v-if="(game.players.length == 2)">
                             <td>game {{i + 1}}</td>
                             <td>{{game.players[0].userName}} vs. {{game.players[1].userName}}</td>
-                            <td v-if="userIslogged">
+                            <td v-if="userIslogged && (game.players[0].playerid == gamesData.current.playerId || game.players[1].playerid == gamesData.current.playerId)">
                                 <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">Return
                                     to game</button>
                                 <button v-if="game.players[1].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=1)">Return

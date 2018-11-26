@@ -118,7 +118,28 @@
                 <table id="ships"></table>
             </div>
         </div>
-        <div id="celected"></div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Turn</th>
+                        <th>Opponent's hits</th>
+                        <th>Opponent's sunken ships</th>
+                        <th>Your hits</th>
+                        <th>Your sunken ships</th>
+                    </tr>
+                </thead>
+                <tbody v-for="turn in turnsData">
+                    <tr>
+                        <td>{{turn.turnNumber}}</td>
+                        <td>{{turn.hitsOnYou.numberOfHits}}</td>
+                        <td><p v-for="ship in turn.hitsOnYou.sunkedShips">{{ship}} ,</p></td>
+                        <td>{{turn.hitsOnOppenent.numberOfHits}}</td>
+                        <td><p v-for="ship in turn.hitsOnOppenent.sunkedShips">{{ship}} ,</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

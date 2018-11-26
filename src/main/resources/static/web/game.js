@@ -20,14 +20,17 @@ function getData() {
             },
             selected: "",
             pickSalvoes: [],
-            historyData: []
+            historyData: [],
+            turnsData: []
         },
         beforeCreate() {
             fetch(`https://api.myjson.com/bins/17vu12`)
                 .then(response => response.json())
                 .then(json => {
                     this.historyData = json;
-                    console.log(this.historyData);
+                    this.turnsData = this.historyData.history.turn;
+                    console.log(this.historyData.history.turn);
+                    console.log(this.turnsData);
                 })
             let url = new URLSearchParams(window.location.search);
             var id = url.get('gp');
@@ -189,7 +192,7 @@ function getData() {
                 let newNumber = number;
                 let newLetter = letter;
                 let existingShips = [];
-                location.push(newLoc);
+                if (!this.allShipsLocations.includes(newLoc)) location.push(newLoc);
                 this.gameData.ships.forEach(ship => {
                     existingShips.push(ship.type);
                 })
@@ -224,7 +227,7 @@ function getData() {
                 let type = this.newShip.type;
                 let location1 = this.newShip.location
                 let gpid = this.gameData.gamePlayerId;
-                if (type != "" && location1 != []) {
+                if (type != "" && location1.length > 1) {
                     $.post({
                         url: `/api/games/players/${gpid}/ships`,
                         data: JSON.stringify({
