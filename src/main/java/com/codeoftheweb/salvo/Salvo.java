@@ -32,14 +32,37 @@ public class Salvo {
         this.gamePlayer = getGamePlayer();
     }
 
-    public int getHits(GamePlayer gamePlayer, List<String> location) {
+    public int getHits(GamePlayer gamePlayer, List<String> loc) {
         List<String> hits = new ArrayList<>();
-        location.forEach(shot -> {
+        loc.forEach(shot -> {
             if (gamePlayer.opponentsShipsList(gamePlayer).contains(shot)) {
                 hits.add(shot);
             }
         });
         return hits.size();
+    }
+
+//    public int getOpponentsHits(GamePlayer gamePlayer, Salvo salvo) {
+////        Salvo opponentsSalvo = opponentsSalvoByTurn(gamePlayer, salvo);
+//        List<String> hits = new ArrayList<>();
+//        opponentsSalvoByTurn(gamePlayer, salvo).location.forEach(shot -> {
+//            if (gamePlayer.shipsList(gamePlayer).contains(shot)) {
+//                hits.add(shot);
+//            }
+//        });
+//        return hits.size();
+//    }
+
+    public List<String> opponentsSalvoLocationsByTurn(GamePlayer gamePlayer, Salvo salvo){
+        List<String> oppLocList = new ArrayList<>();
+        for (Salvo opponentsSalvo : gamePlayer.getGame().getOpponent(gamePlayer).salvo) {
+            if (opponentsSalvo.getTurn() == salvo.getTurn()) {
+                opponentsSalvo.getLocation().forEach(loc -> {
+                    oppLocList.add(loc);
+                });
+            }
+        }
+        return oppLocList;
     }
 
     public String getGamePlayerId() {

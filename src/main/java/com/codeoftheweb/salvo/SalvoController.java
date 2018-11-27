@@ -158,18 +158,23 @@ public class SalvoController {
     }
 
     public Map<String, Object> turnsMap(Salvo salvo, GamePlayer gamePlayer, Authentication authentication) {
+        GamePlayer opponent = gamePlayer.getGame().getOpponent(gamePlayer);
+        List<String> opponentsList = salvo.opponentsSalvoLocationsByTurn(gamePlayer, salvo);
         Map<String, Object> historyMap = new LinkedHashMap<>();
         historyMap.put("turnNumber", salvo.getTurn());
-        historyMap.put("hitsOnOppenent", hitsMap(salvo, gamePlayer, authentication));
-        historyMap.put("hitsOnYou", hitsMap(salvo, gamePlayer.getGame().getOpponent(gamePlayer), authentication));
+        historyMap.put("hitsOnOppenent", hitsMap(salvo.getLocation(), gamePlayer, true, salvo));
+        historyMap.put("hitsOnYou", hitsMap(opponentsList, opponent, false, salvo));
         return historyMap;
     }
 
-    public Map<String, Object> hitsMap(Salvo salvo, GamePlayer gamePlayer, Authentication authentication) {
-
+    public Map<String, Object> hitsMap(List<String> loc, GamePlayer gamePlayer, Boolean current, Salvo salvo) {
         Map<String, Object> historyMap = new LinkedHashMap<>();
-        historyMap.put("numberOfFloatingShips", salvo.getTurn());
-        historyMap.put("numberOfHits", salvo.getHits(gamePlayer, salvo.getLocation()));
+        historyMap.put("numberOfFloatingShips", "");
+        if (current) {
+            historyMap.put("numberOfHits", salvo.getHits(gamePlayer, loc));
+        } else {
+            historyMap.put("numberOfHits", salvo.getHits(gamePlayer, loc));
+        }
         historyMap.put("sunkedShips", 1);
         return historyMap;
     }
