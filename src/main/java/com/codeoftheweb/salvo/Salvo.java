@@ -52,6 +52,38 @@ public class Salvo {
         return opponentsNewSalvo;
     }
 
+    public List<String> getOpponentsTotalLocations(GamePlayer gamePlayer, Salvo salvo) {
+        List<String> totalLocations = new ArrayList<>();
+        gamePlayer.getGame().getOpponent(gamePlayer).getSalvo().forEach(salvo1 -> {
+            if (salvo1.getTurn() <= salvo.getTurn()) {
+                salvo1.getLocation().forEach(location -> {
+                    if (!totalLocations.contains(location)) {
+                        totalLocations.add(location);
+                    }
+                });
+            }
+        });
+        System.out.println(totalLocations);
+        return totalLocations;
+    }
+
+    public List<String> getSunkenShips(GamePlayer gamePlayer, Salvo salvo) {
+        List<String> sunkenShips = new ArrayList<>();
+        List<String> shipsLoc = new ArrayList<>();
+        gamePlayer.getShip().forEach(ship -> {
+            shipsLoc.clear();
+            getOpponentsTotalLocations(gamePlayer, salvo).forEach(location -> {
+                if (ship.getLocation().contains(location)) {
+                    shipsLoc.add(location);
+                }
+            });
+            if (ship.getLocation().size() == shipsLoc.size()) {
+                sunkenShips.add(ship.getType());
+            }
+        });
+        return sunkenShips;
+    }
+
     public String getGamePlayerId() {
         return String.valueOf(gamePlayer.getId());
     }

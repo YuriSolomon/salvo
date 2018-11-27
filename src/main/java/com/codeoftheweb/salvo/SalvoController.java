@@ -104,7 +104,6 @@ public class SalvoController {
 
     private Map<String, Object> gamePMap(GamePlayer gamePlayer, Authentication authentication) {
         Map<String, Object> gamepmap = new LinkedHashMap<String, Object>();
-        System.out.println("dat" + salvoRepository.findByGamePlayer(gamePlayer));
         gamepmap.put("gamePlayerId", gamePlayer.getId());
         gamepmap.put("playerId", gamePlayer.getPlayer().getId());
         gamepmap.put("created", gamePlayer.getDate());
@@ -171,7 +170,7 @@ public class SalvoController {
         Map<String, Object> historyMap = new LinkedHashMap<>();
         historyMap.put("numberOfFloatingShips", "");
         historyMap.put("numberOfHits", salvo.getHits(gamePlayer, salvo));
-        historyMap.put("sunkedShips", 1);
+        historyMap.put("sunkedShips", salvo.getSunkenShips(gamePlayer, salvo));
         return historyMap;
     }
 

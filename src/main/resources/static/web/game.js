@@ -24,12 +24,6 @@ function getData() {
             turnsData: []
         },
         beforeCreate() {
-            fetch(`https://api.myjson.com/bins/17vu12`)
-                .then(response => response.json())
-                .then(json => {
-                    this.turnsData = json.history.turn;
-                    console.log(this.turnsData);
-                })
             let url = new URLSearchParams(window.location.search);
             var id = url.get('gp');
             this.gamePlayerId = id;
@@ -37,6 +31,7 @@ function getData() {
                 .then(response => response.json())
                 .then(json => {
                     this.gameData = json;
+                    this.turnsData = json.turnsHistory;
                     console.log(this.gameData);
                     if (this.gameData.ships.length == 5) {
                         this.allShips = true;
