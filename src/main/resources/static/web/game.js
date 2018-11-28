@@ -21,7 +21,8 @@ function getData() {
             selected: "",
             pickSalvoes: [],
             historyData: [],
-            turnsData: []
+            turnsData: [],
+            state: ""
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
@@ -32,6 +33,7 @@ function getData() {
                 .then(json => {
                     this.gameData = json;
                     this.turnsData = json.turnsHistory;
+                    this.state = json.gameState.gamesState;
                     console.log(this.gameData);
                     if (this.gameData.ships.length == 5) {
                         this.allShips = true;

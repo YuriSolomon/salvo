@@ -187,7 +187,7 @@ public class SalvoController {
         Map<String, Object> gamesState = new LinkedHashMap<>();
         if (salvo == null) {
             gamesState.put("gameIsOver", false);
-            gamesState.put("gamesState", null);
+            gamesState.put("gamesState", getBeforeGameState(gamePlayer));
             gamesState.put("sunkedShips", null);
         } else {
             gamesState.put("gameIsOver", gameIsOver(gamePlayer, salvo));
@@ -422,5 +422,17 @@ public class SalvoController {
             }
         }
         return "game is over";
+    }
+
+    public String getBeforeGameState(GamePlayer gamePlayer) {
+        if (gamePlayer.getShip().size() < 5) {
+            return "please place ships";
+        } else if (gamePlayer.getGame().getOpponent(gamePlayer) == null) {
+            return "waiting for opponent";
+        } else if (gamePlayer.getOpponentsShips(gamePlayer).size() < 5) {
+            return "waiting for opponent to place ships";
+        } else {
+            return "please shoot a salvo";
+        }
     }
 }
