@@ -349,7 +349,15 @@ public class SalvoController {
                                                         @PathVariable long gpid,
                                                         @RequestBody Salvo newSalvo,
                                                         Authentication authentication) {
+        boolean gameOver = false;
         GamePlayer currentGP = gamePlayerRepository.findById(gpid);
+        if (currentGP.getSalvo().size() <= 1) {
+            gameOver = false;
+        } else {
+            Salvo lastSalvo = (Salvo) currentGP.getSalvo().toArray()[currentGP.getSalvo().size() - 1];
+            gameOver = gameIsOver(currentGP, lastSalvo);
+        }
+        if (!gameOver) {
             if (!usedIsLogged(authentication)) {
                 return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
             } else if (gamePlayerRepository.findById(gpid) == null) {
@@ -361,6 +369,8 @@ public class SalvoController {
                 salvoRepository.save(newSalvo);
                 return new ResponseEntity<>(makeMap("Success", "the salvoes were placed"), HttpStatus.CREATED);
             }
+        }
+        return new ResponseEntity<>(makeMap("Error", "game is over"), HttpStatus.UNAUTHORIZED);
     }
 
     public boolean gameIsOver(GamePlayer gamePlayer, Salvo salvo) {
@@ -380,10 +390,12 @@ public class SalvoController {
                 }
                 return true;
             } else if (salvo.getSunkenShips(opponent, opponentsSalvo).size() == 5) {
+                System.out.println(salvo.getSunkenShips(opponent, opponentsSalvo).size());
                 if (findScore(gamePlayer)) {
                     Score score = new Score(1, gamePlayer.getGame(), gamePlayer.getPlayer());
                     scoreRepository.save(score);
                 }
+                return true;
             }
         }
         return false;
