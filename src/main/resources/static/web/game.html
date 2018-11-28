@@ -26,7 +26,10 @@
             <div>
                 <h2 v-if="allShips">Your shots</h2>
                 <table id="salvoes"></table>
-                <button v-if="allShips" v-on:click="createSalvo">Shoot salvos!</button>
+                <div v-if="allShips">
+                    <h2 v-if="gameData.gameState.gameIsOver">game is over</h2>
+                    <button v-else v-on:click="createSalvo">Shoot salvos!</button>
+                </div>
             </div>
             <div v-if="!allShips" class="row">
                 <div class="col-6">

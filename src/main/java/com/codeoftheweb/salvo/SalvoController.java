@@ -49,7 +49,7 @@ public class SalvoController {
     public ResponseEntity<Map<String, Object>> getGameInfo(@PathVariable long id, Authentication authentication) {
         GamePlayer gamePlayer = gamePlayerRepository.findById(id);
         if (gamePlayer.getPlayer() == currentUser(authentication)) {
-            return new ResponseEntity<>(gamePMap(gamePlayer, authentication), HttpStatus.OK);
+            return new ResponseEntity<>(gamePMap(gamePlayer), HttpStatus.OK);
         }
         return new ResponseEntity<>(makeMap("Error", "You have to login"), HttpStatus.UNAUTHORIZED);
     }
@@ -102,7 +102,7 @@ public class SalvoController {
         return gameplayermap;
     }
 
-    private Map<String, Object> gamePMap(GamePlayer gamePlayer, Authentication authentication) {
+    private Map<String, Object> gamePMap(GamePlayer gamePlayer) {
         Map<String, Object> gamepmap = new LinkedHashMap<String, Object>();
         gamepmap.put("gamePlayerId", gamePlayer.getId());
         gamepmap.put("playerId", gamePlayer.getPlayer().getId());
@@ -112,7 +112,10 @@ public class SalvoController {
         gamepmap.put("salvoes", salvoesSet(gamePlayer.getSalvo()));
         gamepmap.put("hitTheOpponent", hitTheOpponent(gamePlayer));
         gamepmap.put("opponentsSalvoes", gamePlayer.getOpponentsSalvoes(gamePlayer) != null ? salvoesSet(gamePlayer.getOpponentsSalvoes(gamePlayer)) : null);
-        gamepmap.put("turnsHistory", turnsSet(gamePlayer.getSalvo(), authentication));
+        if (gamePlayer.getShip().size() == 5  && gamePlayer.getSalvo().size() > 1) {
+            gamepmap.put("turnsHistory", turnsSet(gamePlayer.getSalvo()));
+            gamepmap.put("gameState", stateMap(gamePlayer, (Salvo) gamePlayer.getSalvo().toArray()[gamePlayer.getSalvo().size() - 1]));
+        }
         return gamepmap;
     }
 
@@ -156,7 +159,7 @@ public class SalvoController {
         return gplayermap;
     }
 
-    public Map<String, Object> turnsMap(Salvo salvo, GamePlayer gamePlayer, Authentication authentication) {
+    public Map<String, Object> turnsMap(Salvo salvo, GamePlayer gamePlayer) {
         GamePlayer opponent = gamePlayer.getGame().getOpponent(gamePlayer);
         Salvo opponentsSalvo = salvo.opponentsSalvosByTurn(gamePlayer, salvo);
         Map<String, Object> historyMap = new LinkedHashMap<>();
@@ -172,6 +175,14 @@ public class SalvoController {
         historyMap.put("numberOfHits", salvo.getHits(gamePlayer, salvo));
         historyMap.put("sunkedShips", salvo.getSunkenShips(gamePlayer, salvo));
         return historyMap;
+    }
+
+    public Map<String, Object> stateMap(GamePlayer gamePlayer, Salvo salvo) {
+        Map<String, Object> gamesState = new LinkedHashMap<>();
+        gamesState.put("gameIsOver", gameIsOver(gamePlayer, salvo));
+        gamesState.put("gamesState", getGameState(gamePlayer, salvo));
+        gamesState.put("sunkedShips", salvo.getSunkenShips(gamePlayer, salvo));
+        return gamesState;
     }
 
     private List<Map<String, Object>> gplayerSet (Set<GamePlayer> gamePlayer) {
@@ -206,8 +217,8 @@ public class SalvoController {
         return gamePlayer.stream().map(gameplayer-> gpMap(gameplayer)).collect(toList());
     }
 
-    private List<Map<String, Object>> turnsSet (Set<Salvo> salvos, Authentication authentication) {
-        return salvos.stream().map(salvo-> turnsMap(salvo, salvo.getGamePlayer(), authentication)).collect(toList());
+    private List<Map<String, Object>> turnsSet (Set<Salvo> salvos) {
+        return salvos.stream().map(salvo-> turnsMap(salvo, salvo.getGamePlayer())).collect(toList());
     }
 
     public List<String> hitTheOpponent(GamePlayer gamePlayer) {
@@ -215,9 +226,10 @@ public class SalvoController {
         if (gamePlayer.getOpponentsShips(gamePlayer) != null) {
             for (String shipLocation : gamePlayer.opponentsShipsList(gamePlayer)) {
                 for (String salvoLocation : gamePlayer.salvoesList(gamePlayer)) {
-                    if (shipLocation == salvoLocation) {
+                    if (shipLocation.equals(salvoLocation)) {
                         if (!hitTheOpponent.contains(shipLocation)) {
                             hitTheOpponent.add(shipLocation);
+                            System.out.println("list " + hitTheOpponent);
                         }
                     }
                 }
@@ -326,17 +338,44 @@ public class SalvoController {
                                                         @PathVariable long gpid,
                                                         @RequestBody Salvo newSalvo,
                                                         Authentication authentication) {
-        if (!usedIsLogged(authentication)) {
-            return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
-        } else if (gamePlayerRepository.findById(gpid) == null) {
-            return new ResponseEntity<>(makeMap("Error", "game doesn't exist"), HttpStatus.UNAUTHORIZED);
-        } else if (gamePlayerRepository.findById(gpid).getPlayer() != currentUser(authentication)) {
-            return new ResponseEntity<>(makeMap("Error", "you have no permission to edit other player's salvoes"), HttpStatus.UNAUTHORIZED);
-        } else {
-            GamePlayer currentGP = gamePlayerRepository.findById(gpid);
-            currentGP.addSalvo(newSalvo);
-            salvoRepository.save(newSalvo);
-            return new ResponseEntity<>(makeMap("Success", "the salvoes were placed"), HttpStatus.CREATED);
+        GamePlayer currentGP = gamePlayerRepository.findById(gpid);
+        if (!gameIsOver(currentGP, (Salvo) currentGP.getSalvo().toArray()[currentGP.getSalvo().size() - 1])) {
+            if (!usedIsLogged(authentication)) {
+                return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
+            } else if (gamePlayerRepository.findById(gpid) == null) {
+                return new ResponseEntity<>(makeMap("Error", "game doesn't exist"), HttpStatus.UNAUTHORIZED);
+            } else if (gamePlayerRepository.findById(gpid).getPlayer() != currentUser(authentication)) {
+                return new ResponseEntity<>(makeMap("Error", "you have no permission to edit other player's salvoes"), HttpStatus.UNAUTHORIZED);
+            } else {
+                currentGP.addSalvo(newSalvo);
+                salvoRepository.save(newSalvo);
+                return new ResponseEntity<>(makeMap("Success", "the salvoes were placed"), HttpStatus.CREATED);
+            }
         }
+        return new ResponseEntity<>(makeMap("Error", "game is over"), HttpStatus.FORBIDDEN);
+    }
+
+    public boolean gameIsOver(GamePlayer gamePlayer, Salvo salvo) {
+        GamePlayer opponent = gamePlayer.getGame().getOpponent(gamePlayer);
+        Salvo opponentsSalvo = salvo.opponentsSalvosByTurn(gamePlayer, salvo);
+        if (gamePlayer.getShip().size() == 5) {
+            if ((salvo.getSunkenShips(gamePlayer, salvo).size() == 5) || (salvo.getSunkenShips(opponent, opponentsSalvo).size() == 5)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getGameState(GamePlayer gamePlayer, Salvo salvo) {
+        if (!gameIsOver(gamePlayer, salvo)) {
+            if (gamePlayer.getSalvo().size() == gamePlayer.getOpponentsSalvoes(gamePlayer).size()) {
+                return "please shoot a salvo";
+            } else if (gamePlayer.getSalvo().size() > gamePlayer.getOpponentsSalvoes(gamePlayer).size()) {
+                return "waiting for opponent to shoot a salvo";
+            } else {
+                return "opponent is waiting for you to shoot a salvo";
+            }
+        }
+        return "game is over";
     }
 }

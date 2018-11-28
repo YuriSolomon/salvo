@@ -251,8 +251,9 @@ function getData() {
             },
             placeSalvoes(theClass) {
                 let location1 = theClass;
+                let number = location1.match(/\d+/g).map(Number)[0]
                 if (!this.pickSalvoes.includes(location1)) {
-                    if (location1.length == 2) {
+                    if (location1.length == 2 || number == 10) {
                         if (!this.allSalvoesLocations.includes(location1)) {
                             this.pickSalvoes.push(location1);
                         }

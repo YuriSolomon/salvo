@@ -111,9 +111,7 @@ public class GamePlayer {
         return null;
     }
 
-    public Set<Salvo> getSalvo() {
-        return salvo;
-    }
+    public Set<Salvo> getSalvo() { return salvo; }
 
     public void setSalvo(Set<Salvo> salvo) {
         this.salvo = salvo;
@@ -147,9 +145,7 @@ public class GamePlayer {
         return game;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+    public void setGame(Game game) { this.game = game; }
 
     public long getId() {
         return id;

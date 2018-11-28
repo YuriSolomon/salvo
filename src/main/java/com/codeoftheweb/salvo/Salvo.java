@@ -24,7 +24,7 @@ public class Salvo {
     @JoinColumn(name="gamePlayer_id")
     private GamePlayer gamePlayer;
 
-    public Salvo() {};
+    public Salvo() {}
 
     public Salvo(int turn, List<String> location) {
         this.turn = turn;
@@ -63,7 +63,6 @@ public class Salvo {
                 });
             }
         });
-        System.out.println(totalLocations);
         return totalLocations;
     }
 
@@ -84,37 +83,21 @@ public class Salvo {
         return sunkenShips;
     }
 
-    public String getGamePlayerId() {
-        return String.valueOf(gamePlayer.getId());
-    }
+    public String getGamePlayerId() { return String.valueOf(gamePlayer.getId()); }
 
-    public long getId() {
-        return id;
-    }
+    public long getId() { return id; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public void setId(long id) { this.id = id; }
 
     public int getTurn() { return turn; }
 
-    public void setTurn(int turn) {
-        this.turn = turn;
-    }
+    public void setTurn(int turn) { this.turn = turn; }
 
-    public List<String> getLocation() {
-        return location;
-    }
+    public List<String> getLocation() { return location; }
 
-    public void setLocation(List<String> location) {
-        this.location = location;
-    }
+    public void setLocation(List<String> location) { this.location = location; }
 
-    public GamePlayer getGamePlayer() {
-        return gamePlayer;
-    }
+    public GamePlayer getGamePlayer() { return gamePlayer; }
 
-    public void setGamePlayer(GamePlayer gamePlayer) {
-        this.gamePlayer = gamePlayer;
-    }
+    public void setGamePlayer(GamePlayer gamePlayer) { this.gamePlayer = gamePlayer; }
 }
