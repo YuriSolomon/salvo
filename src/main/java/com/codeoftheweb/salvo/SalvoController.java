@@ -24,6 +24,8 @@ public class SalvoController {
     private ShipRepository shipRepository;
     @Autowired
     private SalvoRepository salvoRepository;
+    @Autowired
+    private ScoreRepository scoreRepository;
 
     @RequestMapping("gamePlayers")
     public List<GamePlayer> getAll() {
@@ -112,9 +114,13 @@ public class SalvoController {
         gamepmap.put("salvoes", salvoesSet(gamePlayer.getSalvo()));
         gamepmap.put("hitTheOpponent", hitTheOpponent(gamePlayer));
         gamepmap.put("opponentsSalvoes", gamePlayer.getOpponentsSalvoes(gamePlayer) != null ? salvoesSet(gamePlayer.getOpponentsSalvoes(gamePlayer)) : null);
-        if (gamePlayer.getShip().size() == 5  && gamePlayer.getSalvo().size() > 1) {
+        if (gamePlayer.getShip().size() == 5  && gamePlayer.getSalvo().size() >= 1) {
+            Salvo lastSalvo = (Salvo) gamePlayer.getSalvo().toArray()[gamePlayer.getSalvo().size() - 1];
             gamepmap.put("turnsHistory", turnsSet(gamePlayer.getSalvo()));
-            gamepmap.put("gameState", stateMap(gamePlayer, (Salvo) gamePlayer.getSalvo().toArray()[gamePlayer.getSalvo().size() - 1]));
+            gamepmap.put("gameState", stateMap(gamePlayer, lastSalvo));
+        } else {
+            gamepmap.put("turnsHistory", null);
+            gamepmap.put("gameState", stateMap(gamePlayer, null));
         }
         return gamepmap;
     }
@@ -179,9 +185,15 @@ public class SalvoController {
 
     public Map<String, Object> stateMap(GamePlayer gamePlayer, Salvo salvo) {
         Map<String, Object> gamesState = new LinkedHashMap<>();
-        gamesState.put("gameIsOver", gameIsOver(gamePlayer, salvo));
-        gamesState.put("gamesState", getGameState(gamePlayer, salvo));
-        gamesState.put("sunkedShips", salvo.getSunkenShips(gamePlayer, salvo));
+        if (salvo == null) {
+            gamesState.put("gameIsOver", false);
+            gamesState.put("gamesState", null);
+            gamesState.put("sunkedShips", null);
+        } else {
+            gamesState.put("gameIsOver", gameIsOver(gamePlayer, salvo));
+            gamesState.put("gamesState", getGameState(gamePlayer, salvo));
+            gamesState.put("sunkedShips", salvo.getSunkenShips(gamePlayer, salvo));
+        }
         return gamesState;
     }
 
@@ -229,7 +241,6 @@ public class SalvoController {
                     if (shipLocation.equals(salvoLocation)) {
                         if (!hitTheOpponent.contains(shipLocation)) {
                             hitTheOpponent.add(shipLocation);
-                            System.out.println("list " + hitTheOpponent);
                         }
                     }
                 }
@@ -339,7 +350,6 @@ public class SalvoController {
                                                         @RequestBody Salvo newSalvo,
                                                         Authentication authentication) {
         GamePlayer currentGP = gamePlayerRepository.findById(gpid);
-        if (!gameIsOver(currentGP, (Salvo) currentGP.getSalvo().toArray()[currentGP.getSalvo().size() - 1])) {
             if (!usedIsLogged(authentication)) {
                 return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
             } else if (gamePlayerRepository.findById(gpid) == null) {
@@ -351,19 +361,42 @@ public class SalvoController {
                 salvoRepository.save(newSalvo);
                 return new ResponseEntity<>(makeMap("Success", "the salvoes were placed"), HttpStatus.CREATED);
             }
-        }
-        return new ResponseEntity<>(makeMap("Error", "game is over"), HttpStatus.FORBIDDEN);
     }
 
     public boolean gameIsOver(GamePlayer gamePlayer, Salvo salvo) {
         GamePlayer opponent = gamePlayer.getGame().getOpponent(gamePlayer);
         Salvo opponentsSalvo = salvo.opponentsSalvosByTurn(gamePlayer, salvo);
         if (gamePlayer.getShip().size() == 5) {
-            if ((salvo.getSunkenShips(gamePlayer, salvo).size() == 5) || (salvo.getSunkenShips(opponent, opponentsSalvo).size() == 5)) {
+            if ((salvo.getSunkenShips(gamePlayer, salvo).size() == 5) && (salvo.getSunkenShips(opponent, opponentsSalvo).size() == 5)) {
+                if (findScore(gamePlayer)) {
+                    Score score = new Score(0.5, gamePlayer.getGame(), gamePlayer.getPlayer());
+                    scoreRepository.save(score);
+                }
                 return true;
+            } else if (salvo.getSunkenShips(gamePlayer, salvo).size() == 5) {
+                if (findScore(gamePlayer)) {
+                    Score score = new Score(0, gamePlayer.getGame(), gamePlayer.getPlayer());
+                    scoreRepository.save(score);
+                }
+                return true;
+            } else if (salvo.getSunkenShips(opponent, opponentsSalvo).size() == 5) {
+                if (findScore(gamePlayer)) {
+                    Score score = new Score(1, gamePlayer.getGame(), gamePlayer.getPlayer());
+                    scoreRepository.save(score);
+                }
             }
         }
         return false;
+    }
+
+    public boolean findScore(GamePlayer gamePlayer) {
+        for (Score score : scoreRepository.findByGame(gamePlayer.getGame())) {
+            if (score.getPlayer() == gamePlayer.getPlayer()) {
+                System.out.println(gamePlayer.getPlayer().getUserName());
+                return  false;
+            }
+        }
+        return true;
     }
 
     public String getGameState(GamePlayer gamePlayer, Salvo salvo) {

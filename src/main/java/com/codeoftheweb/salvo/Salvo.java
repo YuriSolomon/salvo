@@ -69,17 +69,17 @@ public class Salvo {
     public List<String> getSunkenShips(GamePlayer gamePlayer, Salvo salvo) {
         List<String> sunkenShips = new ArrayList<>();
         List<String> shipsLoc = new ArrayList<>();
-        gamePlayer.getShip().forEach(ship -> {
-            shipsLoc.clear();
-            getOpponentsTotalLocations(gamePlayer, salvo).forEach(location -> {
-                if (ship.getLocation().contains(location)) {
-                    shipsLoc.add(location);
+            gamePlayer.getShip().forEach(ship -> {
+                shipsLoc.clear();
+                getOpponentsTotalLocations(gamePlayer, salvo).forEach(location -> {
+                    if (ship.getLocation().contains(location)) {
+                        shipsLoc.add(location);
+                    }
+                });
+                if (ship.getLocation().size() == shipsLoc.size()) {
+                    sunkenShips.add(ship.getType());
                 }
             });
-            if (ship.getLocation().size() == shipsLoc.size()) {
-                sunkenShips.add(ship.getType());
-            }
-        });
         return sunkenShips;
     }
 

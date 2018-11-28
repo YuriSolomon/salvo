@@ -114,14 +114,14 @@ public class SalvoApplication {
 			gamePlayer2.addSalvo(salvo4);
 			gamePlayer1.addSalvo(salvo5);
 
-			Score score1 = new Score(1, game1, player1);
-			Score score2 = new Score(0, game2, player5);
-			Score score3 = new Score(0.5, game3, player1);
-			Score score4 = new Score(0.5, game3, player3);
-			Score score5 = new Score(0.5, game4, player2);
-			Score score6 = new Score(1, game5, player3);
-			Score score7 = new Score(0.5, game6, player4);
-			Score score8 = new Score(0, game7, player4);
+//			Score score1 = new Score(1, game1, player1);
+//			Score score2 = new Score(0, game2, player5);
+//			Score score3 = new Score(0.5, game3, player1);
+//			Score score4 = new Score(0.5, game3, player3);
+//			Score score5 = new Score(0.5, game4, player2);
+//			Score score6 = new Score(1, game5, player3);
+//			Score score7 = new Score(0.5, game6, player4);
+//			Score score8 = new Score(0, game7, player4);
 
 			playerRepository.save(player1);
 			playerRepository.save(player2);
@@ -164,14 +164,14 @@ public class SalvoApplication {
 			salvoRepository.save(salvo4);
 			salvoRepository.save(salvo5);
 
-			scoreRepository.save(score1);
-			scoreRepository.save(score2);
-			scoreRepository.save(score3);
-			scoreRepository.save(score4);
-			scoreRepository.save(score5);
-			scoreRepository.save(score6);
-			scoreRepository.save(score7);
-			scoreRepository.save(score8);
+//			scoreRepository.save(score1);
+//			scoreRepository.save(score2);
+//			scoreRepository.save(score3);
+//			scoreRepository.save(score4);
+//			scoreRepository.save(score5);
+//			scoreRepository.save(score6);
+//			scoreRepository.save(score7);
+//			scoreRepository.save(score8);
 
 		};
 	}
@@ -186,9 +186,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 	@Override
 	public void init(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(inputName -> {
-//			System.out.println(inputName);
 			Player player = playerRepository.findByEmail(inputName);
-//			System.out.println(player);
 			if (player != null) {
 				return new User(player.getEmail(), player.getPassword(),
 						AuthorityUtils.createAuthorityList("USER"));
