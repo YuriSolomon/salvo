@@ -22,7 +22,8 @@ function getData() {
             pickSalvoes: [],
             historyData: [],
             turnsData: [],
-            state: ""
+            state: "",
+            errorStatus: false
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
@@ -293,7 +294,10 @@ function getData() {
                             console.log(res),
                                 location.reload();
                         })
-                        .fail(err => console.log(err))
+                        .fail(err => {
+                            console.log(err),
+                            this.errorStatus = true
+                        })
                 }
             },
             getBlueBacground() {

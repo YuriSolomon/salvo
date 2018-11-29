@@ -367,14 +367,20 @@ public class SalvoController {
         if (!gameOver) {
             if (!usedIsLogged(authentication)) {
                 return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
+            } else if (currentGP.getGame().getOpponent(currentGP) == null) {
+                return new ResponseEntity<>(makeMap("Error", "wait for opponent to join the game"), HttpStatus.FORBIDDEN);
+            } else if (currentGP.getOpponentsShips(currentGP).size() < 5) {
+                return new ResponseEntity<>(makeMap("Error", "wait for opponent to place ships"), HttpStatus.FORBIDDEN);
+            } else if (currentGP.getSalvo().size() > currentGP.getOpponentsSalvoes(currentGP).size()) {
+                return new ResponseEntity<>(makeMap("Error", "please wait for opponent to shoot"), HttpStatus.FORBIDDEN);
             } else if (gamePlayerRepository.findById(gpid) == null) {
                 return new ResponseEntity<>(makeMap("Error", "game doesn't exist"), HttpStatus.UNAUTHORIZED);
             } else if (gamePlayerRepository.findById(gpid).getPlayer() != currentUser(authentication)) {
-                return new ResponseEntity<>(makeMap("Error", "you have no permission to edit other player's salvoes"), HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(makeMap("Error", "you have no permission to edit other player's salvos"), HttpStatus.UNAUTHORIZED);
             } else {
                 currentGP.addSalvo(newSalvo);
                 salvoRepository.save(newSalvo);
-                return new ResponseEntity<>(makeMap("Success", "the salvoes were placed"), HttpStatus.CREATED);
+                return new ResponseEntity<>(makeMap("Success", "the salvos were placed"), HttpStatus.CREATED);
             }
         }
         return new ResponseEntity<>(makeMap("Error", "game is over"), HttpStatus.UNAUTHORIZED);
