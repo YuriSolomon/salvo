@@ -81,10 +81,18 @@ public class SalvoController {
     }
 
     private Map<String, Object> gameMap(Game game) {
+        GamePlayer gp = (GamePlayer) game.gamePlayer.toArray()[game.gamePlayer.size() - 1];
+        System.out.println("gp" + gp);
         Map<String, Object> gamemap = new LinkedHashMap<String, Object>();
         gamemap.put("gameid", game.getId());
         gamemap.put("created", game.getDate());
         gamemap.put("players", gplayerSet(game.getGamePlayer()));
+        if (gp.getSalvo().size() >= 1) {
+            Salvo salvo = (Salvo) gp.getSalvo().toArray()[gp.getSalvo().size() - 1];
+            gamemap.put("gameIsOver", gameIsOver(gp, salvo));
+        } else {
+            gamemap.put("gameIsOver", false);
+        }
         return gamemap;
     }
 
@@ -390,7 +398,6 @@ public class SalvoController {
                 }
                 return true;
             } else if (salvo.getSunkenShips(opponent, opponentsSalvo).size() == 5) {
-                System.out.println(salvo.getSunkenShips(opponent, opponentsSalvo).size());
                 if (findScore(gamePlayer)) {
                     Score score = new Score(1, gamePlayer.getGame(), gamePlayer.getPlayer());
                     scoreRepository.save(score);

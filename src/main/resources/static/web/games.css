@@ -7,3 +7,12 @@
 #gamesList {
     text-align: center;
 }
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: dodgerblue;
+}
+.body, .loginAndRegister {
+    margin-top: 100px;
+}

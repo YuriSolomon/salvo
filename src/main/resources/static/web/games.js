@@ -12,7 +12,9 @@ function getData() {
             errorMessage: [],
             errorStatus: false,
             res: [],
-            userIslogged: false
+            userIslogged: false,
+            leaderboardOrGames: true,
+            loginOrBody: true
         },
         beforeCreate() {
             fetch('../api/leaderboard')
@@ -31,6 +33,7 @@ function getData() {
                     } else {
                         this.userIslogged = false;
                     }
+                    console.log(this.gamesData)
                 });
         },
         methods: {
@@ -115,6 +118,20 @@ function getData() {
             returnToGame(i, j) {
                 gpid = this.gamesData.games[i].players[j].gpid;
                 location.replace(`http://localhost:8080/web/game.html?gp=${gpid}`)
+            },
+            changeTable(table) {
+                let change = false;
+                if (table == "leaderboard") {
+                    this.loginOrBody = true;
+                    this.leaderboardOrGames = true;
+                    change = true;
+                } else if (!change) {
+                    this.loginOrBody = true;
+                    this.leaderboardOrGames = false;
+                }
+            },
+            getLogin() {
+                this.loginOrBody = false;
             }
         }
     })
