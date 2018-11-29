@@ -50,9 +50,9 @@ function getData() {
                         this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
                     }
                     this.hitTheOpponent = this.gameData.hitTheOpponent;
-                    this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes);
+                    this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.opponentsSalvoes);
                     if (this.allShips) {
-                        this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);
+                        this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
                     }
                     this.getPlacedBackground();
                     let that = this
@@ -66,7 +66,7 @@ function getData() {
                         that.selected = theClass;
                         that.placeSalvoes(theClass);
                     });
-
+                    this.getBlueBacground();
                 })
         },
         methods: {
@@ -110,7 +110,7 @@ function getData() {
                 let frame = document.getElementById(gridId).getElementsByTagName('td')
                 for (let i = 0; i < frame.length; i++) {
                     if (frame[i].className.length < 2) {
-                        frame[i].style.background = "yellow"
+                        frame[i].style.background = "blue"
                     }
                 }
                 list1.forEach(location1 => {
@@ -147,20 +147,20 @@ function getData() {
             getBackground(type) {
                 if (type == 'horizontal') {
                     let direction = document.getElementById('vertical');
-                    direction.style.background = "white";
+                    direction.style.background = "#232741";
                 } else if (type == 'vertical') {
                     let direction = document.getElementById('horizontal');
-                    direction.style.background = "white";
+                    direction.style.background = "#232741";
                 } else {
-                    document.getElementById('carrier').style.background = "white";
-                    document.getElementById('battleship').style.background = "white";
-                    document.getElementById('destroyer').style.background = "white";
-                    document.getElementById('submarine').style.background = "white";
-                    document.getElementById('portalBoat').style.background = "white";
+                    document.getElementById('carrier').style.background = "#232741";
+                    document.getElementById('battleship').style.background = "#232741";
+                    document.getElementById('destroyer').style.background = "#232741";
+                    document.getElementById('submarine').style.background = "#232741";
+                    document.getElementById('portalBoat').style.background = "#232741";
                 }
                 this.getPlacedBackground();
                 let ship = document.getElementById(type);
-                ship.style.background = "blue";
+                ship.style.background = "dodgerblue";
             },
             pickShip(type, i) {
                 this.newShip.type = type;
@@ -243,9 +243,9 @@ function getData() {
                 if (this.newShip.location.length > 1) {
                     let cell = document.getElementById('ships').getElementsByTagName('td')
                     for (let i = 0; i < cell.length; i++) {
-                        cell[i].style.background = "white";
+                        cell[i].style.background = "";
                     }
-                    this.getOnTable(this.allShipsLocations, "ships", "blue", this.opponentsSalvoes);
+                    this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.opponentsSalvoes);
                     this.newShip.location.forEach(cell => {
                         document.getElementById('ships').querySelector(`.${cell}`).style.background = "purple"
                     })
@@ -266,9 +266,9 @@ function getData() {
                 }
                 let cell = document.getElementById('salvoes').getElementsByTagName('td')
                 for (let i = 0; i < cell.length; i++) {
-                    cell[i].style.background = "white";
+                    cell[i].style.background = "";
                 }
-                this.getOnTable(this.allSalvoesLocations, "salvoes", "green", this.hitTheOpponent);
+                this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
                 this.getPlacedBackground();
                 this.pickSalvoes.forEach(loc => {
                     let el = document.getElementById('salvoes').querySelector(`.${loc}`);
@@ -295,6 +295,126 @@ function getData() {
                         })
                         .fail(err => console.log(err))
                 }
+            },
+            getBlueBacground() {
+                particlesJS("particles-js", {
+                    "particles": {
+                        "number": {
+                            "value": 160,
+                            "density": {
+                                "enable": true,
+                                "value_area": 800
+                            }
+                        },
+                        "color": {
+                            "value": "#ffffff"
+                        },
+                        "shape": {
+                            "type": "circle",
+                            "stroke": {
+                                "width": 0,
+                                "color": "#000000"
+                            },
+                            "polygon": {
+                                "nb_sides": 5
+                            },
+                            "image": {
+                                "src": "img/github.svg",
+                                "width": 100,
+                                "height": 100
+                            }
+                        },
+                        "opacity": {
+                            "value": 1,
+                            "random": true,
+                            "anim": {
+                                "enable": true,
+                                "speed": 1,
+                                "opacity_min": 0,
+                                "sync": false
+                            }
+                        },
+                        "size": {
+                            "value": 3,
+                            "random": true,
+                            "anim": {
+                                "enable": false,
+                                "speed": 4,
+                                "size_min": 0.3,
+                                "sync": false
+                            }
+                        },
+                        "line_linked": {
+                            "enable": false,
+                            "distance": 150,
+                            "color": "#ffffff",
+                            "opacity": 0.4,
+                            "width": 1
+                        },
+                        "move": {
+                            "enable": true,
+                            "speed": 1,
+                            "direction": "none",
+                            "random": true,
+                            "straight": false,
+                            "out_mode": "out",
+                            "bounce": false,
+                            "attract": {
+                                "enable": false,
+                                "rotateX": 600,
+                                "rotateY": 600
+                            }
+                        }
+                    },
+                    "interactivity": {
+                        "detect_on": "canvas",
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "bubble"
+                            },
+                            "onclick": {
+                                "enable": true,
+                                "mode": "repulse"
+                            },
+                            "resize": true
+                        },
+                        "modes": {
+                            "grab": {
+                                "distance": 400,
+                                "line_linked": {
+                                    "opacity": 1
+                                }
+                            },
+                            "bubble": {
+                                "distance": 250,
+                                "size": 0,
+                                "duration": 2,
+                                "opacity": 0,
+                                "speed": 3
+                            },
+                            "repulse": {
+                                "distance": 400,
+                                "duration": 0.4
+                            },
+                            "push": {
+                                "particles_nb": 4
+                            },
+                            "remove": {
+                                "particles_nb": 2
+                            }
+                        }
+                    },
+                    "retina_detect": true
+                });
+                stats = new Stats;
+                stats.setMode(0);
+                update = function () {
+                    stats.begin();
+                    stats.end();
+                    requestAnimationFrame(update);
+                };
+                requestAnimationFrame(update);
             }
         }
     })

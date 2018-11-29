@@ -23,3 +23,64 @@ h1 {
 #ships, #salvoes {
     margin-bottom: 20px;
 }
+
+#app {
+    color: white;
+}
+
+
+
+
+
+
+body {
+    width: 98%;    
+}
+
+#history {
+    background-color: #232741;
+    width: 103%;
+    text-align: center;
+}
+
+#table {
+    width: 70%;
+    margin-top: 25px;
+}
+
+canvas {
+    display: block;
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #232741;
+    background-image: url("");
+    background-position: 50% 50%;
+    z-index: -100;
+    top: 0;
+    left: 0;
+    background-size: contain;
+}
+
+.count-particles {
+    background: #000022;
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 80px;
+    color: #13E8E9;
+    font-size: .8em;
+    text-align: left;
+    text-indent: 4px;
+    line-height: 14px;
+    padding-bottom: 2px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.js-count-particles {
+    font-size: 1.1em;
+}

@@ -122,8 +122,8 @@
                 <p>{{state}}</p>
             </div>
         </div>
-        <div>
-            <table>
+        <div id="history">
+            <table id="table" class="container">
                 <thead>
                     <tr>
                         <th>Turn</th>
@@ -137,15 +137,24 @@
                     <tr>
                         <td>{{turn.turnNumber}}</td>
                         <td>{{turn.hitsOnYou.numberOfHits}}</td>
-                        <td><p v-for="ship in turn.hitsOnYou.sunkedShips">{{ship}} ,</p></td>
+                        <td>
+                            <span v-for="ship in turn.hitsOnYou.sunkedShips">{{ship}} ,</span>
+                        </td>
                         <td>{{turn.hitsOnOppenent.numberOfHits}}</td>
-                        <td><p v-for="ship in turn.hitsOnOppenent.sunkedShips">{{ship}} ,</p></td>
+                        <td>
+                            <span v-for="ship in turn.hitsOnOppenent.sunkedShips">{{ship}} ,</span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <div id="particles-js"></div>
+
     </div>
 
+    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>

@@ -17,7 +17,7 @@
         <div class="header fixed-top">
             <div class="userLogin">
                 <div class="login" v-if="gamesData.current == null" v-on:click="getLogin">
-                    <h3>login</h3>
+                    <h3>Login</h3>
                 </div>
                 <div class="logout" v-else>
                     <h4>Logged in as {{gamesData.current.userName}}</h4>
@@ -76,7 +76,7 @@
                                 <td v-if="game.gameIsOver">game is over</td>
                             </tr>
                             <tr v-else-if="(game.players.length == 1)">
-                                <td>game {{i + 1}}</td>>
+                                <td>game {{i + 1}}</td>
                                 <td>{{game.players[0].userName}}</td>
                                 <td v-if="gamesData.current != null">
                                     <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">Return
@@ -85,7 +85,6 @@
                                 </td>
                                 <td v-else><button v-on:click="joinGame(i)">Join the game</button></td>
                             </tr>
-
                         </tbody>
                         <tr>
                             <td><button v-on:click="createGame">Create new game</button></td>
@@ -128,11 +127,15 @@
                     </tr>
                     <tr v-if="loginOrSignUp">
                         <td><button v-on:click="login">Login</button></td>
-                        <td><h5 v-on:click="loginChange">Sign up</h5></td>
+                        <td>
+                            <h5 v-on:click="loginChange">Sign up</h5>
+                        </td>
                     </tr>
                     <tr v-else>
                         <td><button v-on:click="register">Sign up and login</button></td>
-                        <td><h5 v-on:click="loginChange">Back to login</h5></td>
+                        <td>
+                            <h5 v-on:click="loginChange">Back to login</h5>
+                        </td>
                     </tr>
                 </table>
                 <div v-if="errorStatus" id="error">
@@ -141,15 +144,12 @@
                 </div>
             </div>
 
-            <div class="background">
             <div id="particles-js"></div>
-            <div class="count-particles"><span class="js-count-particles"></span></div>
-            </div>
 
         </div>
     </div>
 
-    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> <!-- stats.js lib -->
+    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
