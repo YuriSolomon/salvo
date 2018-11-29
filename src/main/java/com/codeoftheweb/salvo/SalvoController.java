@@ -82,7 +82,6 @@ public class SalvoController {
 
     private Map<String, Object> gameMap(Game game) {
         GamePlayer gp = (GamePlayer) game.gamePlayer.toArray()[game.gamePlayer.size() - 1];
-        System.out.println("gp" + gp);
         Map<String, Object> gamemap = new LinkedHashMap<String, Object>();
         gamemap.put("gameid", game.getId());
         gamemap.put("created", game.getDate());
@@ -411,7 +410,6 @@ public class SalvoController {
     public boolean findScore(GamePlayer gamePlayer) {
         for (Score score : scoreRepository.findByGame(gamePlayer.getGame())) {
             if (score.getPlayer() == gamePlayer.getPlayer()) {
-                System.out.println(gamePlayer.getPlayer().getUserName());
                 return  false;
             }
         }

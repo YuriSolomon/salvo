@@ -13,98 +13,104 @@
 </head>
 
 <body>
-    <div id="app" class="row">
-        <div class="header fixed-top row">
+    <div id="app">
+        <div class="header fixed-top">
             <div class="userLogin">
                 <div class="login" v-if="gamesData.current == null" v-on:click="getLogin">
                     <h3>login</h3>
                 </div>
                 <div class="logout" v-else>
                     <h4>Logged in as {{gamesData.current.userName}}</h4>
-                    <button v-on:click="logout">Logout</button>
+                    <h6 v-on:click="logout">Logout</h6>
                 </div>
             </div>
             <div class="head">
                 <h1>Salvo online game</h1>
             </div>
             <div class="nav">
-                <div v-on:click="changeTable('leaderboard')"><h3>Leaderboard</h3></div>
-                <div v-on:click="changeTable('games')"><h3>Games</h3></div>
-            </div>
-        </div>
-        <div v-if="loginOrBody" class="body row">
-            <div v-if="leaderboardOrGames" class="leaderboard">
-                <h1>Top 25 players</h1>
-                <table id="scores">
-                    <thead>
-                        <th>Player</th>
-                        <th>Total score</th>
-                        <th>Wins</th>
-                        <th>Ties</th>
-                        <th>Loses</th>
-                    </thead>
-                    <tbody>
-                        <tr v-for="player in top25score">
-                            <td>{{player.userName}}</td>
-                            <td>{{player.totalScore}}</td>
-                            <td>{{player.wins}}</td>
-                            <td>{{player.ties}}</td>
-                            <td>{{player.loses}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div v-else class="games">
-                <table class="container" id="gamesList">
-                    <tbody v-for="(game,i) in gamesData.games" v-bind:key="i">
-                        <tr v-if="(game.players.length == 2 && !game.gameIsOver)">
-                            <td>game {{i + 1}}</td>
-                            <td>{{game.players[0].userName}} vs. {{game.players[1].userName}}</td>
-                            <td v-if="userIslogged && (game.players[0].playerid == gamesData.current.playerId || game.players[1].playerid == gamesData.current.playerId)">
-                                <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">Return
-                                    to game</button>
-                                <button v-if="game.players[1].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=1)">Return
-                                    to game</button>
-                            </td>
-                            <td v-else>game is full</td>
-                            <td v-if="game.gameIsOver">game is over</td>
-                        </tr>
-                        <tr v-else-if="(game.players.length == 1)">
-                            <td>game {{i + 1}}</td>>
-                            <td>{{game.players[0].userName}}</td>
-                            <td v-if="gamesData.current != null">
-                                <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">Return
-                                    to game</button>
-                                <button v-else v-on:click="joinGame(i)">Join the game</button>
-                            </td>
-                            <td v-else><button v-on:click="joinGame(i)">Join the game</button></td>
-                        </tr>
-
-                    </tbody>
-                    <tr>
-                        <td><button v-on:click="createGame">Create new game</button></td>
-                    </tr>
-                    <tbody v-for="(game,i) in gamesData.games" v-bind:key="i">
-                        <tr v-if="(game.gameIsOver)">
-                            <td>game {{i + 1}}</td>
-                            <td>{{game.players[0].userName}} vs. {{game.players[1].userName}}</td>
-                            <td>game is over</td>
-                            <td v-if="userIslogged && (game.players[0].playerid == gamesData.current.playerId || game.players[1].playerid == gamesData.current.playerId)">
-                                <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">See
-                                    game history</button>
-                                <button v-if="game.players[1].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=1)">See
-                                    game history</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div v-if="errorStatus" id="error">
-                    <h2>{{errorMessage.responseJSON.status}}</h2>
-                    <h3>{{errorMessage.responseJSON.message}}</h3>
+                <div id="navLeaderboard" v-on:click="changeTable('leaderboard')">
+                    <h4>Leaderboard</h4>
+                </div>
+                <div id="navGames" v-on:click="changeTable('games')">
+                    <h4>Games</h4>
                 </div>
             </div>
         </div>
-        <div v-else class="loginAndRegister row">
+        <div class="main">
+            <div v-if="loginOrBody" class="body">
+                <div v-if="leaderboardOrGames" class="leaderboard">
+                    <h1>Top 25 players</h1>
+                    <table class="container" id="scores">
+                        <thead>
+                            <th>Player</th>
+                            <th>Total score</th>
+                            <th>Wins</th>
+                            <th>Ties</th>
+                            <th>Loses</th>
+                        </thead>
+                        <tbody>
+                            <tr v-for="player in top25score">
+                                <td>{{player.userName}}</td>
+                                <td>{{player.totalScore}}</td>
+                                <td>{{player.wins}}</td>
+                                <td>{{player.ties}}</td>
+                                <td>{{player.loses}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div v-else class="games">
+                    <h1>Games</h1>
+                    <table class="container" id="gamesList">
+                        <tbody v-for="(game,i) in gamesData.games" v-bind:key="i">
+                            <tr v-if="(game.players.length == 2 && !game.gameIsOver)">
+                                <td>game {{i + 1}}</td>
+                                <td>{{game.players[0].userName}} vs. {{game.players[1].userName}}</td>
+                                <td v-if="userIslogged && (game.players[0].playerid == gamesData.current.playerId || game.players[1].playerid == gamesData.current.playerId)">
+                                    <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">Return
+                                        to game</button>
+                                    <button v-if="game.players[1].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=1)">Return
+                                        to game</button>
+                                </td>
+                                <td v-else>game is full</td>
+                                <td v-if="game.gameIsOver">game is over</td>
+                            </tr>
+                            <tr v-else-if="(game.players.length == 1)">
+                                <td>game {{i + 1}}</td>>
+                                <td>{{game.players[0].userName}}</td>
+                                <td v-if="gamesData.current != null">
+                                    <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">Return
+                                        to game</button>
+                                    <button v-else v-on:click="joinGame(i)">Join the game</button>
+                                </td>
+                                <td v-else><button v-on:click="joinGame(i)">Join the game</button></td>
+                            </tr>
+
+                        </tbody>
+                        <tr>
+                            <td><button v-on:click="createGame">Create new game</button></td>
+                        </tr>
+                        <tbody v-for="(game,i) in gamesData.games" v-bind:key="i">
+                            <tr v-if="(game.gameIsOver)">
+                                <td>game {{i + 1}}</td>
+                                <td>{{game.players[0].userName}} vs. {{game.players[1].userName}}</td>
+                                <td>game is over</td>
+                                <td v-if="userIslogged && (game.players[0].playerid == gamesData.current.playerId || game.players[1].playerid == gamesData.current.playerId)">
+                                    <button v-if="game.players[0].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=0)">See
+                                        game history</button>
+                                    <button v-if="game.players[1].playerid == gamesData.current.playerId" v-on:click="returnToGame(i, j=1)">See
+                                        game history</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div v-if="errorStatus" id="error">
+                        <h2>{{errorMessage.responseJSON.status}}</h2>
+                        <h3>{{errorMessage.responseJSON.message}}</h3>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="loginAndRegister">
                 <h1 v-if="loginOrSignUp">Login</h1>
                 <h1 v-else>Sign up</h1>
                 <table>
@@ -120,13 +126,13 @@
                         <td>Password:</td>
                         <td><input id="password" type='password' name='password' value='' /></td>
                     </tr>
-                    <tr>
-                        <td v-if="loginOrSignUp"><button v-on:click="login">Login</button></td>
-                        <td v-else><button v-on:click="register">Sign up and login</button></td>
+                    <tr v-if="loginOrSignUp">
+                        <td><button v-on:click="login">Login</button></td>
+                        <td><h5 v-on:click="loginChange">Sign up</h5></td>
                     </tr>
-                    <tr>
-                        <td v-if="loginOrSignUp"><button v-on:click="loginChange">Sign up</button></td>
-                        <td v-else><button v-on:click="loginChange">Back to login</button></td>
+                    <tr v-else>
+                        <td><button v-on:click="register">Sign up and login</button></td>
+                        <td><h5 v-on:click="loginChange">Back to login</h5></td>
                     </tr>
                 </table>
                 <div v-if="errorStatus" id="error">
@@ -134,8 +140,17 @@
                     <h3>{{errorMessage.responseJSON.message}}</h3>
                 </div>
             </div>
+
+            <div class="background">
+            <div id="particles-js"></div>
+            <div class="count-particles"><span class="js-count-particles"></span></div>
+            </div>
+
+        </div>
     </div>
 
+    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> <!-- stats.js lib -->
+    <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
