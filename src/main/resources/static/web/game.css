@@ -4,15 +4,19 @@ td {
     border: 1px solid black;
     text-align: center;
 }
-.header, .players {
+
+.header,
+.players {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
+
 h1 {
     margin-right: 5px;
     margin-left: 5px;
 }
+
 .play {
     display: flex;
     flex-wrap: wrap;
@@ -20,7 +24,9 @@ h1 {
     flex-direction: row-reverse;
     text-align: center;
 }
-#ships, #salvoes {
+
+#ships,
+#salvoes {
     margin-bottom: 20px;
     margin: auto;
 }
@@ -34,7 +40,7 @@ h1 {
 }
 
 .pick p {
-    margin-top:15px;
+    margin-top: 15px;
 }
 
 .pick table {
@@ -42,7 +48,7 @@ h1 {
 }
 
 .pick button {
-    margin-top:22px;
+    margin-top: 22px;
 }
 
 .pick h5 {
@@ -53,7 +59,8 @@ h1 {
     text-align: center;
 }
 
-.state p, #shootSalvo {
+.state p,
+#shootSalvo {
     margin-top: 30px;
 }
 
@@ -68,7 +75,8 @@ body {
     text-align: center;
 }
 
-#table, #empty {
+#table,
+#empty {
     width: 70%;
     margin-top: 25px;
 }

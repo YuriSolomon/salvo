@@ -15,7 +15,7 @@
 <body>
     <div id="app">
         <div class="header fixed-top">
-            <div class="userLogin">
+            <div class="userLogin col-4 justify-content-start">
                 <div class="login" v-if="gamesData.current == null" v-on:click="getLogin">
                     <h3>Login</h3>
                 </div>
@@ -24,10 +24,10 @@
                     <h6 v-on:click="logout">Logout</h6>
                 </div>
             </div>
-            <div class="head">
+            <div class="head col-4 justify-content-center">
                 <h1>Salvo online game</h1>
             </div>
-            <div class="nav">
+            <div class="nav col-4 justify-content-end">
                 <div id="navLeaderboard" v-on:click="changeTable('leaderboard')">
                     <h4>Leaderboard</h4>
                 </div>

@@ -4,30 +4,41 @@
 
 .header {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     background: rgba(6, 63, 104, 0.3);
     min-height: 60px;
     color: white;
     border: rgb(0, 0, 12, 0.5) 2px solid;
+    align-items: center;
+}
+
+.logout h4 {
+    font-size: 1.8vw;
+}
+
+.logout h6 {
+    font-size: 1.5vw;
+}
+
+.login h3 {
+    font-size: 2vw;
+}
+
+.nav h4 {
+    font-size: 2.5vw;
+}
+
+.header h1 {
+    font-size: 3vw;
+    text-align: center;
 }
 
 .userLogin {
     margin-left: 10px;
-    min-width: 265px;
 }
 
 .head {
-    margin-top: 5px;
     justify-content: center;
-}
-
-.nav {
-    min-width: 275px;
-}
-
-.login {
-    margin-top: 10px;
 }
 
 .main {
@@ -38,15 +49,19 @@
 }
 
 #navLeaderboard, #navGames {
-    border: rgb(0, 0, 12, 0.5) 2px solid;
-    margin: 5px;
-    padding-top: 10px;
-    padding-bottom: 8px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-top: 5px;
 }
 
-#navLeaderboard:hover, #navGames:hover {
+#navLeaderboard {
+    padding-right: 7px;
+}
+
+#navLeaderboard h4, #navGames h4 {
+    border: rgb(0, 0, 12, 0.5) 2px solid;
+    padding: 1vw;
+}
+
+#navLeaderboard h4:hover, #navGames h4:hover {
     background: deepskyblue;
 }
 
