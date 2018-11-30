@@ -58,6 +58,18 @@ public class GamePlayer {
         return null;
     }
 
+//    public Set<Salvo> getOponentsUpdatedSalvos(GamePlayer gamePlayer) {
+//        Set<Salvo> opponentsUpdatedSalvos = gamePlayer.getGame().getOpponent(gamePlayer).getSalvo();
+//        if (this.getGame().getOpponent(gamePlayer) != null) {
+//            if (gamePlayer.getSalvo().size() < gamePlayer.getOpponentsSalvoes(gamePlayer).size()) {
+//                opponentsUpdatedSalvos.remove(opponentsUpdatedSalvos.size() - 1);
+//            }
+//            System.out.println();
+//            return opponentsUpdatedSalvos;
+//        }
+//        return null;
+//    }
+
     public Set<Ship> getOpponentsShips(GamePlayer gamePlayer){
         if (this.getGame().getOpponent(gamePlayer) != null){
             return this.getGame().getOpponent(gamePlayer).getShip();
@@ -77,8 +89,8 @@ public class GamePlayer {
 
     public List<String> opponentsShipsList(GamePlayer gamePlayer) {
         List<String> opponentsShipsList = new ArrayList<>();
-        if (getOpponentsShips(this) != null) {
-            for (Ship ship : getOpponentsShips(this)) {
+        if (getOpponentsShips(gamePlayer) != null) {
+            for (Ship ship : getOpponentsShips(gamePlayer)) {
                 for (String location : ship.getLocation()) {
                     opponentsShipsList.add(location);
                 }
@@ -100,8 +112,8 @@ public class GamePlayer {
 
     public List<String> opponentsSalvoesList(GamePlayer gamePlayer) {
         List<String> opponentsSalvoesList = new ArrayList<>();
-        if (getOpponentsSalvoes(this) != null) {
-            for (Salvo salvo : getOpponentsSalvoes(this)) {
+        if (getOpponentsSalvoes(gamePlayer) != null) {
+            for (Salvo salvo : getOpponentsSalvoes(gamePlayer)) {
                 for (String location : salvo.getLocation()) {
                     opponentsSalvoesList.add(location);
                 }

@@ -39,7 +39,7 @@ public class SalvoApplication {
 		return (args) -> {
 
 			Player player1 = new Player("jack", "y@y.com", "111111");
-			Player player2 = new Player("chloe", "chloe@gmail.com", "111111b");
+			Player player2 = new Player("chloe", "s@y.com", "111111");
 			Player player3 = new Player("kim", "kim@gmail.com", "111111c");
 			Player player4 = new Player("david", "david@gmail.com", "111111d");
 			Player player5 = new Player("michelle", "michaelle@gmail.com", "111111e");
@@ -112,7 +112,7 @@ public class SalvoApplication {
 			gamePlayer2.addSalvo(salvo2);
 			gamePlayer1.addSalvo(salvo3);
 			gamePlayer2.addSalvo(salvo4);
-			gamePlayer1.addSalvo(salvo5);
+//			gamePlayer1.addSalvo(salvo5);
 
 //			Score score1 = new Score(1, game1, player1);
 //			Score score2 = new Score(0, game2, player5);

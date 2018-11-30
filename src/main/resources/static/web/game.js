@@ -23,7 +23,8 @@ function getData() {
             historyData: [],
             turnsData: [],
             state: "",
-            errorStatus: false
+            errorStatus: false,
+            shot: false
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
@@ -45,13 +46,13 @@ function getData() {
                     this.buildPlayerTable("ships");
                     this.getList(this.gameData.ships, this.allShipsLocations);
                     this.getList(this.gameData.salvoes, this.allSalvoesLocations);
-                    if (this.gameData.opponentsSalvoes == null) {
-                        this.opponentsSalvoes = []
-                    } else {
-                        this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
-                    }
+                    // if (this.gameData.opponentsSalvoes == null) {
+                    //     this.opponentsSalvoes = []
+                    // } else {
+                    //     this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
+                    // }
                     this.hitTheOpponent = this.gameData.hitTheOpponent;
-                    this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.opponentsSalvoes);
+                    this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.gameData.opponentsHits);
                     if (this.allShips) {
                         this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
                     }
@@ -246,7 +247,7 @@ function getData() {
                     for (let i = 0; i < cell.length; i++) {
                         cell[i].style.background = "";
                     }
-                    this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.opponentsSalvoes);
+                    this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.gameData.opponentsHits);
                     this.newShip.location.forEach(cell => {
                         document.getElementById('ships').querySelector(`.${cell}`).style.background = "purple"
                     })
@@ -292,7 +293,7 @@ function getData() {
                         })
                         .done(res => {
                             console.log(res),
-                                location.reload();
+                            this.shot = true
                         })
                         .fail(err => {
                             console.log(err),

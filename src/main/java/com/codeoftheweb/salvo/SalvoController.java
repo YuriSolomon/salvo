@@ -120,7 +120,7 @@ public class SalvoController {
         gamepmap.put("ships", shipsSet(gamePlayer.getShip()));
         gamepmap.put("salvoes", salvoesSet(gamePlayer.getSalvo()));
         gamepmap.put("hitTheOpponent", hitTheOpponent(gamePlayer));
-        gamepmap.put("opponentsSalvoes", gamePlayer.getOpponentsSalvoes(gamePlayer) != null ? salvoesSet(gamePlayer.getOpponentsSalvoes(gamePlayer)) : null);
+        gamepmap.put("opponentsHits", getOpponentsHitsOnMe(gamePlayer));
         if (gamePlayer.getShip().size() == 5  && gamePlayer.getSalvo().size() >= 1) {
             Salvo lastSalvo = (Salvo) gamePlayer.getSalvo().toArray()[gamePlayer.getSalvo().size() - 1];
             gamepmap.put("turnsHistory", turnsSet(gamePlayer.getSalvo()));
@@ -242,9 +242,15 @@ public class SalvoController {
 
     public List<String> hitTheOpponent(GamePlayer gamePlayer) {
         List<String> hitTheOpponent = new ArrayList<>();
+        List<String> updatedSalvoList = gamePlayer.salvoesList(gamePlayer);
+        if ((gamePlayer.getSalvo().size() > gamePlayer.getOpponentsSalvoes(gamePlayer).size())) {
+            updatedSalvoList.remove(updatedSalvoList.size()-1);
+            updatedSalvoList.remove(updatedSalvoList.size()-1);
+            updatedSalvoList.remove(updatedSalvoList.size()-1);
+        }
         if (gamePlayer.getOpponentsShips(gamePlayer) != null) {
             for (String shipLocation : gamePlayer.opponentsShipsList(gamePlayer)) {
-                for (String salvoLocation : gamePlayer.salvoesList(gamePlayer)) {
+                for (String salvoLocation : updatedSalvoList) {
                     if (shipLocation.equals(salvoLocation)) {
                         if (!hitTheOpponent.contains(shipLocation)) {
                             hitTheOpponent.add(shipLocation);
@@ -253,6 +259,29 @@ public class SalvoController {
                 }
             }
             return hitTheOpponent;
+        }
+        return null;
+    }
+
+    public List<String> getOpponentsHitsOnMe(GamePlayer gamePlayer) {
+        List<String> opponentsHitsOnMe = new ArrayList<>();
+        List<String> opponentsUpdatedSalvoList = gamePlayer.opponentsSalvoesList(gamePlayer);
+        if ((gamePlayer.getSalvo().size() < gamePlayer.getOpponentsSalvoes(gamePlayer).size())) {
+            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size()-1);
+            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size()-1);
+            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size()-1);
+        }
+        if (gamePlayer.getShip() != null) {
+            for (String shipLocation : gamePlayer.shipsList(gamePlayer)) {
+                for (String salvoLocation : opponentsUpdatedSalvoList) {
+                    if (shipLocation.equals(salvoLocation)) {
+                        if (!opponentsHitsOnMe.contains(shipLocation)) {
+                            opponentsHitsOnMe.add(shipLocation);
+                        }
+                    }
+                }
+            }
+            return opponentsHitsOnMe;
         }
         return null;
     }
@@ -380,7 +409,7 @@ public class SalvoController {
             } else {
                 currentGP.addSalvo(newSalvo);
                 salvoRepository.save(newSalvo);
-                return new ResponseEntity<>(makeMap("Success", "the salvos were placed"), HttpStatus.CREATED);
+                return new ResponseEntity<>(makeMap("Success", "the salvos were shot"), HttpStatus.CREATED);
             }
         }
         return new ResponseEntity<>(makeMap("Error", "game is over"), HttpStatus.UNAUTHORIZED);

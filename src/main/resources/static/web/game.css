@@ -22,16 +22,40 @@ h1 {
 }
 #ships, #salvoes {
     margin-bottom: 20px;
+    margin: auto;
 }
 
 #app {
     color: white;
 }
 
+.place {
+    text-align: left;
+}
 
+.pick p {
+    margin-top:15px;
+}
 
+.pick table {
+    margin-top: -5px;
+}
 
+.pick button {
+    margin-top:22px;
+}
 
+.pick h5 {
+    text-align: center;
+}
+
+.note {
+    text-align: center;
+}
+
+.state p {
+    margin-top: 30px;
+}
 
 body {
     width: 98%;    

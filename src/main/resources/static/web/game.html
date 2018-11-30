@@ -23,106 +23,113 @@
             </div>
         </div>
         <div class="play">
-            <div>
+            <div class="col-6">
                 <h2 v-if="allShips">Your shots</h2>
                 <table id="salvoes"></table>
                 <div v-if="allShips">
                     <h2 v-if="gameData.gameState.gameIsOver">game is over</h2>
-                    <button v-else v-on:click="createSalvo">Shoot salvos!</button>
+                    <button v-else-if="!shot" v-on:click="createSalvo">Shoot salvos!</button>
+                </div>
+                <div v-else class="place row">
+                    <div class="pick col-6">
+                        <div class="direction" v-on:click="pickShipsDirection('horizontal', 0)">
+                            <p>Horizontal</p>
+                            <table id="horizontal">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="direction" v-on:click="pickShipsDirection('vertical', 0)">
+                            <p>Vertical</p>
+                            <table id="vertical">
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <button v-on:click="createShip">Create ship</button>
+                    </div>
+                    <div class="pick col-6">
+                        <div class="ship" v-on:click="pickShip('carrier', 5)">
+                            <p>Carrier</p>
+                            <table id="carrier">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="ship" v-on:click="pickShip('battleship', 4)">
+                            <p>Battleship</p>
+                            <table id="battleship">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="ship" v-on:click="pickShip('destroyer', 3)">
+                            <p>Destroyer</p>
+                            <table id="destroyer">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="ship" v-on:click="pickShip('submarine', 3)">
+                            <p>Submarine</p>
+                            <table id="submarine">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="ship" v-on:click="pickShip('portalBoat', 2)">
+                            <p>Portal boat</p>
+                            <table id="portalBoat">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="note">
+                        <h5>Notice! Once a ship is placed it cannot be moved</h5>
+                        <p v-if="newShip.direction == 'vertical'"><b>Please pick the top cell in order to place the
+                                ship</b></p>
+                        <p v-if="newShip.direction == 'horizontal'"><b>Please pick the first cell to the left in order
+                                to
+                                place the ship</b></p>
+                    </div>
                 </div>
             </div>
-            <div v-if="!allShips" class="row">
-                <div class="col-6">
-                    <div class="direction" v-on:click="pickShipsDirection('horizontal', 0)">
-                        <p>Horizontal</p>
-                        <p v-if="newShip.direction == 'horizontal'" value='Pleace pick the first cell to the left in order to place the ship'></p>
-                        <table id="horizontal">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="direction" v-on:click="pickShipsDirection('vertical', 0)">
-                        <p>Vertical</p>
-                        <p v-if="newShip.direction == 'vertical'" value='Pleace pick the top cell in order to place the ship'></p>
-                        <table id="vertical">
-                            <tr>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <button v-on:click="createShip">Create ship</button>
-                </div>
-                <div class="col-6">
-                    <div class="ship" v-on:click="pickShip('carrier', 5)">
-                        <p>Carrier</p>
-                        <table id="carrier">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="ship" v-on:click="pickShip('battleship', 4)">
-                        <p>Battleship</p>
-                        <table id="battleship">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="ship" v-on:click="pickShip('destroyer', 3)">
-                        <p>Destroyer</p>
-                        <table id="destroyer">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="ship" v-on:click="pickShip('submarine', 3)">
-                        <p>Submarine</p>
-                        <table id="submarine">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="ship" v-on:click="pickShip('portalBoat', 2)">
-                        <p>Portal boat</p>
-                        <table id="portalBoat">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div>
+            <div class="state col-6">
                 <h2>Your ships</h2>
                 <table id="ships"></table>
-                <p>{{state}}</p>
+                <p v-if="!shot">{{state}}</p>
             </div>
+            <p style="margin-top:30px" v-if="shot">the salvos were placed, waiting for opponent</p>
         </div>
-        <div id="history">
+        <div id="history" v-if="gameData.salvoes != 0">
             <table id="table" class="container">
                 <thead>
                     <tr>
