@@ -58,18 +58,6 @@ public class GamePlayer {
         return null;
     }
 
-//    public Set<Salvo> getOponentsUpdatedSalvos(GamePlayer gamePlayer) {
-//        Set<Salvo> opponentsUpdatedSalvos = gamePlayer.getGame().getOpponent(gamePlayer).getSalvo();
-//        if (this.getGame().getOpponent(gamePlayer) != null) {
-//            if (gamePlayer.getSalvo().size() < gamePlayer.getOpponentsSalvoes(gamePlayer).size()) {
-//                opponentsUpdatedSalvos.remove(opponentsUpdatedSalvos.size() - 1);
-//            }
-//            System.out.println();
-//            return opponentsUpdatedSalvos;
-//        }
-//        return null;
-//    }
-
     public Set<Ship> getOpponentsShips(GamePlayer gamePlayer){
         if (this.getGame().getOpponent(gamePlayer) != null){
             return this.getGame().getOpponent(gamePlayer).getShip();

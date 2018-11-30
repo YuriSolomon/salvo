@@ -23,12 +23,12 @@
             </div>
         </div>
         <div class="play">
-            <div class="col-6">
+            <div class="col-md-6 col-12">
                 <h2 v-if="allShips">Your shots</h2>
                 <table id="salvoes"></table>
                 <div v-if="allShips">
                     <h2 v-if="gameData.gameState.gameIsOver">game is over</h2>
-                    <button v-else-if="!shot" v-on:click="createSalvo">Shoot salvos!</button>
+                    <button id="shootSalvo" v-else-if="!shot" v-on:click="createSalvo">Shoot salvos!</button>
                 </div>
                 <div v-else class="place row">
                     <div class="pick col-6">
@@ -122,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <div class="state col-6">
+            <div class="state col-md-6 col-12">
                 <h2>Your ships</h2>
                 <table id="ships"></table>
                 <p v-if="!shot">{{state}}</p>

@@ -30,6 +30,28 @@ function getData() {
             let url = new URLSearchParams(window.location.search);
             var id = url.get('gp');
             this.gamePlayerId = id;
+            setInterval(() => {
+                fetch(`../api/game_view/${id}`)
+                .then(response => response.json())
+                .then(json => {
+                    this.gameData = json;
+                    this.turnsData = json.turnsHistory;
+                    this.state = json.gameState.gamesState;
+                    this.getList(this.gameData.ships, this.allShipsLocations);
+                    this.getList(this.gameData.salvoes, this.allSalvoesLocations);
+                    this.hitTheOpponent = this.gameData.hitTheOpponent;
+                    this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.gameData.opponentsHits);
+                    if (this.allShips) {
+                        this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
+                    }
+                    this.getPlacedBackground();
+                    if (this.gameData.lastSalvo.length > 0) {
+                        this.getLastSalvo();
+                    } else {
+                        this.shot = false;
+                    }
+                })
+            } , 5000)
             fetch(`../api/game_view/${id}`)
                 .then(response => response.json())
                 .then(json => {
@@ -46,30 +68,29 @@ function getData() {
                     this.buildPlayerTable("ships");
                     this.getList(this.gameData.ships, this.allShipsLocations);
                     this.getList(this.gameData.salvoes, this.allSalvoesLocations);
-                    // if (this.gameData.opponentsSalvoes == null) {
-                    //     this.opponentsSalvoes = []
-                    // } else {
-                    //     this.getList(this.gameData.opponentsSalvoes, this.opponentsSalvoes);
-                    // }
                     this.hitTheOpponent = this.gameData.hitTheOpponent;
                     this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.gameData.opponentsHits);
                     if (this.allShips) {
                         this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
                     }
                     this.getPlacedBackground();
+                    if (this.gameData.lastSalvo.length > 0) {
+                        this.getLastSalvo();
+                    }
                     let that = this
                     $("#ships").on("click", "td", function () {
-                        var theClass = this.className; // "this" is the element clicked
+                        var theClass = this.className;
                         that.selected = theClass;
                         that.placeShip(theClass);
                     });
                     $("#salvoes").on("click", "td", function () {
-                        var theClass = this.className; // "this" is the element clicked
+                        var theClass = this.className;
                         that.selected = theClass;
                         that.placeSalvoes(theClass);
                     });
                     this.getBlueBacground();
                 })
+                
         },
         methods: {
             buildPlayerTable(tableId) {
@@ -226,19 +247,19 @@ function getData() {
                 let gpid = this.gameData.gamePlayerId;
                 if (type != "" && location1.length > 1) {
                     $.post({
-                        url: `/api/games/players/${gpid}/ships`,
-                        data: JSON.stringify({
-                            type: type,
-                            location: location1
-                        }),
-                        dataType: "text",
-                        contentType: "application/json"
-                    })
-                    .done(res => {
-                        console.log(res),
-                            location.reload();
-                    })
-                    .fail(err => console.log(err))
+                            url: `/api/games/players/${gpid}/ships`,
+                            data: JSON.stringify({
+                                type: type,
+                                location: location1
+                            }),
+                            dataType: "text",
+                            contentType: "application/json"
+                        })
+                        .done(res => {
+                            console.log(res),
+                                location.reload();
+                        })
+                        .fail(err => console.log(err))
                 }
             },
             apply() {
@@ -254,28 +275,30 @@ function getData() {
                 }
             },
             placeSalvoes(theClass) {
-                let location1 = theClass;
-                let number = location1.match(/\d+/g).map(Number)[0]
-                if (!this.pickSalvoes.includes(location1)) {
-                    if (location1.length == 2 || number == 10) {
-                        if (!this.allSalvoesLocations.includes(location1)) {
-                            this.pickSalvoes.push(location1);
+                if (!this.shot) {
+                    let location1 = theClass;
+                    let number = location1.match(/\d+/g).map(Number)[0]
+                    if (!this.pickSalvoes.includes(location1)) {
+                        if (location1.length == 2 || number == 10) {
+                            if (!this.allSalvoesLocations.includes(location1)) {
+                                this.pickSalvoes.push(location1);
+                            }
                         }
                     }
+                    if (this.pickSalvoes.length == 4) {
+                        this.pickSalvoes.splice(0, 1);
+                    }
+                    let cell = document.getElementById('salvoes').getElementsByTagName('td')
+                    for (let i = 0; i < cell.length; i++) {
+                        cell[i].style.background = "";
+                    }
+                    this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
+                    this.getPlacedBackground();
+                    this.pickSalvoes.forEach(loc => {
+                        let el = document.getElementById('salvoes').querySelector(`.${loc}`);
+                        el.style.background = "purple";
+                    })
                 }
-                if (this.pickSalvoes.length == 4) {
-                    this.pickSalvoes.splice(0, 1);
-                }
-                let cell = document.getElementById('salvoes').getElementsByTagName('td')
-                for (let i = 0; i < cell.length; i++) {
-                    cell[i].style.background = "";
-                }
-                this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
-                this.getPlacedBackground();
-                this.pickSalvoes.forEach(loc => {
-                    let el = document.getElementById('salvoes').querySelector(`.${loc}`);
-                    el.style.background = "purple";
-                })
             },
             createSalvo() {
                 let turn = this.gameData.salvoes.length + 1;
@@ -293,13 +316,21 @@ function getData() {
                         })
                         .done(res => {
                             console.log(res),
-                            this.shot = true
+                                location.reload();
                         })
                         .fail(err => {
                             console.log(err),
-                            this.errorStatus = true
+                                this.errorStatus = true
                         })
                 }
+            },
+            getLastSalvo() {
+                locations = this.gameData.lastSalvo
+                locations.forEach(location => {
+                    let el = document.getElementById('salvoes').querySelector(`.${location}`);
+                    el.style.background = "purple";
+                    this.shot = true;
+                })
             },
             getBlueBacground() {
                 particlesJS("particles-js", {

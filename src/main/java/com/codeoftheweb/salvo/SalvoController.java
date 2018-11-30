@@ -121,6 +121,7 @@ public class SalvoController {
         gamepmap.put("salvoes", salvoesSet(gamePlayer.getSalvo()));
         gamepmap.put("hitTheOpponent", hitTheOpponent(gamePlayer));
         gamepmap.put("opponentsHits", getOpponentsHitsOnMe(gamePlayer));
+        gamepmap.put("lastSalvo", getLastSalvo(gamePlayer));
         if (gamePlayer.getShip().size() == 5  && gamePlayer.getSalvo().size() >= 1) {
             Salvo lastSalvo = (Salvo) gamePlayer.getSalvo().toArray()[gamePlayer.getSalvo().size() - 1];
             gamepmap.put("turnsHistory", turnsSet(gamePlayer.getSalvo()));
@@ -261,6 +262,24 @@ public class SalvoController {
             return hitTheOpponent;
         }
         return null;
+    }
+
+    public List<String> getLastSalvo(GamePlayer gamePlayer) {
+        List<String> updatedSalvoList = gamePlayer.salvoesList(gamePlayer);
+        if ((gamePlayer.getSalvo().size() > gamePlayer.getOpponentsSalvoes(gamePlayer).size())) {
+            updatedSalvoList.remove(updatedSalvoList.size()-1);
+            updatedSalvoList.remove(updatedSalvoList.size()-1);
+            updatedSalvoList.remove(updatedSalvoList.size()-1);
+        }
+        List<String> lastSalvoLocations = new ArrayList<>();
+        for (Salvo salvo : gamePlayer.getSalvo()) {
+            for (String location1 : salvo.getLocation()) {
+                if (!updatedSalvoList.contains(location1)) {
+                    lastSalvoLocations.add(location1);
+                }
+            }
+        }
+        return lastSalvoLocations;
     }
 
     public List<String> getOpponentsHitsOnMe(GamePlayer gamePlayer) {
