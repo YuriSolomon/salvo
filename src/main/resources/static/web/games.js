@@ -33,7 +33,6 @@ function getData() {
                     } else {
                         this.userIslogged = false;
                     }
-                    console.log(this.gamesData)
                     this.getBlueBacground();
                 });
         },

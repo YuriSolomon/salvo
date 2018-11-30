@@ -119,12 +119,13 @@ public class SalvoController {
         gamepmap.put("gamePlayers", gameplayerSet(gamePlayer.getGame().gamePlayer));
         gamepmap.put("ships", shipsSet(gamePlayer.getShip()));
         gamepmap.put("salvoes", salvoesSet(gamePlayer.getSalvo()));
-        gamepmap.put("hitTheOpponent", hitTheOpponent(gamePlayer));
-        gamepmap.put("opponentsHits", getOpponentsHitsOnMe(gamePlayer));
         if (gamePlayer.getSalvo().size() > 0) {
+            gamepmap.put("hitTheOpponent", hitTheOpponent(gamePlayer));
+            gamepmap.put("opponentsHits", getOpponentsHitsOnMe(gamePlayer));
             gamepmap.put("lastSalvo", getLastSalvo(gamePlayer));
-//            gamepmap.put("lastSalvo", null);
         } else {
+            gamepmap.put("hitTheOpponent", null);
+            gamepmap.put("opponentsHits", null);
             gamepmap.put("lastSalvo", null);
         }
         if (gamePlayer.getShip().size() == 5  && gamePlayer.getSalvo().size() >= 1) {
@@ -294,9 +295,9 @@ public class SalvoController {
         List<String> opponentsHitsOnMe = new ArrayList<>();
         List<String> opponentsUpdatedSalvoList = gamePlayer.opponentsSalvoesList(gamePlayer);
         if ((gamePlayer.getSalvo().size() < gamePlayer.getOpponentsSalvoes(gamePlayer).size())) {
-            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size()-1);
-            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size()-1);
-            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size()-1);
+            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size() - 1);
+            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size() - 1);
+            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size() - 1);
         }
         if (gamePlayer.getShip() != null) {
             for (String shipLocation : gamePlayer.shipsList(gamePlayer)) {

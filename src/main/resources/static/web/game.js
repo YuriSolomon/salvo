@@ -60,7 +60,6 @@ function getData() {
                     this.gameData = json;
                     this.turnsData = json.turnsHistory;
                     this.state = json.gameState.gamesState;
-                    console.log(this.gameData);
                     if (this.gameData.ships.length == 5) {
                         this.allShips = true;
                         this.buildPlayerTable("salvoes");
