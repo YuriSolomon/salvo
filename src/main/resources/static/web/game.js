@@ -32,26 +32,28 @@ function getData() {
             this.gamePlayerId = id;
             setInterval(() => {
                 fetch(`../api/game_view/${id}`)
-                .then(response => response.json())
-                .then(json => {
-                    this.gameData = json;
-                    this.turnsData = json.turnsHistory;
-                    this.state = json.gameState.gamesState;
-                    this.getList(this.gameData.ships, this.allShipsLocations);
-                    this.getList(this.gameData.salvoes, this.allSalvoesLocations);
-                    this.hitTheOpponent = this.gameData.hitTheOpponent;
-                    this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.gameData.opponentsHits);
-                    if (this.allShips) {
-                        this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
-                    }
-                    this.getPlacedBackground();
-                    if (this.gameData.lastSalvo.length > 0) {
-                        this.getLastSalvo();
-                    } else {
-                        this.shot = false;
-                    }
-                })
-            } , 5000)
+                    .then(response => response.json())
+                    .then(json => {
+                        this.gameData = json;
+                        this.turnsData = json.turnsHistory;
+                        this.state = json.gameState.gamesState;
+                        this.getList(this.gameData.ships, this.allShipsLocations);
+                        this.getList(this.gameData.salvoes, this.allSalvoesLocations);
+                        this.hitTheOpponent = this.gameData.hitTheOpponent;
+                        this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.gameData.opponentsHits);
+                        if (this.allShips) {
+                            this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
+                        }
+                        this.getPlacedBackground();
+                        if (this.gameData.lastSalvo != null) {
+                            if (this.gameData.lastSalvo.length > 0) {
+                                this.getLastSalvo();
+                            }
+                        } else {
+                            this.shot = false;
+                        }
+                    })
+            }, 5000)
             fetch(`../api/game_view/${id}`)
                 .then(response => response.json())
                 .then(json => {
@@ -74,8 +76,10 @@ function getData() {
                         this.getOnTable(this.allSalvoesLocations, "salvoes", "deepskyblue", this.hitTheOpponent);
                     }
                     this.getPlacedBackground();
-                    if (this.gameData.lastSalvo.length > 0) {
-                        this.getLastSalvo();
+                    if (this.gameData.lastSalvo != null) {
+                        if (this.gameData.lastSalvo.length > 0) {
+                            this.getLastSalvo();
+                        }
                     }
                     let that = this
                     $("#ships").on("click", "td", function () {
@@ -90,7 +94,7 @@ function getData() {
                     });
                     this.getBlueBacground();
                 })
-                
+
         },
         methods: {
             buildPlayerTable(tableId) {
@@ -133,7 +137,7 @@ function getData() {
                 let frame = document.getElementById(gridId).getElementsByTagName('td')
                 for (let i = 0; i < frame.length; i++) {
                     if (frame[i].className.length < 2) {
-                        frame[i].style.background = "blue"
+                        frame[i].style.background = "rgba(6, 63, 104, 0.3)"
                     }
                 }
                 list1.forEach(location1 => {

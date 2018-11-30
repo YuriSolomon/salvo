@@ -6,8 +6,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    background: dodgerblue;
+    background: rgba(6, 63, 104, 0.3);
     min-height: 60px;
+    color: white;
+    border: rgb(0, 0, 12, 0.5) 2px solid;
 }
 
 .userLogin {
@@ -36,7 +38,7 @@
 }
 
 #navLeaderboard, #navGames {
-    border: #232741 1px solid;
+    border: rgb(0, 0, 12, 0.5) 2px solid;
     margin: 5px;
     padding-top: 10px;
     padding-bottom: 8px;
@@ -67,11 +69,9 @@
     margin-bottom: 20px;
 }
 
-
-
-
 body {
     width: 98%;
+    background-color: #232741 !important;
 }
 
 canvas {

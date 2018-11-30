@@ -129,8 +129,8 @@
             </div>
             <p style="margin-top:30px" v-if="shot">the salvos were placed, waiting for opponent</p>
         </div>
-        <div id="history" v-if="gameData.salvoes != 0">
-            <table id="table" class="container">
+        <div id="history">
+            <table v-if="gameData.salvoes != 0" id="table" class="container">
                 <thead>
                     <tr>
                         <th>Turn</th>
