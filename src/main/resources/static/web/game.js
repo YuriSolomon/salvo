@@ -24,7 +24,27 @@ function getData() {
             turnsData: [],
             state: "",
             errorStatus: false,
-            shot: false
+            shot: false,
+            shipsList: [{
+                type: "carrier",
+                location: []
+            },
+            {
+                type: "battleship",
+                location: []
+            },
+            {
+                type: "destroyer",
+                location: []
+            },
+            {
+                type: "submarine",
+                location: []
+            },
+            {
+                type: "portalBoat",
+                location: []
+            }]
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
@@ -163,12 +183,12 @@ function getData() {
                 location.replace(`http://localhost:8080/web/games.html`);
             },
             getPlacedBackground() {
-                if (!this.allShips) {
-                    this.gameData.ships.forEach(ship => {
+                this.shipsList.forEach(ship => {
+                    if (ship.location.length > 1) {
                         let placedShip = document.getElementById(ship.type);
                         placedShip.style.background = "green";
-                    });
-                }
+                    }
+                });
             },
             getBackground(type) {
                 if (type == 'horizontal') {
@@ -241,20 +261,30 @@ function getData() {
                 if (location.length != size) {
                     location = [];
                 }
+                let sizes = [5,4,3,3,2]
                 this.newShip.location = location;
+                this.shipsList.forEach((ship,i) => {
+                    if (this.newShip.type == ship.type) {
+                        if (this.newShip.location.length == sizes[i]) {
+                            ship.location = this.newShip.location;
+                        }
+                    }
+                })
                 this.apply();
             },
             createShip() {
-                let type = this.newShip.type;
-                let location1 = this.newShip.location
                 let gpid = this.gameData.gamePlayerId;
-                if (type != "" && location1.length > 1) {
+                let sizes = [5,4,3,3,2]
+                let ship = this.shipsList
+                if (ship[0].location.length == sizes[0] &&
+                    ship[1].location.length == sizes[1] &&
+                    ship[2].location.length == sizes[2] &&
+                    ship[3].location.length == sizes[3] &&
+                    ship[4].location.length == sizes[4]
+                ) {
                     $.post({
                             url: `/api/games/players/${gpid}/ships`,
-                            data: JSON.stringify({
-                                type: type,
-                                location: location1
-                            }),
+                            data: JSON.stringify(this.shipsList),
                             dataType: "text",
                             contentType: "application/json"
                         })
@@ -272,9 +302,12 @@ function getData() {
                         cell[i].style.background = "";
                     }
                     this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.gameData.opponentsHits);
-                    this.newShip.location.forEach(cell => {
+                    this.shipsList.forEach(ship => {
+                        ship.location.forEach(cell => {
                         document.getElementById('ships').querySelector(`.${cell}`).style.background = "purple"
                     })
+                    })
+                    
                 }
             },
             placeSalvoes(theClass) {

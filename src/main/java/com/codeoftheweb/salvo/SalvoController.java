@@ -125,7 +125,7 @@ public class SalvoController {
             gamepmap.put("lastSalvo", getLastSalvo(gamePlayer));
         } else {
             gamepmap.put("hitTheOpponent", null);
-            gamepmap.put("opponentsHits", null);
+            gamepmap.put("opponentsHits", getOpponentsHitsOnMe(gamePlayer));
             gamepmap.put("lastSalvo", null);
         }
         if (gamePlayer.getShip().size() == 5  && gamePlayer.getSalvo().size() >= 1) {
@@ -378,7 +378,7 @@ public class SalvoController {
     @RequestMapping(value = "/games/players/{gpid}/ships", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> placeShips(
                                                     @PathVariable long gpid,
-                                                    @RequestBody Ship newShip,
+                                                    @RequestBody List<Ship> newShipsList,
                                                     Authentication authentication) {
         if (!usedIsLogged(authentication)) {
             return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
@@ -388,8 +388,10 @@ public class SalvoController {
             return new ResponseEntity<>(makeMap("Error", "you have no permission to edit other player's ships"), HttpStatus.UNAUTHORIZED);
         } else {
             GamePlayer currentGP = gamePlayerRepository.findById(gpid);
-            currentGP.addShip(newShip);
-            shipRepository.save(newShip);
+            for (Ship newShip : newShipsList) {
+                currentGP.addShip(newShip);
+                shipRepository.save(newShip);
+            }
             return new ResponseEntity<>(makeMap("Success", "the ship was placed"),HttpStatus.CREATED);
         }
     }
