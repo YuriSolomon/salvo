@@ -26,25 +26,26 @@ function getData() {
             errorStatus: false,
             shot: false,
             shipsList: [{
-                type: "carrier",
-                location: []
-            },
-            {
-                type: "battleship",
-                location: []
-            },
-            {
-                type: "destroyer",
-                location: []
-            },
-            {
-                type: "submarine",
-                location: []
-            },
-            {
-                type: "portalBoat",
-                location: []
-            }]
+                    type: "carrier",
+                    location: []
+                },
+                {
+                    type: "battleship",
+                    location: []
+                },
+                {
+                    type: "destroyer",
+                    location: []
+                },
+                {
+                    type: "submarine",
+                    location: []
+                },
+                {
+                    type: "portalBoat",
+                    location: []
+                }
+            ]
         },
         beforeCreate() {
             let url = new URLSearchParams(window.location.search);
@@ -261,9 +262,9 @@ function getData() {
                 if (location.length != size) {
                     location = [];
                 }
-                let sizes = [5,4,3,3,2]
+                let sizes = [5, 4, 3, 3, 2]
                 this.newShip.location = location;
-                this.shipsList.forEach((ship,i) => {
+                this.shipsList.forEach((ship, i) => {
                     if (this.newShip.type == ship.type) {
                         if (this.newShip.location.length == sizes[i]) {
                             ship.location = this.newShip.location;
@@ -274,26 +275,18 @@ function getData() {
             },
             createShip() {
                 let gpid = this.gameData.gamePlayerId;
-                let sizes = [5,4,3,3,2]
-                let ship = this.shipsList
-                if (ship[0].location.length == sizes[0] &&
-                    ship[1].location.length == sizes[1] &&
-                    ship[2].location.length == sizes[2] &&
-                    ship[3].location.length == sizes[3] &&
-                    ship[4].location.length == sizes[4]
-                ) {
-                    $.post({
-                            url: `/api/games/players/${gpid}/ships`,
-                            data: JSON.stringify(this.shipsList),
-                            dataType: "text",
-                            contentType: "application/json"
-                        })
-                        .done(res => {
-                            console.log(res),
-                                location.reload();
-                        })
-                        .fail(err => console.log(err))
-                }
+                $.post({
+                        url: `/api/games/players/${gpid}/ships`,
+                        data: JSON.stringify(this.shipsList),
+                        dataType: "text",
+                        contentType: "application/json"
+                    })
+                    .done(res => {
+                        console.log(res),
+                            location.reload();
+                    })
+                    .fail(err => console.log(err))
+
             },
             apply() {
                 if (this.newShip.location.length > 1) {
@@ -304,10 +297,10 @@ function getData() {
                     this.getOnTable(this.allShipsLocations, "ships", "dodgerblue", this.gameData.opponentsHits);
                     this.shipsList.forEach(ship => {
                         ship.location.forEach(cell => {
-                        document.getElementById('ships').querySelector(`.${cell}`).style.background = "purple"
+                            document.getElementById('ships').querySelector(`.${cell}`).style.background = "purple"
+                        })
                     })
-                    })
-                    
+
                 }
             },
             placeSalvoes(theClass) {

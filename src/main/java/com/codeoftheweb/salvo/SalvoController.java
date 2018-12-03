@@ -380,19 +380,35 @@ public class SalvoController {
                                                     @PathVariable long gpid,
                                                     @RequestBody List<Ship> newShipsList,
                                                     Authentication authentication) {
+        List<Integer> sizeList = new ArrayList<>();
+        List<String> locCheck = new ArrayList<>();
+        for (Ship ship : newShipsList) {
+            sizeList.add(ship.getLocation().size());
+        }
         if (!usedIsLogged(authentication)) {
             return new ResponseEntity<>(makeMap("Error", "please login"), HttpStatus.UNAUTHORIZED);
         } else if (gamePlayerRepository.findById(gpid) == null) {
             return new ResponseEntity<>(makeMap("Error", "game doesn't exist"), HttpStatus.UNAUTHORIZED);
         } else if (gamePlayerRepository.findById(gpid).getPlayer() != currentUser(authentication)) {
             return new ResponseEntity<>(makeMap("Error", "you have no permission to edit other player's ships"), HttpStatus.UNAUTHORIZED);
-        } else {
+        } else if (sizeList.get(0) == 5 && sizeList.get(1) == 4 && sizeList.get(2) == 3 && sizeList.get(3) == 3 && sizeList.get(4) == 2) {
+            for (Ship ship : newShipsList) {
+                for (String loc : ship.getLocation()) {
+                    if (locCheck.contains(loc)) {
+                        return new ResponseEntity<>(makeMap("Error", "you cannot place one ship over the other"), HttpStatus.UNAUTHORIZED);
+                    } else {
+                        locCheck.add(loc);
+                    }
+                }
+            }
             GamePlayer currentGP = gamePlayerRepository.findById(gpid);
             for (Ship newShip : newShipsList) {
                 currentGP.addShip(newShip);
                 shipRepository.save(newShip);
             }
             return new ResponseEntity<>(makeMap("Success", "the ship was placed"),HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(makeMap("Error", "ships are not in the right size required"), HttpStatus.UNAUTHORIZED);
         }
     }
 
