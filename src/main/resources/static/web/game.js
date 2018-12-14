@@ -56,7 +56,6 @@ function getData() {
                     .then(response => response.json())
                     .then(json => {
                         this.gameData = json;
-                        console.log(this.gameData);
                         this.turnsData = json.turnsHistory;
                         this.state = json.gameState.gamesState;
                         this.getList(this.gameData.ships, this.allShipsLocations);
