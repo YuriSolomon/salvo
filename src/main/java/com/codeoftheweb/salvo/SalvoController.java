@@ -288,30 +288,35 @@ public class SalvoController {
             }
             return lastSalvoLocations;
         }
-        return null;
+        updatedSalvoList.clear();
+        return updatedSalvoList;
+//        return null;
     }
 
     public List<String> getOpponentsHitsOnMe(GamePlayer gamePlayer) {
         List<String> opponentsHitsOnMe = new ArrayList<>();
         List<String> opponentsUpdatedSalvoList = gamePlayer.opponentsSalvoesList(gamePlayer);
-        if ((gamePlayer.getSalvo().size() < gamePlayer.getOpponentsSalvoes(gamePlayer).size())) {
-            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size() - 1);
-            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size() - 1);
-            opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size() - 1);
-        }
-        if (gamePlayer.getShip() != null) {
-            for (String shipLocation : gamePlayer.shipsList(gamePlayer)) {
-                for (String salvoLocation : opponentsUpdatedSalvoList) {
-                    if (shipLocation.equals(salvoLocation)) {
-                        if (!opponentsHitsOnMe.contains(shipLocation)) {
-                            opponentsHitsOnMe.add(shipLocation);
+        if (gamePlayer.getSalvo().size() != 0) {
+            if ((gamePlayer.getSalvo().size() < gamePlayer.getOpponentsSalvoes(gamePlayer).size())) {
+                opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size() - 1);
+                opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size() - 1);
+                opponentsUpdatedSalvoList.remove(opponentsUpdatedSalvoList.size() - 1);
+            }
+            if (gamePlayer.getShip() != null) {
+                for (String shipLocation : gamePlayer.shipsList(gamePlayer)) {
+                    for (String salvoLocation : opponentsUpdatedSalvoList) {
+                        if (shipLocation.equals(salvoLocation)) {
+                            if (!opponentsHitsOnMe.contains(shipLocation)) {
+                                opponentsHitsOnMe.add(shipLocation);
+                            }
                         }
                     }
                 }
+                return opponentsHitsOnMe;
             }
-            return opponentsHitsOnMe;
         }
-        return null;
+        opponentsHitsOnMe.clear();
+        return opponentsHitsOnMe;
     }
 
     public Player currentUser(Authentication authentication) {

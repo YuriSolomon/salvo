@@ -56,6 +56,7 @@ function getData() {
                     .then(response => response.json())
                     .then(json => {
                         this.gameData = json;
+                        console.log(this.gameData);
                         this.turnsData = json.turnsHistory;
                         this.state = json.gameState.gamesState;
                         this.getList(this.gameData.ships, this.allShipsLocations);
@@ -71,6 +72,9 @@ function getData() {
                                 this.getLastSalvo();
                             }
                         } else {
+                            this.shot = false;
+                        }
+                        if (this.gameData.gameState.gamesState != "waiting for opponent to shoot a salvo"){
                             this.shot = false;
                         }
                     })
