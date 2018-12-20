@@ -55,7 +55,18 @@ function getData() {
                 fetch(`../api/game_view/${id}`)
                     .then(response => response.json())
                     .then(json => {
-                        this.gameData = json;
+                        this.updateData(json)
+                    })
+            }, 5000)
+            fetch(`../api/game_view/${id}`)
+                .then(response => response.json())
+                .then(json => {
+                    this.dispatch(json)
+                })
+        },
+        methods: {
+            updateData(json) {
+                this.gameData = json;
                         this.turnsData = json.turnsHistory;
                         this.state = json.gameState.gamesState;
                         this.getList(this.gameData.ships, this.allShipsLocations);
@@ -76,12 +87,9 @@ function getData() {
                         if (this.gameData.gameState.gamesState != "waiting for opponent to shoot a salvo"){
                             this.shot = false;
                         }
-                    })
-            }, 5000)
-            fetch(`../api/game_view/${id}`)
-                .then(response => response.json())
-                .then(json => {
-                    this.gameData = json;
+            },
+            dispatch(json) {
+                this.gameData = json;
                     this.turnsData = json.turnsHistory;
                     this.state = json.gameState.gamesState;
                     if (this.gameData.ships.length == 5) {
@@ -116,10 +124,7 @@ function getData() {
                         that.placeSalvoes(theClass);
                     });
                     this.getBlueBacground();
-                })
-
-        },
-        methods: {
+            },
             buildPlayerTable(tableId) {
                 let table = document.getElementById(tableId);
                 let tHead = document.createElement("thead");
